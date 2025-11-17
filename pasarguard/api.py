@@ -1,12 +1,51 @@
 from datetime import datetime
-from typing import Optional
+from typing import Any, Dict, List, Optional
 
 import httpx
 import paramiko
 from paramiko.ssh_exception import SSHException
+from pydantic import BaseModel
 from sshtunnel import SSHTunnelForwarder
 
-from .models import *  # noqa: F403
+from .models import (
+    Admin,
+    AdminCreate,
+    AdminModify,
+    BulkGroup,
+    BulkUser,
+    BulkUsersProxy,
+    CoreCreate,
+    CoreResponse,
+    CoreResponseList,
+    CoreStats,
+    CreateUserFromTemplate,
+    GroupCreate,
+    GroupModify,
+    GroupResponse,
+    GroupsResponse,
+    HostBase,
+    HostResponse,
+    HostsModel,
+    ModifyUserByTemplate,
+    NodeCreate,
+    NodeModify,
+    NodeResponse,
+    NodesUsageResponse,
+    ProxyHost,
+    ProxyInbound,
+    SubscriptionUserResponse,
+    SystemStats,
+    Token,
+    UserCreate,
+    UserModify,
+    UserResponse,
+    UsersResponse,
+    UserSubscriptionUpdateList,
+    UserTemplateCreate,
+    UserTemplateModify,
+    UserTemplateResponse,
+    UserUsagesResponse,
+)
 
 
 class PasarguardAPI:
@@ -129,7 +168,7 @@ class PasarguardAPI:
         if data is None:
             json_data = None
         elif hasattr(data, "model_dump"):
-            json_data = data.model_dump(exclude_none=True)
+            json_data = data.model_dump(mode="json", exclude_none=True, exclude_unset=True)
         else:
             json_data = data
         params = {k: v for k, v in (params or {}).items() if v is not None}
@@ -191,7 +230,7 @@ class PasarguardAPI:
         await self._request("POST", url, token)
 
     async def reset_admin_usage(self, username: str, token: str) -> Admin:
-        url = f"/api/admin/usage/reset/{username}"
+        url = f"/api/admin/{username}/reset"
         response = await self._request("POST", url, token)
         return Admin(**response.json())
 
@@ -200,9 +239,10 @@ class PasarguardAPI:
         response = await self._request("GET", url, token)
         return response.json()
 
-    async def get_system_stats(self, token: str) -> SystemStats:
+    async def get_system_stats(self, token: str, admin_username: Optional[str] = None) -> SystemStats:
         url = "/api/system"
-        response = await self._request("GET", url, token)
+        params = {"admin_username": admin_username} if admin_username else {}
+        response = await self._request("GET", url, token, params=params)
         return SystemStats(**response.json())
 
     async def get_inbounds(self, token: str) -> Dict[str, List[ProxyInbound]]:
@@ -309,7 +349,7 @@ class PasarguardAPI:
         return UserResponse(**response.json())
 
     async def activate_next_plan(self, username: str, token: str) -> UserResponse:
-        url = f"/api/user/{username}/active-next"
+        url = f"/api/user/{username}/active_next"
         response = await self._request("POST", url, token)
         return UserResponse(**response.json())
 
@@ -406,6 +446,18 @@ class PasarguardAPI:
         response = await self._request("DELETE", url, token, params=params)
         return response.json()
 
+    #       Get user subscription agent list
+    #       /api/user/{username}/sub_update
+    #       Get User Sub Update List
+    #       Get user subscription agent list
+    async def get_user_sub_update(
+        self, token: str, username: str, offset: Optional[int] = None, limit: Optional[int] = None
+    ):
+        url = f"/api/user/{username}/sub_update"
+        params = {"offset": offset, "limit": limit}
+        response = await self._request("GET", url, token, params=params)
+        return UserSubscriptionUpdateList(**response.json())
+
     async def get_user_templates(
         self, token: str, offset: Optional[int] = None, limit: Optional[int] = None
     ) -> List[UserTemplateResponse]:
@@ -499,11 +551,12 @@ class PasarguardAPI:
         url = f"/api/node/{node_id}/reconnect"
         await self._request("POST", url, token)
 
-    async def sync_node(self, node_id: int, token: str, flush_users: bool = False) -> Any:
+    async def sync_node(self, node_id: int, token: str, flush_users: bool = False) -> NodeResponse:
         url = f"/api/node/{node_id}/sync"
         params = {"flush_users": flush_users}
         response = await self._request("PUT", url, token, params=params)
-        return response.json()
+        response.raise_for_status()
+        return NodeResponse(**response.json())
 
     async def node_logs(self, node_id: int, token: str) -> str:
         url = f"/api/node/{node_id}/logs"
@@ -585,18 +638,21 @@ class PasarguardAPI:
         response = await self._request("GET", final_url, params=params)
         return response.json()
 
-    async def get_user_subscription_with_client_type(self, client_type: str, url: str = None, token: str = None) -> Any:
+    async def get_user_subscription_with_client_type(
+        self, client_type: str, url: str = None, token: str = None
+    ) -> list[str]:
         if url:
-            # Use the provided URL if it is given
             final_url = url + f"/{client_type}"
         elif token:
-            # Form the URL using the token if it is provided
             final_url = f"/sub/{token}/{client_type}"
         else:
             raise ValueError("Either url or token must be provided")
 
         response = await self._request("GET", final_url)
-        return response.json()
+        content = response.text
+        all_links = content.strip().splitlines()
+        filtered_links = [link for link in all_links if "@0.0.0.0:" not in link]
+        return filtered_links
 
     async def close(self):
         """Closing the HTTP client and SSH tunnel."""
