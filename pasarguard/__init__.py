@@ -36,6 +36,8 @@ from .models import (
     UserResponse,
     UsersResponse,
     UserStatus,
+    UserSubscriptionUpdateList,
+    UserSubscriptionUpdateSchema,
     UserTemplateCreate,
     UserTemplateModify,
     UserTemplateResponse,
@@ -90,7 +92,9 @@ __all__ = (
     "HTTPValidationError",
     "ValidationError",
     "SubscriptionUserResponse",
+    "UserSubscriptionUpdateSchema",
+    "UserSubscriptionUpdateList",
     "NextPlanModel",
 )
 
-__version__ = "0.0.2"
+__version__ = "0.0.3"
