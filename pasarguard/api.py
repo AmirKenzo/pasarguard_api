@@ -563,6 +563,12 @@ class PasarguardAPI:
         response = await self._request("GET", url, token)
         return response.text
 
+    async def update_node_geofiles(self, node_id: int, region: str, token: str) -> Dict[str, Any]:
+        url = f"/api/node/{node_id}/geofiles"
+        data = {"region": region}
+        response = await self._request("POST", url, token, data=data)
+        return response.json()
+
     async def get_node_stats_periodic(
         self, node_id: int, token: str, start: Optional[str] = None, end: Optional[str] = None, period: str = "hour"
     ) -> Any:
