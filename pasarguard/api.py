@@ -569,6 +569,17 @@ class PasarguardAPI:
         response = await self._request("POST", url, token, data=data)
         return response.json()
 
+    async def update_node_core(self, node_id: int, core_version: str, token: str) -> Dict[str, Any]:
+        url = f"/api/node/{node_id}/core_update"
+        data = {"core_version": core_version}
+        response = await self._request("POST", url, token, data=data)
+        return response.json()
+
+    async def update_node(self, node_id: int, token: str) -> Dict[str, Any]:
+        url = f"/api/node/{node_id}/update"
+        response = await self._request("POST", url, token)
+        return response.json()
+
     async def get_node_stats_periodic(
         self, node_id: int, token: str, start: Optional[str] = None, end: Optional[str] = None, period: str = "hour"
     ) -> Any:
