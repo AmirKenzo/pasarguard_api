@@ -219,7 +219,7 @@ class PasarguardAPI:
         url = "/api/admins"
         params = {"offset": offset, "limit": limit, "username": username}
         response = await self._request("GET", url, token, params=params)
-        return [Admin(**admin) for admin in response.json()]
+        return [Admin(**admin) for admin in response.json()["admins"]]
 
     async def disable_all_users_admin(self, username: str, token: str) -> None:
         url = f"/api/admin/{username}/users/disable"

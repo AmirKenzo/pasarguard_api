@@ -11,6 +11,16 @@ class Token(BaseModel):
     token_type: str = "bearer"
 
 
+class NotificationEnable(BaseModel):
+    create: Optional[bool] = None
+    modify: Optional[bool] = None
+    delete: Optional[bool] = None
+    status_change: Optional[bool] = None
+    reset_data_usage: Optional[bool] = None
+    data_reset_by_next: Optional[bool] = None
+    subscription_revoked: Optional[bool] = None
+
+
 class Admin(BaseModel):
     id: Optional[int] = None
     username: Optional[str] = None
@@ -26,6 +36,7 @@ class Admin(BaseModel):
     profile_title: Optional[str] = None
     support_url: Optional[str] = None
     lifetime_used_traffic: Optional[int] = None
+    notification_enable: Optional[NotificationEnable] = None
 
 
 class AdminCreate(Admin):
