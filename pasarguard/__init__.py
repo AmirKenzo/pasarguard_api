@@ -209,7 +209,7 @@ from .models import (
 )
 from .utils import PasarguardTokenCache
 
-__version__ = '0.1.1'
+__version__ = '2.0.0'
 OPENAPI_VERSION = '4.0.0-rc.1'
 
 __all__ = (
