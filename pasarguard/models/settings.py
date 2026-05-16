@@ -1,0 +1,103 @@
+from __future__ import annotations
+
+# ruff: noqa: F401, F403
+from ._base import *
+
+class Discord(PasarguardModel):
+    enable: Optional[bool] = False
+    token: Optional[str] = None
+    proxy_url: Optional[str] = None
+
+class General(PasarguardModel):
+    default_method: Optional[ShadowsocksMethods] = 'chacha20-ietf-poly1305'
+
+class HWIDSettings(PasarguardModel):
+    enabled: Optional[bool] = False
+    forced: Optional[bool] = False
+    fallback_limit: Optional[int] = 0
+    min_limit: Optional[int] = 0
+    max_limit: Optional[int] = 0
+
+class NotificationChannel(PasarguardModel):
+    telegram_chat_id: Optional[int] = None
+    telegram_topic_id: Optional[int] = None
+    discord_webhook_url: Optional[str] = None
+
+class NotificationChannels(PasarguardModel):
+    admin: Optional[NotificationChannel] = None
+    core: Optional[NotificationChannel] = None
+    group: Optional[NotificationChannel] = None
+    host: Optional[NotificationChannel] = None
+    node: Optional[NotificationChannel] = None
+    user: Optional[NotificationChannel] = None
+    user_template: Optional[NotificationChannel] = None
+
+class NotificationEnable(PasarguardModel):
+    admin: Optional[AdminNotificationEnable] = None
+    core: Optional[BaseNotificationEnable] = None
+    group: Optional[BaseNotificationEnable] = None
+    host: Optional[HostNotificationEnable] = None
+    node: Optional[NodeNotificationEnable] = None
+    user: Optional[UserNotificationEnable] = None
+    user_template: Optional[BaseNotificationEnable] = None
+    days_left: Optional[bool] = True
+    percentage_reached: Optional[bool] = True
+
+class NotificationSettings(PasarguardModel):
+    notify_telegram: Optional[bool] = False
+    notify_discord: Optional[bool] = False
+    telegram_api_token: Optional[str] = None
+    telegram_chat_id: Optional[int] = None
+    telegram_topic_id: Optional[int] = None
+    discord_webhook_url: Optional[str] = None
+    channels: Optional[NotificationChannels] = None
+    proxy_url: Optional[str] = None
+    max_retries: int = ...
+
+class SettingsSchema(PasarguardModel):
+    telegram: Optional[Telegram] = None
+    discord: Optional[Discord] = None
+    webhook: Optional[Webhook] = None
+    notification_settings: Optional[NotificationSettings] = None
+    notification_enable: Optional[NotificationEnable] = None
+    subscription: Optional[Subscription] = None
+    hwid: Optional[HWIDSettings] = None
+    general: Optional[General] = None
+
+class Telegram(PasarguardModel):
+    enable: Optional[bool] = False
+    token: Optional[str] = None
+    webhook_url: Optional[str] = None
+    webhook_secret: Optional[str] = None
+    proxy_url: Optional[str] = None
+    method: Optional[RunMethod] = 'webhook'
+    mini_app_login: Optional[bool] = True
+    mini_app_web_url: Optional[str] = ''
+    for_admins_only: Optional[bool] = True
+
+class Webhook(PasarguardModel):
+    enable: Optional[bool] = False
+    webhooks: Optional[List[WebhookInfo]] = []
+    days_left: Optional[List[int]] = []
+    usage_percent: Optional[List[int]] = []
+    timeout: int = ...
+    recurrent: int = ...
+    proxy_url: Optional[str] = None
+
+class WebhookInfo(PasarguardModel):
+    url: str = ...
+    secret: str = ...
+
+__all__ = (
+    'Discord',
+    'General',
+    'HWIDSettings',
+    'NotificationChannel',
+    'NotificationChannels',
+    'NotificationEnable',
+    'NotificationSettings',
+    'SettingsSchema',
+    'Telegram',
+    'Webhook',
+    'WebhookInfo',
+)
