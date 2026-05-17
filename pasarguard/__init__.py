@@ -209,8 +209,8 @@ from .models import (
 )
 from .utils import PasarguardTokenCache
 
-__version__ = '2.0.0'
-OPENAPI_VERSION = '4.0.0-rc.1'
+__version__ = '2.0.1'
+OPENAPI_VERSION = '4.0.2'
 
 __all__ = (
     'Admin',

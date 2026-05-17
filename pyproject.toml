@@ -1,8 +1,9 @@
 [project]
 name = "pasarguard"
-version = "2.0.0"
-description = "Add your description here"
+version = "2.0.1"
+description = "A modern async Python client for the Pasarguard API with typed models and full admin automation support"
 readme = "README.md"
+license = "MIT"
 requires-python = ">=3.10,<3.15"
 dependencies = [
     "datetime>=5.5",
