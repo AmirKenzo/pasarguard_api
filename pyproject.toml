@@ -5,6 +5,23 @@ description = "A modern async Python client for the Pasarguard API with typed mo
 readme = "README.md"
 license = "MIT"
 requires-python = ">=3.10,<3.15"
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Internet :: WWW/HTTP",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed",
+]
+keywords = ["pasarguard", "api", "async", "httpx", "pydantic"]
 dependencies = [
     "datetime>=5.5",
     "httpx>=0.28.1",
@@ -12,6 +29,12 @@ dependencies = [
     "pydantic>=2.4.1,<2.13",
     "sshtunnel>=0.4.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/AmirKenzo/pasarguard_api"
+Repository = "https://github.com/AmirKenzo/pasarguard_api"
+Documentation = "https://github.com/AmirKenzo/pasarguard_api#readme"
+Issues = "https://github.com/AmirKenzo/pasarguard_api/issues"
 
 [build-system]
 requires = ["hatchling"]
