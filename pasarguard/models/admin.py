@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-# ruff: noqa: F401, F403
-from ._base import *
+from ._base import List, Optional, PasarguardModel
 from ..enums.admin import AdminAccountStatus, AdminStatus
 from .admin_role import AdminRoleData, RoleLimits
 
@@ -17,7 +16,7 @@ class AdminContactInfo(PasarguardModel):
     sub_domain: Optional[str] = None
     profile_title: Optional[str] = None
     support_url: Optional[str] = None
-    notification_enable: Optional[UserNotificationEnable] = None
+    notification_enable: Optional[AdminNotificationEnable] = None
 
 class AdminCreate(PasarguardModel):
     password: str = ...
@@ -33,7 +32,7 @@ class AdminCreate(PasarguardModel):
     profile_title: Optional[str] = None
     support_url: Optional[str] = None
     note: Optional[str] = None
-    notification_enable: Optional[UserNotificationEnable] = None
+    notification_enable: Optional[AdminNotificationEnable] = None
     permission_overrides: Optional[RoleLimits] = None
 
 class AdminDetails(PasarguardModel):
@@ -45,7 +44,7 @@ class AdminDetails(PasarguardModel):
     sub_domain: Optional[str] = None
     profile_title: Optional[str] = None
     support_url: Optional[str] = None
-    notification_enable: Optional[UserNotificationEnable] = None
+    notification_enable: Optional[AdminNotificationEnable] = None
     id: Optional[int] = None
     total_users: Optional[int] = 0
     used_traffic: Optional[int] = 0
@@ -70,7 +69,7 @@ class AdminModify(PasarguardModel):
     profile_title: Optional[str] = None
     support_url: Optional[str] = None
     note: Optional[str] = None
-    notification_enable: Optional[UserNotificationEnable] = None
+    notification_enable: Optional[AdminNotificationEnable] = None
     role_id: Optional[int] = None
     permission_overrides: Optional[RoleLimits] = None
 

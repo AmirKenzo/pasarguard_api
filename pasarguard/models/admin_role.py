@@ -1,11 +1,10 @@
 from __future__ import annotations
 
-# ruff: noqa: F401, F403
 from typing import Any
 
 from pydantic import model_serializer, model_validator
 
-from ._base import *
+from ._base import List, Optional, PasarguardModel, Union, datetime
 from ..enums.admin import PermissionScope
 
 

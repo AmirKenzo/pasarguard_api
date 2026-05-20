@@ -1,7 +1,42 @@
 from __future__ import annotations
 
-# ruff: noqa: F401, F403
-from ._imports import *
+from ._imports import (
+    Any,
+    BulkUser,
+    BulkUsersActionResponse,
+    BulkUsersApplyTemplate,
+    BulkUsersCreateResponse,
+    BulkUsersFromTemplate,
+    BulkUsersProxy,
+    BulkUsersSelection,
+    BulkUsersSetOwner,
+    BulkWireGuardPeerIPs,
+    ConfigFormat,
+    CreateUserFromTemplate,
+    DataLimitResetStrategy,
+    List,
+    Literal,
+    ModifyUserByTemplate,
+    Optional,
+    Period,
+    RemoveUsersResponse,
+    Union,
+    UserCountMetric,
+    UserCountMetricStatsList,
+    UserCreate,
+    UserModify,
+    UserResponse,
+    UserStatus,
+    UserSubscriptionUpdateChart,
+    UserSubscriptionUpdateList,
+    UserUsageStatsList,
+    UsersResponse,
+    UsersSimpleResponse,
+    WireGuardPeerIPsReallocateResponse,
+    datetime,
+)
+
+ExpiredUsersTarget = Literal["expired", "limited"]
 
 
 class UserMixin:
@@ -254,14 +289,14 @@ class UserMixin:
         response = await self._request('GET', url, token=token, params=params, headers=headers)
         return self._parse_response(response, UserCountMetricStatsList)
 
-    async def get_expired_users(self, token: str, admin_username: Optional[str] = None, target: Optional[Literal['expired', 'limited']] = 'expired', expired_after: Optional[datetime] = None, expired_before: Optional[datetime] = None) -> List[str]:
+    async def get_expired_users(self, token: str, admin_username: Optional[str] = None, target: Optional[ExpiredUsersTarget] = "expired", expired_after: Optional[datetime] = None, expired_before: Optional[datetime] = None) -> List[str]:
         url = '/api/users/expired'
         params = {'admin_username': admin_username, 'target': target, 'expired_after': expired_after, 'expired_before': expired_before}
         headers = None
         response = await self._request('GET', url, token=token, params=params, headers=headers)
         return self._parse_response(response, List[str])
 
-    async def delete_expired_users(self, token: str, admin_username: Optional[str] = None, target: Optional[Literal['expired', 'limited']] = 'expired', expired_after: Optional[datetime] = None, expired_before: Optional[datetime] = None) -> RemoveUsersResponse:
+    async def delete_expired_users(self, token: str, admin_username: Optional[str] = None, target: Optional[ExpiredUsersTarget] = "expired", expired_after: Optional[datetime] = None, expired_before: Optional[datetime] = None) -> RemoveUsersResponse:
         url = '/api/users/expired'
         params = {'admin_username': admin_username, 'target': target, 'expired_after': expired_after, 'expired_before': expired_before}
         headers = None

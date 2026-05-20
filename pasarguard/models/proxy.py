@@ -1,7 +1,17 @@
 from __future__ import annotations
 
-# ruff: noqa: F401, F403
-from ._base import *
+from ._base import (
+    Field,
+    List,
+    MultiplexProtocol,
+    Optional,
+    PasarguardModel,
+    ShadowsocksMethods,
+    Union,
+    XHttpModes,
+    XUDP,
+)
+from .common import HTTPRequest, HTTPResponse
 
 class Brutal(PasarguardModel):
     enable: Optional[bool] = False

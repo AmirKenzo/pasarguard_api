@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-# ruff: noqa: F401, F403
-from ._base import *
+from ._base import Any, Dict, List, Optional, PasarguardModel, Union
 
 class BaseNotificationEnable(PasarguardModel):
     create: Optional[bool] = True
