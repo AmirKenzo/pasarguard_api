@@ -26,7 +26,7 @@ dependencies = [
     "datetime>=5.5",
     "httpx>=0.28.1",
     "paramiko>=4.0.0",
-    "pydantic>=2.4.1,<2.13",
+    "pydantic>=2.4.1,<2.14",
     "sshtunnel>=0.4.0",
 ]
 
