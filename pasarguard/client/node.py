@@ -184,22 +184,22 @@ class NodeMixin:
         response = await self._request('GET', url, token=token, params=params, headers=headers)
         return self._parse_response(response, Dict[str, Optional[NodeRealtimeStats]])
 
-    async def user_online_ip_list_all_nodes(self, username: str, token: str) -> UserIPListAll:
-        url = '/api/node/online_stats/{username}/ip'.format(username=username)
+    async def user_online_ip_list_all_nodes(self, user_id: int, token: str) -> UserIPListAll:
+        url = '/api/node/online_stats/{user_id}/ip'.format(user_id=user_id)
         params = None
         headers = None
         response = await self._request('GET', url, token=token, params=params, headers=headers)
         return self._parse_response(response, UserIPListAll)
 
-    async def user_online_stats(self, node_id: int, username: str, token: str) -> Dict[str, int]:
-        url = '/api/node/{node_id}/online_stats/{username}'.format(node_id=node_id, username=username)
+    async def user_online_stats(self, node_id: int, user_id: int, token: str) -> Dict[str, int]:
+        url = '/api/node/{node_id}/online_stats/{user_id}'.format(node_id=node_id, user_id=user_id)
         params = None
         headers = None
         response = await self._request('GET', url, token=token, params=params, headers=headers)
         return self._parse_response(response, Dict[str, int])
 
-    async def user_online_ip_list(self, node_id: int, username: str, token: str) -> UserIPList:
-        url = '/api/node/{node_id}/online_stats/{username}/ip'.format(node_id=node_id, username=username)
+    async def user_online_ip_list(self, node_id: int, user_id: int, token: str) -> UserIPList:
+        url = '/api/node/{node_id}/online_stats/{user_id}/ip'.format(node_id=node_id, user_id=user_id)
         params = None
         headers = None
         response = await self._request('GET', url, token=token, params=params, headers=headers)

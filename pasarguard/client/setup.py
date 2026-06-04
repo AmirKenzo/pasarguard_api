@@ -3,8 +3,8 @@ from __future__ import annotations
 from ._imports import (
     AdminDetails,
     OwnerCreateRequest,
-    OwnerDeleteRequest,
     OwnerResetRequest,
+    OwnerUpgradeRequest,
 )
 
 
@@ -17,13 +17,20 @@ class SetupMixin:
         response = await self._request("POST", url, token=None, json_data=payload, params=params, headers=headers)
         return self._parse_response(response, AdminDetails)
 
-    async def delete_owner(self, request: OwnerDeleteRequest) -> None:
+    async def delete_owner(self, key: str) -> None:
         url = "/api/setup/owner"
+        params = {"key": key}
+        headers = None
+        response = await self._request("DELETE", url, token=None, params=params, headers=headers)
+        return self._parse_response(response, None)
+
+    async def upgrade_owner(self, request: OwnerUpgradeRequest) -> AdminDetails:
+        url = "/api/setup/owner/upgrade"
         params = None
         headers = None
-        payload = self._validate_payload(request, OwnerDeleteRequest)
-        response = await self._request("DELETE", url, token=None, json_data=payload, params=params, headers=headers)
-        return self._parse_response(response, None)
+        payload = self._validate_payload(request, OwnerUpgradeRequest)
+        response = await self._request("POST", url, token=None, json_data=payload, params=params, headers=headers)
+        return self._parse_response(response, AdminDetails)
 
     async def reset_owner_password(self, request: OwnerResetRequest) -> AdminDetails:
         url = "/api/setup/owner"

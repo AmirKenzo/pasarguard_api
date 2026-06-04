@@ -214,13 +214,14 @@ class OwnerCreateRequest(PasarguardModel):
     password: str = ...
 
 
-class OwnerDeleteRequest(PasarguardModel):
-    key: str = ...
-
-
 class OwnerResetRequest(PasarguardModel):
     key: str = ...
     password: str = ...
+
+
+class OwnerUpgradeRequest(PasarguardModel):
+    key: str = ...
+    username: str = ...
 
 
 __all__ = (
@@ -244,6 +245,6 @@ __all__ = (
     "AdminRolesResponse",
     "AdminRolesSimpleResponse",
     "OwnerCreateRequest",
-    "OwnerDeleteRequest",
     "OwnerResetRequest",
+    "OwnerUpgradeRequest",
 )
