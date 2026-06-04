@@ -93,7 +93,6 @@ from .models import (
     CoresSimpleResponse,
     CreateHost,
     CreateUserFromTemplate,
-    Discord,
     DownloadLink,
     ExtraSettings,
     Forbidden,
@@ -146,8 +145,8 @@ from .models import (
     NoiseSettings,
     NotFound,
     OwnerCreateRequest,
-    OwnerDeleteRequest,
     OwnerResetRequest,
+    OwnerUpgradeRequest,
     NotificationChannel,
     NotificationChannels,
     NotificationEnable,
@@ -234,8 +233,8 @@ from .models import (
 )
 from .utils import PasarguardTokenCache
 
-__version__ = '2.1.0'
-OPENAPI_VERSION = '4.0.2'
+__version__ = '2.1.1'
+OPENAPI_VERSION = '5.0.0-rc.2'
 
 __all__ = (
     'Admin',
@@ -305,7 +304,6 @@ __all__ = (
     'CreateHost',
     'CreateUserFromTemplate',
     'DataLimitResetStrategy',
-    'Discord',
     'DownloadLink',
     'ECHQueryStrategy',
     'ExtraSettings',
@@ -365,8 +363,8 @@ __all__ = (
     'NoiseSettings',
     'NotFound',
     'OwnerCreateRequest',
-    'OwnerDeleteRequest',
     'OwnerResetRequest',
+    'OwnerUpgradeRequest',
     'NotificationChannel',
     'NotificationChannels',
     'NotificationEnable',

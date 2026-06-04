@@ -8,11 +8,6 @@ from .node import NodeNotificationEnable
 from .subscription import Subscription
 from .user import UserNotificationEnable
 
-class Discord(PasarguardModel):
-    enable: Optional[bool] = False
-    token: Optional[str] = None
-    proxy_url: Optional[str] = None
-
 class General(PasarguardModel):
     default_method: Optional[ShadowsocksMethods] = 'chacha20-ietf-poly1305'
 
@@ -63,7 +58,6 @@ class NotificationSettings(PasarguardModel):
 
 class SettingsSchema(PasarguardModel):
     telegram: Optional[Telegram] = None
-    discord: Optional[Discord] = None
     webhook: Optional[Webhook] = None
     notification_settings: Optional[NotificationSettings] = None
     notification_enable: Optional[NotificationEnable] = None
@@ -96,7 +90,6 @@ class WebhookInfo(PasarguardModel):
     secret: str = ...
 
 __all__ = (
-    'Discord',
     'General',
     'HWIDSettings',
     'NotificationChannel',
