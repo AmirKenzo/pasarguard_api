@@ -1,11 +1,14 @@
 from __future__ import annotations
 
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from pydantic import model_serializer, model_validator
 
 from ._base import List, Optional, PasarguardModel, Union, datetime
 from ..enums.admin import PermissionScope
+
+if TYPE_CHECKING:
+    from .settings import HWIDSettings
 
 
 class CRUDPermissions(PasarguardModel):
@@ -153,6 +156,7 @@ class AdminRoleCreate(PasarguardModel):
     limits: Optional[RoleLimits] = None
     features: Optional[RoleFeatures] = None
     access: Optional[RoleAccess] = None
+    hwid: Optional[HWIDSettings] = None
     disabled_when_limited: Optional[bool] = False
     disable_users_when_limited: Optional[bool] = True
 
@@ -165,6 +169,7 @@ class AdminRoleData(PasarguardModel):
     limits: Optional[RoleLimits] = None
     features: Optional[RoleFeatures] = None
     access: Optional[RoleAccess] = None
+    hwid: Optional[HWIDSettings] = None
     disabled_when_limited: Optional[bool] = False
     disable_users_when_limited: Optional[bool] = True
 
@@ -175,6 +180,7 @@ class AdminRoleModify(PasarguardModel):
     limits: Optional[RoleLimits] = None
     features: Optional[RoleFeatures] = None
     access: Optional[RoleAccess] = None
+    hwid: Optional[HWIDSettings] = None
     disabled_when_limited: Optional[bool] = None
     disable_users_when_limited: Optional[bool] = None
 
@@ -185,6 +191,7 @@ class AdminRoleResponse(PasarguardModel):
     limits: Optional[RoleLimits] = None
     features: Optional[RoleFeatures] = None
     access: Optional[RoleAccess] = None
+    hwid: Optional[HWIDSettings] = None
     disabled_when_limited: Optional[bool] = False
     disable_users_when_limited: Optional[bool] = True
     id: int = ...

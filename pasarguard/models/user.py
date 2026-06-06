@@ -209,6 +209,9 @@ class UsersSimpleResponse(PasarguardModel):
     users: List[UserSimple] = ...
     total: int = ...
 
+class UserStatusToggle(PasarguardModel):
+    disabled: bool = ...
+
 class WireGuardPeerIPsReallocateResponse(PasarguardModel):
     wireguard_inbound_tags: int = ...
     candidates: int = ...
@@ -244,6 +247,7 @@ __all__ = (
     'UserSubscriptionUpdateSchema',
     'UserUsageStat',
     'UserUsageStatsList',
+    'UserStatusToggle',
     'UsersResponse',
     'UsersSimpleResponse',
     'WireGuardPeerIPsReallocateResponse',
