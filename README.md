@@ -6,7 +6,7 @@
 ![HTTPX](https://img.shields.io/badge/HTTPX-async-06b6d4)
 ![Pydantic](https://img.shields.io/badge/Pydantic-v2-ef476f)
 
-**Pasarguard** is a modern, typed, async Python client for the Pasarguard API.
+**Pasarguard** is a modern, typed, async Python client for the [PasarGuard Panel](https://github.com/PasarGuard/panel) API.
 
 [فارسی](README.fa.md)
 

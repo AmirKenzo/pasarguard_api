@@ -8,7 +8,7 @@
 
 <div dir="rtl">
 
-**Pasarguard** یک کلاینت مدرن، تایپ‌شده و غیرهمزمان برای کار با API پاسارگارد در پایتون است.
+**Pasarguard** یک کلاینت مدرن، تایپ‌شده و غیرهمزمان برای کار با API [پنل PasarGuard](https://github.com/PasarGuard/panel) در پایتون است.
 
 [English](README.md)
 
