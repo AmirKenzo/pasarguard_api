@@ -196,6 +196,7 @@ from .models import (
     UserNotificationEnable,
     UserResponse,
     UserSimple,
+    UserStatusToggle,
     UserSubscriptionUpdateChart,
     UserSubscriptionUpdateChartSegment,
     UserSubscriptionUpdateList,
@@ -233,8 +234,8 @@ from .models import (
 )
 from .utils import PasarguardTokenCache
 
-__version__ = '2.1.1'
-OPENAPI_VERSION = '5.0.0-rc.2'
+__version__ = '2.2.0'
+OPENAPI_VERSION = '5.0.0'
 
 __all__ = (
     'Admin',
@@ -431,6 +432,7 @@ __all__ = (
     'UserSimple',
     'UserStatus',
     'UserStatusCreate',
+    'UserStatusToggle',
     'UserSubscriptionUpdateChart',
     'UserSubscriptionUpdateChartSegment',
     'UserSubscriptionUpdateList',

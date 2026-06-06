@@ -194,6 +194,7 @@ from ..models import (
     UserNotificationEnable,
     UserResponse,
     UserSimple,
+    UserStatusToggle,
     UserSubscriptionUpdateChart,
     UserSubscriptionUpdateChartSegment,
     UserSubscriptionUpdateList,

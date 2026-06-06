@@ -27,6 +27,7 @@ from ._imports import (
     UserModify,
     UserResponse,
     UserStatus,
+    UserStatusToggle,
     UserSubscriptionUpdateChart,
     UserSubscriptionUpdateList,
     UserUsageStatsList,
@@ -430,3 +431,27 @@ class UserMixin:
         payload = self._validate_payload(bulk, BulkWireGuardPeerIPs)
         response = await self._request('POST', url, token=token, json_data=payload, params=params, headers=headers)
         return self._parse_response(response, WireGuardPeerIPsReallocateResponse)
+
+    async def set_user_disabled(self, username: str, status: UserStatusToggle, token: str) -> UserResponse:
+        url = '/api/user/{username}/disabled'.format(username=username)
+        params = None
+        headers = None
+        payload = self._validate_payload(status, UserStatusToggle)
+        response = await self._request('PUT', url, token=token, json_data=payload, params=params, headers=headers)
+        return self._parse_response(response, UserResponse)
+
+    async def set_user_disabled_by_username(self, username: str, status: UserStatusToggle, token: str) -> UserResponse:
+        url = '/api/user/by-username/{username}/disabled'.format(username=username)
+        params = None
+        headers = None
+        payload = self._validate_payload(status, UserStatusToggle)
+        response = await self._request('PUT', url, token=token, json_data=payload, params=params, headers=headers)
+        return self._parse_response(response, UserResponse)
+
+    async def set_user_disabled_by_id(self, user_id: int, status: UserStatusToggle, token: str) -> UserResponse:
+        url = '/api/user/by-id/{user_id}/disabled'.format(user_id=user_id)
+        params = None
+        headers = None
+        payload = self._validate_payload(status, UserStatusToggle)
+        response = await self._request('PUT', url, token=token, json_data=payload, params=params, headers=headers)
+        return self._parse_response(response, UserResponse)

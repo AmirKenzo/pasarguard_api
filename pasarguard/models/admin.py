@@ -24,7 +24,6 @@ class AdminCreate(PasarguardModel):
     username: str = ...
     telegram_id: Optional[int] = None
     discord_webhook: Optional[str] = None
-    discord_id: Optional[int] = None
     status: Optional[AdminAccountStatus] = None
     data_limit: Optional[int] = None
     sub_template: Optional[str] = None
@@ -50,7 +49,6 @@ class AdminDetails(PasarguardModel):
     used_traffic: Optional[int] = 0
     data_limit: Optional[int] = None
     status: Optional[AdminStatus] = AdminStatus.ACTIVE
-    discord_id: Optional[int] = None
     sub_template: Optional[str] = None
     lifetime_used_traffic: Optional[int] = None
     note: Optional[str] = None
@@ -61,7 +59,6 @@ class AdminModify(PasarguardModel):
     password: Optional[str] = None
     telegram_id: Optional[int] = None
     discord_webhook: Optional[str] = None
-    discord_id: Optional[int] = None
     status: Optional[AdminAccountStatus] = None
     data_limit: Optional[int] = None
     sub_template: Optional[str] = None
