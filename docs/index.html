@@ -1,0 +1,645 @@
+<!DOCTYPE html>
+<html lang="en" class="dark-mode">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>API Documentation</title>
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      :root {
+        --nav-height: 3.5rem;
+        --bg: #09090b;
+        --surface: #18181b;
+        --border: rgba(255, 255, 255, 0.08);
+        --text: #fafafa;
+        --muted: #a1a1aa;
+      }
+
+      html,
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--text);
+      }
+
+      body {
+        font-family: system-ui, -apple-system, "Segoe UI", Roboto, Helvetica,
+          Arial, sans-serif;
+      }
+
+      .navbar {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        height: var(--nav-height);
+        padding: 0 1.25rem;
+        background: linear-gradient(180deg, #18181b 0%, #121214 100%);
+        border-bottom: 1px solid var(--border);
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.35);
+      }
+
+      .navbar-brand {
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+        min-width: 0;
+      }
+
+      .navbar-title {
+        font-size: 1rem;
+        font-weight: 650;
+        letter-spacing: -0.02em;
+        line-height: 1.2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .navbar-subtitle {
+        font-size: 0.75rem;
+        color: #71717a;
+        line-height: 1.2;
+      }
+
+      .view-switcher {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+        padding: 0.25rem;
+        border-radius: 0.75rem;
+        background: #27272a;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        flex-shrink: 0;
+      }
+
+      .view-btn {
+        appearance: none;
+        border: 0;
+        background: transparent;
+        color: var(--muted);
+        border-radius: 0.55rem;
+        padding: 0.5rem 1rem;
+        font: inherit;
+        font-size: 0.8125rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.15s ease, color 0.15s ease,
+          box-shadow 0.15s ease;
+        white-space: nowrap;
+      }
+
+      .view-btn:hover {
+        color: var(--text);
+      }
+
+      .view-btn.active {
+        background: #fafafa;
+        color: #18181b;
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25);
+      }
+
+      .view-btn:focus-visible {
+        outline: 2px solid #a78bfa;
+        outline-offset: 2px;
+      }
+
+      .panel {
+        display: none;
+        position: fixed;
+        top: var(--nav-height);
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--bg);
+      }
+
+      .panel.active {
+        display: block;
+      }
+
+      #scalar-panel {
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      #scalar-root {
+        width: 100%;
+        min-height: 100%;
+      }
+
+      #swagger-panel {
+        overflow: auto;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      #swagger-root {
+        min-height: 100%;
+      }
+
+      /* Swagger UI dark theme (native + scoped overrides for BaseLayout). */
+      #swagger-panel .swagger-ui {
+        background: #1c2022;
+        color: #e4e6e6;
+      }
+
+      #swagger-panel .swagger-ui .topbar,
+      #swagger-panel .swagger-ui .information-container.wrapper,
+      #swagger-panel .swagger-ui .scheme-container,
+      #swagger-panel .swagger-ui section.models,
+      #swagger-panel .swagger-ui .opblock-tag-section,
+      #swagger-panel .swagger-ui .opblock .opblock-section-header,
+      #swagger-panel .swagger-ui .responses-inner,
+      #swagger-panel .swagger-ui .model-box,
+      #swagger-panel .swagger-ui .model,
+      #swagger-panel .swagger-ui section.models.is-open h4,
+      #swagger-panel .swagger-ui .dialog-ux .modal-ux,
+      #swagger-panel .swagger-ui .dialog-ux .modal-ux-content,
+      #swagger-panel .swagger-ui .auth-container,
+      #swagger-panel .swagger-ui .btn,
+      #swagger-panel .swagger-ui select,
+      #swagger-panel .swagger-ui input[type="text"],
+      #swagger-panel .swagger-ui textarea {
+        background: #1c2022;
+        color: #e4e6e6;
+      }
+
+      #swagger-panel .swagger-ui .info .title,
+      #swagger-panel .swagger-ui .info p,
+      #swagger-panel .swagger-ui .info li,
+      #swagger-panel .swagger-ui .info table,
+      #swagger-panel .swagger-ui .opblock-tag,
+      #swagger-panel .swagger-ui .opblock .opblock-summary-description,
+      #swagger-panel .swagger-ui .opblock .opblock-summary-path,
+      #swagger-panel .swagger-ui .opblock .opblock-summary-method,
+      #swagger-panel .swagger-ui .parameter__name,
+      #swagger-panel .swagger-ui .parameter__type,
+      #swagger-panel .swagger-ui .response-col_status,
+      #swagger-panel .swagger-ui .response-col_description,
+      #swagger-panel .swagger-ui table thead tr td,
+      #swagger-panel .swagger-ui table thead tr th,
+      #swagger-panel .swagger-ui .model-title,
+      #swagger-panel .swagger-ui .prop-type,
+      #swagger-panel .swagger-ui .markdown p,
+      #swagger-panel .swagger-ui .markdown li {
+        color: #e4e6e6;
+      }
+
+      #swagger-panel .swagger-ui .scheme-container,
+      #swagger-panel .swagger-ui .opblock-tag-section,
+      #swagger-panel .swagger-ui section.models,
+      #swagger-panel .swagger-ui .opblock,
+      #swagger-panel .swagger-ui .model-box,
+      #swagger-panel .swagger-ui .dialog-ux .modal-ux {
+        border-color: #434b4f;
+        box-shadow: none;
+      }
+
+      #swagger-panel .swagger-ui .opblock .opblock-section-header {
+        background: #2a2e30;
+        border-color: #434b4f;
+      }
+
+      #swagger-panel .swagger-ui .btn {
+        border-color: #545d61;
+        box-shadow: none;
+      }
+
+      #swagger-panel .swagger-ui .btn:hover {
+        background: #2a2e30;
+      }
+
+      #swagger-panel .swagger-ui .highlight-code,
+      #swagger-panel .swagger-ui .microlight,
+      #swagger-panel .swagger-ui pre.microlight,
+      #swagger-panel .swagger-ui .curl-command,
+      #swagger-panel .swagger-ui .copy-to-clipboard {
+        background: #080a0b !important;
+        color: #f0f1f1 !important;
+      }
+
+      #swagger-panel .swagger-ui .wrapper {
+        background: transparent;
+      }
+
+      #swagger-panel .swagger-ui svg.arrow {
+        fill: #b7bcbf;
+      }
+
+      .state-screen {
+        position: fixed;
+        inset: 0;
+        z-index: 2000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+        background: var(--bg);
+      }
+
+      .state-screen.hidden {
+        display: none;
+      }
+
+      .state-card {
+        width: min(100%, 30rem);
+        padding: 1.75rem;
+        border-radius: 1rem;
+        border: 1px solid var(--border);
+        background: var(--surface);
+        text-align: center;
+        box-shadow: 0 24px 48px rgba(0, 0, 0, 0.35);
+      }
+
+      .state-card h2 {
+        margin: 0 0 0.75rem;
+        font-size: 1.125rem;
+        font-weight: 650;
+        letter-spacing: -0.02em;
+      }
+
+      .state-card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.6;
+        word-break: break-word;
+      }
+
+      .state-card.error h2 {
+        color: #f87171;
+      }
+
+      .spinner {
+        width: 2.25rem;
+        height: 2.25rem;
+        margin: 0 auto 1rem;
+        border: 3px solid #3f3f46;
+        border-top-color: #a78bfa;
+        border-radius: 50%;
+        animation: spin 0.75s linear infinite;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      @media (max-width: 640px) {
+        :root {
+          --nav-height: 5.5rem;
+        }
+
+        .navbar {
+          flex-direction: column;
+          align-items: stretch;
+          height: var(--nav-height);
+          padding: 0.75rem 1rem;
+        }
+
+        .view-switcher {
+          width: 100%;
+        }
+
+        .view-btn {
+          flex: 1;
+          text-align: center;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="navbar-brand">
+        <div class="navbar-title" id="navbar-title">API Documentation</div>
+        <div class="navbar-subtitle" id="navbar-subtitle">OpenAPI Reference</div>
+      </div>
+      <nav class="view-switcher" aria-label="Documentation viewer">
+        <button
+          type="button"
+          class="view-btn active"
+          id="btn-scalar"
+          data-view="scalar"
+        >
+          Scalar
+        </button>
+        <button
+          type="button"
+          class="view-btn"
+          id="btn-swagger"
+          data-view="swagger"
+        >
+          Swagger UI
+        </button>
+      </nav>
+    </header>
+
+    <div id="loading-screen" class="state-screen">
+      <div class="state-card">
+        <div class="spinner" aria-hidden="true"></div>
+        <h2>Loading API specification</h2>
+        <p>Fetching OpenAPI document…</p>
+      </div>
+    </div>
+
+    <div id="error-screen" class="state-screen hidden" role="alert">
+      <div class="state-card error">
+        <h2>Unable to load OpenAPI specification</h2>
+        <p id="error-message"></p>
+      </div>
+    </div>
+
+    <section
+      id="scalar-panel"
+      class="panel active"
+      aria-label="Scalar API Reference"
+    >
+      <div id="scalar-root"></div>
+    </section>
+
+    <section id="swagger-panel" class="panel" aria-label="Swagger UI">
+      <div id="swagger-root"></div>
+    </section>
+
+    <script>
+      (function () {
+        "use strict";
+
+        /** OpenAPI spec URL relative to this page (e.g. "./openapi.json"). */
+        const OPENAPI_URL = "./openapi.json";
+
+        const CDN = {
+          scalar: "https://cdn.jsdelivr.net/npm/@scalar/api-reference",
+          swaggerCss:
+            "https://cdn.jsdelivr.net/npm/swagger-ui-dist@5.31.0/swagger-ui.css",
+          swaggerBundle:
+            "https://cdn.jsdelivr.net/npm/swagger-ui-dist@5.31.0/swagger-ui-bundle.js",
+        };
+
+        const loadingScreen = document.getElementById("loading-screen");
+        const errorScreen = document.getElementById("error-screen");
+        const errorMessage = document.getElementById("error-message");
+        const navbarTitle = document.getElementById("navbar-title");
+        const navbarSubtitle = document.getElementById("navbar-subtitle");
+        const scalarPanel = document.getElementById("scalar-panel");
+        const swaggerPanel = document.getElementById("swagger-panel");
+        const btnScalar = document.getElementById("btn-scalar");
+        const btnSwagger = document.getElementById("btn-swagger");
+
+        /** @type {"scalar" | "swagger"} */
+        let activeView = "scalar";
+        let openApiResolvedUrl = "";
+        /** @type {Promise<void> | null} */
+        let openApiReady = null;
+        /** @type {Promise<void> | null} */
+        let scalarReady = null;
+        /** @type {Promise<void> | null} */
+        let swaggerReady = null;
+
+        const loadedAssets = new Set();
+
+        function resolveOpenApiUrl() {
+          return new URL(OPENAPI_URL, window.location.href).href;
+        }
+
+        function showLoading() {
+          loadingScreen.classList.remove("hidden");
+          errorScreen.classList.add("hidden");
+        }
+
+        function hideLoading() {
+          loadingScreen.classList.add("hidden");
+        }
+
+        function showError(message) {
+          hideLoading();
+          errorMessage.textContent = message;
+          errorScreen.classList.remove("hidden");
+          scalarPanel.classList.remove("active");
+          swaggerPanel.classList.remove("active");
+        }
+
+        function loadStylesheet(href) {
+          if (loadedAssets.has(href)) {
+            return Promise.resolve();
+          }
+
+          return new Promise(function (resolve, reject) {
+            const link = document.createElement("link");
+            link.rel = "stylesheet";
+            link.href = href;
+            link.onload = function () {
+              loadedAssets.add(href);
+              resolve();
+            };
+            link.onerror = function () {
+              reject(new Error("Failed to load stylesheet: " + href));
+            };
+            document.head.appendChild(link);
+          });
+        }
+
+        function loadScript(src) {
+          if (loadedAssets.has(src)) {
+            return Promise.resolve();
+          }
+
+          return new Promise(function (resolve, reject) {
+            const script = document.createElement("script");
+            script.src = src;
+            script.async = false;
+            script.onload = function () {
+              loadedAssets.add(src);
+              resolve();
+            };
+            script.onerror = function () {
+              reject(new Error("Failed to load script: " + src));
+            };
+            document.head.appendChild(script);
+          });
+        }
+
+        function ensureOpenApiSpec() {
+          if (!openApiReady) {
+            openApiReady = (async function () {
+              openApiResolvedUrl = resolveOpenApiUrl();
+
+              let response;
+              try {
+                response = await fetch(openApiResolvedUrl, {
+                  method: "GET",
+                  cache: "no-cache",
+                });
+              } catch (error) {
+                throw new Error(
+                  "Network error while fetching " +
+                    OPENAPI_URL +
+                    ". Check that the file exists and CORS allows this origin."
+                );
+              }
+
+              if (!response.ok) {
+                throw new Error(
+                  "OpenAPI request failed (" +
+                    response.status +
+                    " " +
+                    response.statusText +
+                    ") for " +
+                    OPENAPI_URL
+                );
+              }
+
+              const body = await response.text();
+
+              if (!body.trim()) {
+                throw new Error("OpenAPI file at " + OPENAPI_URL + " is empty.");
+              }
+
+              let spec;
+              try {
+                spec = JSON.parse(body);
+              } catch (error) {
+                throw new Error(
+                  "OpenAPI file at " +
+                    OPENAPI_URL +
+                    " is not valid JSON. " +
+                    error.message
+                );
+              }
+
+              if (spec && spec.info) {
+                if (spec.info.title) {
+                  navbarTitle.textContent = spec.info.title;
+                  document.title = spec.info.title + " — API Docs";
+                }
+                if (spec.info.version) {
+                  navbarSubtitle.textContent = "OpenAPI v" + spec.info.version;
+                }
+              }
+            })();
+          }
+
+          return openApiReady;
+        }
+
+        function ensureScalarViewer() {
+          if (!scalarReady) {
+            scalarReady = (async function () {
+              await ensureOpenApiSpec();
+              await loadScript(CDN.scalar);
+
+              if (
+                typeof Scalar === "undefined" ||
+                typeof Scalar.createApiReference !== "function"
+              ) {
+                throw new Error("Scalar API Reference failed to initialize.");
+              }
+
+              Scalar.createApiReference("#scalar-root", {
+                url: openApiResolvedUrl,
+                darkMode: true,
+                layout: "modern",
+              });
+            })();
+          }
+
+          return scalarReady;
+        }
+
+        function ensureSwaggerViewer() {
+          if (!swaggerReady) {
+            swaggerReady = (async function () {
+              await ensureOpenApiSpec();
+              await loadStylesheet(CDN.swaggerCss);
+              await loadScript(CDN.swaggerBundle);
+
+              if (typeof SwaggerUIBundle === "undefined") {
+                throw new Error("Swagger UI failed to initialize.");
+              }
+
+              SwaggerUIBundle({
+                url: openApiResolvedUrl,
+                dom_id: "#swagger-root",
+                deepLinking: true,
+                presets: [SwaggerUIBundle.presets.apis],
+                layout: "BaseLayout",
+              });
+            })();
+          }
+
+          return swaggerReady;
+        }
+
+        function setActiveView(view) {
+          activeView = view;
+
+          btnScalar.classList.toggle("active", view === "scalar");
+          btnSwagger.classList.toggle("active", view === "swagger");
+
+          scalarPanel.classList.toggle("active", view === "scalar");
+          swaggerPanel.classList.toggle("active", view === "swagger");
+        }
+
+        async function switchView(view) {
+          if (view === activeView) {
+            return;
+          }
+
+          setActiveView(view);
+
+          try {
+            if (view === "scalar") {
+              await ensureScalarViewer();
+            } else {
+              await ensureSwaggerViewer();
+            }
+          } catch (error) {
+            showError(
+              error && error.message
+                ? error.message
+                : "Failed to load the selected documentation viewer."
+            );
+          }
+        }
+
+        btnScalar.addEventListener("click", function () {
+          switchView("scalar");
+        });
+
+        btnSwagger.addEventListener("click", function () {
+          switchView("swagger");
+        });
+
+        async function boot() {
+          showLoading();
+
+          try {
+            await ensureOpenApiSpec();
+            await ensureScalarViewer();
+            hideLoading();
+          } catch (error) {
+            showError(
+              error && error.message
+                ? error.message
+                : "An unexpected error occurred while loading the API documentation."
+            );
+          }
+        }
+
+        boot();
+      })();
+    </script>
+  </body>
+</html>
