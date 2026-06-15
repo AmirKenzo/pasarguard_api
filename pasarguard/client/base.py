@@ -7,14 +7,11 @@ from ._imports import (
     Enum,
     Mapping,
     Optional,
-    SSHException,
-    SSHTunnelForwarder,
     Token,
     TypeAdapter,
     date,
     datetime,
     httpx,
-    paramiko,
 )
 
 
@@ -63,22 +60,36 @@ class BaseAPIClient:
         await self.close()
 
     def _load_private_key(self, key_path: str, passphrase: Optional[str]):
+        paramiko = self._import_ssh_dependencies()[0]
         for key_class in (paramiko.RSAKey, paramiko.DSSKey, paramiko.ECDSAKey, paramiko.Ed25519Key):
             try:
                 return key_class.from_private_key_file(key_path, password=passphrase)
             except paramiko.ssh_exception.PasswordRequiredException:
                 raise ValueError("Private key is encrypted; provide ssh_key_passphrase") from None
-            except SSHException:
+            except paramiko.ssh_exception.SSHException:
                 continue
         raise ValueError("Unsupported key format or incorrect passphrase")
+
+    @staticmethod
+    def _import_ssh_dependencies():
+        try:
+            import paramiko
+            from sshtunnel import SSHTunnelForwarder
+        except ImportError as exc:
+            raise ImportError(
+                "SSH tunnel support requires optional dependencies. "
+                "Install them with: pip install 'pasarguard[ssh]'"
+            ) from exc
+        return paramiko, SSHTunnelForwarder
 
     def _initialize(self) -> None:
         if not self.ssh_host:
             return
         if self._tunnel and self._tunnel.is_active:
             return
+        _, tunnel_forwarder = self._import_ssh_dependencies()
         private_key = self._load_private_key(self.ssh_private_key_path, self.ssh_key_passphrase) if self.ssh_private_key_path else None
-        self._tunnel = SSHTunnelForwarder(
+        self._tunnel = tunnel_forwarder(
             (self.ssh_host, self.ssh_port),
             ssh_username=self.ssh_username,
             ssh_password=self.ssh_password,

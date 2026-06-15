@@ -18,6 +18,12 @@ It provides a clean interface for authentication, users, admins, nodes, groups, 
 pip install pasarguard
 ```
 
+Install SSH tunnel support only when needed:
+
+```bash
+pip install "pasarguard[ssh]"
+```
+
 ```bash
 uv add pasarguard
 ```
@@ -27,7 +33,7 @@ uv add pasarguard
 - Async-first API client.
 - Typed request and response models with Pydantic v2.
 - Bearer-token authentication.
-- Optional SSH tunnel support.
+- Optional SSH tunnel support via the `ssh` extra.
 - User, admin, node, group, host, core, template, and subscription management.
 - Bulk operations for users, admins, nodes, groups, hosts, and templates.
 - Usage metrics, realtime node stats, inbound details, and worker health endpoints.

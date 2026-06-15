@@ -8,10 +8,7 @@ from enum import Enum
 from typing import Any, Dict, List, Literal, Mapping, Optional, Union
 
 import httpx
-import paramiko
-from paramiko.ssh_exception import SSHException
 from pydantic import BaseModel, TypeAdapter
-from sshtunnel import SSHTunnelForwarder
 
 from ..enums import (
     ClientTemplateType,
