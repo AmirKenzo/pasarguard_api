@@ -19,9 +19,17 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Checkout base revision
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: base
+          fetch-depth: 1
+
       - name: Compare OpenAPI contract
         uses: delimit-ai/delimit-action@v1
         with:
-          spec: docs/openapi.json
+          old_spec: base/docs/openapi.json
+          new_spec: docs/openapi.json
           mode: advisory
           policy: default
