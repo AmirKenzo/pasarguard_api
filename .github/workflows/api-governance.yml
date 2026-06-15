@@ -44,21 +44,31 @@ jobs:
           const semver = breaking.length > 0 ? 'MAJOR' : changes.length > 0 ? 'MINOR' : 'NONE';
 
           let body = '<!-- delimit-cli-openapi-diff -->\n';
-          body += '## Delimit OpenAPI Diff\n\n';
-          body += `**${changes.length} total change(s)**, **${breaking.length} breaking**. Semver: **${semver}**\n\n`;
+          body += '## API Contract Diff\n\n';
+          body += `Delimit compared \`docs/openapi.json\` against the base branch and found **${changes.length} change(s)**.\n\n`;
+          body += `| Result | Count |\n`;
+          body += `| --- | ---: |\n`;
+          body += `| Breaking changes | **${breaking.length}** |\n`;
+          body += `| Non-breaking changes | **${nonBreaking.length}** |\n`;
+          body += `| Recommended semver | **${semver}** |\n\n`;
 
           if (breaking.length > 0) {
             body += '### Breaking Changes\n\n';
+            body += 'These changes may require client updates before release.\n\n';
             breaking.forEach((change, index) => {
-              body += `${index + 1}. \`${change.path}\` - ${change.message}\n`;
+              body += `${index + 1}. **${change.type.replace(/_/g, ' ')}** at \`${change.path}\`\n`;
+              body += `   ${change.message}\n`;
             });
             body += '\n';
+          } else {
+            body += '### Breaking Changes\n\n';
+            body += 'No breaking API changes detected.\n\n';
           }
 
           if (nonBreaking.length > 0) {
-            body += '<details>\n<summary>Non-breaking changes (' + nonBreaking.length + ')</summary>\n\n';
+            body += '<details open>\n<summary>Non-breaking changes (' + nonBreaking.length + ')</summary>\n\n';
             nonBreaking.forEach((change) => {
-              body += `- \`${change.path}\` - ${change.message}\n`;
+              body += `- **${change.type.replace(/_/g, ' ')}** at \`${change.path}\` - ${change.message}\n`;
             });
             body += '\n</details>\n\n';
           }
@@ -67,7 +77,7 @@ jobs:
           body += '```text\n';
           body += fs.readFileSync('delimit-diff.txt', 'utf8').trim();
           body += '\n```\n\n</details>\n\n';
-          body += '> Advisory mode: this report does not block the PR.\n';
+          body += '> Advisory mode: this workflow reports API changes but does not block the PR.\n';
 
           fs.writeFileSync('delimit-comment.md', body);
           fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, body.replace('<!-- delimit-cli-openapi-diff -->\n', ''));
