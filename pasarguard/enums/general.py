@@ -44,4 +44,10 @@ class RunMethod(StrEnum):
     LONG_POLLING = 'long-polling'
 
 
-__all__ = ("ConfigFormat", "Language", "Period", "Platform", "RunMethod")
+class HWIDMode(StrEnum):
+    DISABLED = "disabled"
+    USE_GLOBAL = "use_global"
+    OVERRIDE = "override"
+
+
+__all__ = ("ConfigFormat", "HWIDMode", "Language", "Period", "Platform", "RunMethod")

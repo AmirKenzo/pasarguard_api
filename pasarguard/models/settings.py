@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from ._base import List, Optional, PasarguardModel, RunMethod, ShadowsocksMethods
+from ._base import HWIDMode, List, Optional, PasarguardModel, RunMethod, ShadowsocksMethods
 from .admin import AdminNotificationEnable
 from .common import BaseNotificationEnable
 from .host import HostNotificationEnable
@@ -14,9 +14,19 @@ class General(PasarguardModel):
 class HWIDSettings(PasarguardModel):
     enabled: Optional[bool] = False
     forced: Optional[bool] = False
+    require_hwid_for_manual_sub: Optional[bool] = True
     fallback_limit: Optional[int] = 0
     min_limit: Optional[int] = 0
     max_limit: Optional[int] = 0
+
+class RoleHWIDSettings(PasarguardModel):
+    enabled: Optional[bool] = True
+    forced: Optional[bool] = False
+    require_hwid_for_manual_sub: Optional[bool] = True
+    fallback_limit: Optional[int] = None
+    min_limit: Optional[int] = None
+    max_limit: Optional[int] = None
+    mode: Optional[HWIDMode] = HWIDMode.USE_GLOBAL
 
 class NotificationChannel(PasarguardModel):
     telegram_chat_id: Optional[int] = None
@@ -92,6 +102,7 @@ class WebhookInfo(PasarguardModel):
 __all__ = (
     'General',
     'HWIDSettings',
+    'RoleHWIDSettings',
     'NotificationChannel',
     'NotificationChannels',
     'NotificationEnable',
