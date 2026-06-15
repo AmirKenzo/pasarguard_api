@@ -13,6 +13,7 @@ from ..enums import (
     ECHQueryStrategy,
     FlowOption,  # noqa: F401 - re-exported for backwards compatibility
     GeoFilseRegion,
+    HWIDMode,
     Language,
     MultiplexProtocol,
     NodeConnectionType,
@@ -59,6 +60,7 @@ __all__ = (
     "ECHQueryStrategy",
     "FlowOption",
     "GeoFilseRegion",
+    "HWIDMode",
     "Language",
     "MultiplexProtocol",
     "NodeConnectionType",

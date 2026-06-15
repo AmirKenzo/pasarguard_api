@@ -8,7 +8,7 @@ from ._base import List, Optional, PasarguardModel, Union, datetime
 from ..enums.admin import PermissionScope
 
 if TYPE_CHECKING:
-    from .settings import HWIDSettings
+    from .settings import RoleHWIDSettings
 
 
 class CRUDPermissions(PasarguardModel):
@@ -156,9 +156,10 @@ class AdminRoleCreate(PasarguardModel):
     limits: Optional[RoleLimits] = None
     features: Optional[RoleFeatures] = None
     access: Optional[RoleAccess] = None
-    hwid: Optional[HWIDSettings] = None
+    hwid: Optional[RoleHWIDSettings] = None
     disabled_when_limited: Optional[bool] = False
-    disable_users_when_limited: Optional[bool] = True
+    disconnect_users_when_limited: Optional[bool] = True
+    disconnect_users_when_disabled: Optional[bool] = True
 
 
 class AdminRoleData(PasarguardModel):
@@ -169,9 +170,10 @@ class AdminRoleData(PasarguardModel):
     limits: Optional[RoleLimits] = None
     features: Optional[RoleFeatures] = None
     access: Optional[RoleAccess] = None
-    hwid: Optional[HWIDSettings] = None
+    hwid: Optional[RoleHWIDSettings] = None
     disabled_when_limited: Optional[bool] = False
-    disable_users_when_limited: Optional[bool] = True
+    disconnect_users_when_limited: Optional[bool] = True
+    disconnect_users_when_disabled: Optional[bool] = True
 
 
 class AdminRoleModify(PasarguardModel):
@@ -180,9 +182,10 @@ class AdminRoleModify(PasarguardModel):
     limits: Optional[RoleLimits] = None
     features: Optional[RoleFeatures] = None
     access: Optional[RoleAccess] = None
-    hwid: Optional[HWIDSettings] = None
+    hwid: Optional[RoleHWIDSettings] = None
     disabled_when_limited: Optional[bool] = None
-    disable_users_when_limited: Optional[bool] = None
+    disconnect_users_when_limited: Optional[bool] = None
+    disconnect_users_when_disabled: Optional[bool] = None
 
 
 class AdminRoleResponse(PasarguardModel):
@@ -191,9 +194,10 @@ class AdminRoleResponse(PasarguardModel):
     limits: Optional[RoleLimits] = None
     features: Optional[RoleFeatures] = None
     access: Optional[RoleAccess] = None
-    hwid: Optional[HWIDSettings] = None
+    hwid: Optional[RoleHWIDSettings] = None
     disabled_when_limited: Optional[bool] = False
-    disable_users_when_limited: Optional[bool] = True
+    disconnect_users_when_limited: Optional[bool] = True
+    disconnect_users_when_disabled: Optional[bool] = True
     id: int = ...
     is_owner: bool = ...
     created_at: datetime = ...

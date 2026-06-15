@@ -9,6 +9,7 @@ from .enums import (
     ECHQueryStrategy,
     FlowOption,
     GeoFilseRegion,
+    HWIDMode,
     Language,
     MultiplexProtocol,
     NodeConnectionType,
@@ -162,6 +163,7 @@ from .models import (
     RemoveNodesResponse,
     RemoveUserTemplatesResponse,
     RemoveUsersResponse,
+    RoleHWIDSettings,
     RoleAccess,
     RoleFeatures,
     RoleLimits,
@@ -177,7 +179,9 @@ from .models import (
     SubscriptionTemplates,
     SubscriptionUserResponse,
     SystemPermissions,
+    SystemResourceStats,
     SystemStats,
+    SystemUsersStats,
     TcpSettings,
     Telegram,
     Token,
@@ -234,8 +238,8 @@ from .models import (
 )
 from .utils import PasarguardTokenCache
 
-__version__ = '2.2.0'
-OPENAPI_VERSION = '5.0.0'
+__version__ = '2.2.1'
+OPENAPI_VERSION = '5.0.1'
 
 __all__ = (
     'Admin',
@@ -324,6 +328,7 @@ __all__ = (
     'HTTPRequest',
     'HTTPResponse',
     'HTTPValidationError',
+    'HWIDMode',
     'HWIDSettings',
     'HostBase',
     'HostNotificationEnable',
@@ -390,6 +395,7 @@ __all__ = (
     'RemoveNodesResponse',
     'RemoveUserTemplatesResponse',
     'RemoveUsersResponse',
+    'RoleHWIDSettings',
     'RoleAccess',
     'RoleFeatures',
     'RoleLimits',
@@ -408,7 +414,9 @@ __all__ = (
     'SubscriptionTemplates',
     'SubscriptionUserResponse',
     'SystemPermissions',
+    'SystemResourceStats',
     'SystemStats',
+    'SystemUsersStats',
     'TcpSettings',
     'Telegram',
     'Token',

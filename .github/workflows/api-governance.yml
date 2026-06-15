@@ -1,0 +1,119 @@
+name: API Governance
+
+on:
+  pull_request:
+    types: [opened, reopened, ready_for_review]
+    paths:
+      - docs/openapi.json
+      - .github/workflows/api-governance.yml
+  workflow_dispatch:
+    inputs:
+      base_ref:
+        description: Base branch or ref to compare against
+        required: false
+        default: main
+      head_ref:
+        description: Head branch or ref to compare
+        required: false
+        default: ""
+
+jobs:
+  delimit:
+    name: Delimit CLI OpenAPI diff
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.head_ref || github.ref }}
+          fetch-depth: 0
+
+      - name: Checkout base revision
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.base_ref || github.event.pull_request.base.sha }}
+          path: base
+          fetch-depth: 1
+
+      - name: Compare OpenAPI contract
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          npx --yes delimit-cli@4.9.0 diff base/docs/openapi.json docs/openapi.json --json > delimit-report.json
+          npx --yes delimit-cli@4.9.0 diff base/docs/openapi.json docs/openapi.json > delimit-diff.txt
+
+          node <<'NODE'
+          const fs = require('fs');
+
+          const report = JSON.parse(fs.readFileSync('delimit-report.json', 'utf8'));
+          const changes = report.changes || [];
+          const breaking = changes.filter((change) => change.is_breaking);
+          const nonBreaking = changes.filter((change) => !change.is_breaking);
+          const semver = breaking.length > 0 ? 'MAJOR' : changes.length > 0 ? 'MINOR' : 'NONE';
+
+          let body = '<!-- delimit-cli-openapi-diff -->\n';
+          body += '## API Contract Diff\n\n';
+          body += `Delimit compared \`docs/openapi.json\` against the base branch and found **${changes.length} change(s)**.\n\n`;
+          body += `| Result | Count |\n`;
+          body += `| --- | ---: |\n`;
+          body += `| Breaking changes | **${breaking.length}** |\n`;
+          body += `| Non-breaking changes | **${nonBreaking.length}** |\n`;
+          body += `| Recommended semver | **${semver}** |\n\n`;
+
+          if (breaking.length > 0) {
+            body += '### Breaking Changes\n\n';
+            body += 'These changes may require client updates before release.\n\n';
+            breaking.forEach((change, index) => {
+              body += `${index + 1}. **${change.type.replace(/_/g, ' ')}** at \`${change.path}\`\n`;
+              body += `   ${change.message}\n`;
+            });
+            body += '\n';
+          } else {
+            body += '### Breaking Changes\n\n';
+            body += 'No breaking API changes detected.\n\n';
+          }
+
+          if (nonBreaking.length > 0) {
+            body += '<details open>\n<summary>Non-breaking changes (' + nonBreaking.length + ')</summary>\n\n';
+            nonBreaking.forEach((change) => {
+              body += `- **${change.type.replace(/_/g, ' ')}** at \`${change.path}\` - ${change.message}\n`;
+            });
+            body += '\n</details>\n\n';
+          }
+
+          body += '<details>\n<summary>Raw Delimit CLI output</summary>\n\n';
+          body += '```text\n';
+          body += fs.readFileSync('delimit-diff.txt', 'utf8').trim();
+          body += '\n```\n\n</details>\n\n';
+          body += '> Advisory mode: this workflow reports API changes but does not block the PR.\n';
+
+          fs.writeFileSync('delimit-comment.md', body);
+          fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY, body.replace('<!-- delimit-cli-openapi-diff -->\n', ''));
+          NODE
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          comment_id="$(
+            gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" \
+              --jq '.[] | select(.user.login == "github-actions[bot]" and (.body | contains("<!-- delimit-cli-openapi-diff -->"))) | .id' \
+              | head -n 1
+          )"
+
+          if [ -n "$comment_id" ]; then
+            gh api -X PATCH "repos/${GITHUB_REPOSITORY}/issues/comments/${comment_id}" \
+              -f body="$(cat delimit-comment.md)" >/dev/null
+          else
+            gh api "repos/${GITHUB_REPOSITORY}/issues/${PR_NUMBER}/comments" \
+              -f body="$(cat delimit-comment.md)" >/dev/null
+          fi
