@@ -45,7 +45,7 @@ uv add pasarguard
 import asyncio
 import os
 
-from pasarguard import PasarguardAPI, UserCreate, UserStatus
+from pasarguard import PasarguardAPI, Tools, UserCreate, UserStatus
 
 
 async def main() -> None:
@@ -59,13 +59,12 @@ async def main() -> None:
             password=os.environ["PASARGUARD_ADMIN_PASSWORD"],
         )
 
-        user = await api.create_user(
+        user = await api.create_user_in_all_groups(
             UserCreate(
-                username="customer-1001",
-                data_limit=50 * 1024**3,
-                expire=30,
+                username=Tools.random_username(prefix="customer"),
+                data_limit=Tools.gb(50),
+                expire=Tools.days(30),
                 status=UserStatus.ACTIVE,
-                group_ids=[1],
                 note="Created by automation",
             ),
             token=token.access_token,
@@ -76,6 +75,22 @@ async def main() -> None:
 
 asyncio.run(main())
 ```
+
+## Convenience helpers
+
+```python
+from pasarguard import Tools
+
+username = Tools.random_username(prefix="trial")
+traffic_limit = Tools.gb(20)          # 20 GiB in bytes
+expire_at = Tools.days(30)            # Unix timestamp for 30 days from now
+
+assert Tools.to_bytes("500MB") == 500 * 1024**2
+assert Tools.to_timestamp("12h") > 0
+```
+
+Supported size helpers: `Tools.mb()`, `Tools.gb()`, `Tools.tb()`.
+Supported timestamp helpers: `Tools.minutes()`, `Tools.hours()`, `Tools.days()`, `Tools.to_timestamp()`.
 
 ## Authentication
 

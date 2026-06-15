@@ -236,7 +236,7 @@ from .models import (
     XrayMuxSettingsOutput,
     XrayNoiseSettings,
 )
-from .utils import PasarguardTokenCache
+from .utils import PasarguardTokenCache, Tools
 
 __version__ = '2.2.1'
 OPENAPI_VERSION = '5.0.1'
@@ -420,6 +420,7 @@ __all__ = (
     'TcpSettings',
     'Telegram',
     'Token',
+    'Tools',
     'TransportSettingsInput',
     'TransportSettingsOutput',
     'TrojanSettings',

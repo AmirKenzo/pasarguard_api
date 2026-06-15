@@ -49,6 +49,11 @@ class UserMixin:
         response = await self._request('POST', url, token=token, json_data=payload, params=params, headers=headers)
         return self._parse_response(response, UserResponse)
 
+    async def create_user_in_all_groups(self, user: UserCreate, token: str) -> UserResponse:
+        groups = await self.get_groups_simple(token=token, all=True)
+        group_ids = [group.id for group in groups.groups]
+        return await self.create_user(user.model_copy(update={"group_ids": group_ids}), token=token)
+
     async def modify_user(self, username: str, user: UserModify, token: str) -> UserResponse:
         url = '/api/user/{username}'.format(username=username)
         params = None
