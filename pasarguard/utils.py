@@ -142,7 +142,7 @@ class PasarguardTokenCache:
             return token.access_token
         except Exception as e:
             logging.error(f"{e}", exc_info=True)
-            raise e
+            raise
 
 
 class Tools:
