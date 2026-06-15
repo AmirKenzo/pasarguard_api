@@ -1,0 +1,27 @@
+name: API Governance
+
+on:
+  pull_request:
+    paths:
+      - docs/openapi.json
+      - .github/workflows/api-governance.yml
+
+jobs:
+  delimit:
+    name: Delimit OpenAPI diff
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Compare OpenAPI contract
+        uses: delimit-ai/delimit-action@v1
+        with:
+          spec: docs/openapi.json
+          mode: advisory
+          policy: default
