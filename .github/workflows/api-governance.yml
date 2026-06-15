@@ -2,9 +2,20 @@ name: API Governance
 
 on:
   pull_request:
+    types: [opened, reopened, ready_for_review]
     paths:
       - docs/openapi.json
       - .github/workflows/api-governance.yml
+  workflow_dispatch:
+    inputs:
+      base_ref:
+        description: Base branch or ref to compare against
+        required: false
+        default: main
+      head_ref:
+        description: Head branch or ref to compare
+        required: false
+        default: ""
 
 jobs:
   delimit:
@@ -17,12 +28,13 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.head_ref || github.ref }}
           fetch-depth: 0
 
       - name: Checkout base revision
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.pull_request.base.sha }}
+          ref: ${{ github.event_name == 'workflow_dispatch' && inputs.base_ref || github.event.pull_request.base.sha }}
           path: base
           fetch-depth: 1
 
@@ -84,6 +96,7 @@ jobs:
           NODE
 
       - name: Comment on PR
+        if: github.event_name == 'pull_request'
         env:
           GH_TOKEN: ${{ github.token }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
