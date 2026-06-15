@@ -32,6 +32,7 @@ Or edit the `BASE_URL`, `ADMIN_USERNAME`, and `ADMIN_PASSWORD` constants at the 
 
 ```bash
 python getting_started.py
+python tools.py
 python users.py
 ```
 
@@ -40,6 +41,7 @@ python users.py
 | File | Topic |
 |------|--------|
 | [`getting_started.py`](getting_started.py) | Client setup, token, create user |
+| [`tools.py`](tools.py) | SDK tools for sizes, durations, usernames, and all-group user creation |
 | [`authentication.py`](authentication.py) | Auth, token cache, current admin |
 | [`users.py`](users.py) | User CRUD, bulk ops, templates, usage |
 | [`admins.py`](admins.py) | Admin management |

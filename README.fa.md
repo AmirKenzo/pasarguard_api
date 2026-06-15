@@ -20,6 +20,12 @@
 pip install pasarguard
 ```
 
+برای پشتیبانی از تونل SSH فقط وقتی نیاز داری extra مربوطه را نصب کن:
+
+```bash
+pip install "pasarguard[ssh]"
+```
+
 ```bash
 uv add pasarguard
 ```
@@ -29,7 +35,7 @@ uv add pasarguard
 - کلاینت کاملاً async.
 - مدل‌های تایپ‌شده برای درخواست و پاسخ با Pydantic v2.
 - احراز هویت با Bearer Token.
-- پشتیبانی اختیاری از تونل SSH.
+- پشتیبانی اختیاری از تونل SSH با extra جداگانه‌ی `ssh`.
 - مدیریت کاربران، ادمین‌ها، نودها، گروه‌ها، هاست‌ها، coreها، قالب‌ها و اشتراک‌ها.
 - عملیات گروهی برای کاربران، ادمین‌ها، نودها، گروه‌ها، هاست‌ها و قالب‌ها.
 - دریافت آمار مصرف، وضعیت لحظه‌ای نودها، جزئیات inbound و سلامت workerها.
@@ -49,7 +55,7 @@ uv add pasarguard
 import asyncio
 import os
 
-from pasarguard import PasarguardAPI, UserCreate, UserStatus
+from pasarguard import PasarguardAPI, Tools, UserCreate, UserStatus
 
 
 async def main() -> None:
@@ -63,13 +69,12 @@ async def main() -> None:
             password=os.environ["PASARGUARD_ADMIN_PASSWORD"],
         )
 
-        user = await api.create_user(
+        user = await api.create_user_in_all_groups(
             UserCreate(
-                username="customer-1001",
-                data_limit=50 * 1024**3,
-                expire=30,
+                username=Tools.random_username(prefix="customer"),
+                data_limit=Tools.gb(50),
+                expire=Tools.days(30),
                 status=UserStatus.ACTIVE,
-                group_ids=[1],
                 note="Created by automation",
             ),
             token=token.access_token,
@@ -80,6 +85,30 @@ async def main() -> None:
 
 asyncio.run(main())
 ```
+
+<div dir="rtl">
+
+## ابزارهای کمکی
+
+</div>
+
+```python
+from pasarguard import Tools
+
+username = Tools.random_username(prefix="trial")
+traffic_limit = Tools.gb(20)          # 20 GiB in bytes
+expire_at = Tools.days(30)            # Unix timestamp for 30 days from now
+
+assert Tools.to_bytes("500MB") == 500 * 1024**2
+assert Tools.to_timestamp("12h") > 0
+```
+
+<div dir="rtl">
+
+ابزارهای حجم پشتیبانی‌شده: `Tools.mb()`، `Tools.gb()` و `Tools.tb()`.
+ابزارهای زمان، timestamp آینده برمی‌گردانند: `Tools.minutes()`، `Tools.hours()`، `Tools.days()` و `Tools.to_timestamp()`.
+
+</div>
 
 <div dir="rtl">
 

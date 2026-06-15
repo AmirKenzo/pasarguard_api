@@ -1,6 +1,6 @@
 [project]
 name = "pasarguard"
-version = "2.2.0"
+version = "2.2.2"
 description = "A modern async Python client for the Pasarguard API with typed models and full admin automation support"
 readme = "README.md"
 license = "MIT"
@@ -25,8 +25,12 @@ keywords = ["pasarguard", "api", "async", "httpx", "pydantic"]
 dependencies = [
     "datetime>=5.5",
     "httpx>=0.28.1",
-    "paramiko>=4.0.0",
     "pydantic>=2.4.1,<2.14",
+]
+
+[project.optional-dependencies]
+ssh = [
+    "paramiko>=4.0.0",
     "sshtunnel>=0.4.0",
 ]
 
