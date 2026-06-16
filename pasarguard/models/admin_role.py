@@ -122,6 +122,8 @@ class RoleLimits(PasarguardModel):
     expire_max: Optional[int] = None
     min_hwid_per_user: Optional[int] = None
     max_hwid_per_user: Optional[int] = None
+    on_hold_timeout_min: Optional[int] = None
+    on_hold_timeout_max: Optional[int] = None
 
 
 class RoleFeatures(PasarguardModel):
