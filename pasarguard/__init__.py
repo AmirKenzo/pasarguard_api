@@ -238,8 +238,8 @@ from .models import (
 )
 from .utils import PasarguardTokenCache, Tools
 
-__version__ = '2.2.2'
-OPENAPI_VERSION = '5.0.1'
+__version__ = '2.2.3'
+OPENAPI_VERSION = '5.0.2'
 
 __all__ = (
     'Admin',
