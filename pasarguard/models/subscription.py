@@ -23,6 +23,7 @@ class Application(PasarguardModel):
     import_url: Optional[str] = ''
     description: Optional[Dict[str, str]] = None
     recommended: Optional[bool] = False
+    show_when_hwid_enabled: Optional[bool] = False
     platform: Platform = ...
     download_links: List[DownloadLink] = ...
 
