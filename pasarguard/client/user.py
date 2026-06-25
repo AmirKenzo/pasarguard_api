@@ -268,7 +268,7 @@ class UserMixin:
         admin_ids: list[int] | None = None,
         group: list[int] | None = None,
         search: str | None = None,
-        status: UserStatus | list[UserStatus] = None,
+        status: UserStatus | list[UserStatus] | None = None,
         sort: str | None = None,
         proxy_id: str | None = None,
         data_limit_reset_strategy: DataLimitResetStrategy | list[DataLimitResetStrategy] | None = None,

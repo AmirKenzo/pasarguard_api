@@ -30,6 +30,7 @@ jobs:
         with:
           ref: ${{ github.event_name == 'workflow_dispatch' && inputs.head_ref || github.ref }}
           fetch-depth: 0
+          persist-credentials: false
 
       - name: Checkout base revision
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0
@@ -37,6 +38,7 @@ jobs:
           ref: ${{ github.event_name == 'workflow_dispatch' && inputs.base_ref || github.event.pull_request.base.sha }}
           path: base
           fetch-depth: 1
+          persist-credentials: false
 
       - name: Compare OpenAPI contract
         shell: bash

@@ -141,8 +141,6 @@ class BaseAPIClient:
             base_url=f"http://{self.local_bind_host}:{self.local_bind_port}",
             timeout=self.timeout,
             verify=self.verify,
-            proxy=self.proxy,
-            trust_env=self.trust_env,
         )
 
     def _ensure_client(self) -> httpx.AsyncClient:

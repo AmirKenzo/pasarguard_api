@@ -79,7 +79,7 @@ class NodeMixin:
         offset: int | None = None,
         limit: int | None = None,
         ids: list[int] | None = None,
-        status: NodeStatus | list[NodeStatus] = None,
+        status: NodeStatus | list[NodeStatus] | None = None,
         enabled: bool | None = False,
         search: str | None = None,
     ) -> NodesResponse:
