@@ -4,8 +4,8 @@ from typing import TYPE_CHECKING, Any
 
 from pydantic import model_serializer, model_validator
 
-from ._base import List, Optional, PasarguardModel, Union, datetime
 from ..enums.admin import PermissionScope
+from ._base import List, Optional, PasarguardModel, Union, datetime
 
 if TYPE_CHECKING:
     from .settings import RoleHWIDSettings
@@ -107,11 +107,7 @@ class UsersPermissions(PasarguardModel):
 
     @model_serializer(mode="wrap")
     def _to_api_payload(self, handler):
-        return {
-            key: wired
-            for key, value in handler(self).items()
-            if (wired := self._wire_value(value)) is not None
-        }
+        return {key: wired for key, value in handler(self).items() if (wired := self._wire_value(value)) is not None}
 
 
 class RoleLimits(PasarguardModel):
@@ -238,18 +234,6 @@ class OwnerUpgradeRequest(PasarguardModel):
 
 
 __all__ = (
-    "CRUDPermissions",
-    "AdminsPermissions",
-    "NodesPermissions",
-    "HostsPermissions",
-    "HwidsPermissions",
-    "SettingsPermissions",
-    "SystemPermissions",
-    "UsersPermissions",
-    "RoleLimits",
-    "RoleFeatures",
-    "RoleAccess",
-    "RolePermissions",
     "AdminRoleCreate",
     "AdminRoleData",
     "AdminRoleModify",
@@ -257,7 +241,19 @@ __all__ = (
     "AdminRoleSimple",
     "AdminRolesResponse",
     "AdminRolesSimpleResponse",
+    "AdminsPermissions",
+    "CRUDPermissions",
+    "HostsPermissions",
+    "HwidsPermissions",
+    "NodesPermissions",
     "OwnerCreateRequest",
     "OwnerResetRequest",
     "OwnerUpgradeRequest",
+    "RoleAccess",
+    "RoleFeatures",
+    "RoleLimits",
+    "RolePermissions",
+    "SettingsPermissions",
+    "SystemPermissions",
+    "UsersPermissions",
 )

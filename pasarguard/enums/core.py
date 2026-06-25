@@ -4,10 +4,10 @@ from enum import StrEnum
 
 
 class CoreType(StrEnum):
-    XRAY = 'xray'
-    WG = 'wg'
-    MTPROTO = 'mtproto'
-    SINGBOX = 'singbox'
+    XRAY = "xray"
+    WG = "wg"
+    MTPROTO = "mtproto"
+    SINGBOX = "singbox"
 
 
 __all__ = ("CoreType",)

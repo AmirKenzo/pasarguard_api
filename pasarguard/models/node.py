@@ -13,15 +13,19 @@ from ._base import (
     datetime,
 )
 
+
 class BulkNodeSelection(PasarguardModel):
     ids: Optional[List[int]] = None
+
 
 class BulkNodesActionResponse(PasarguardModel):
     nodes: List[str] = ...
     count: int = ...
 
+
 class NodeCoreUpdate(PasarguardModel):
-    core_version: Optional[str] = 'latest'
+    core_version: Optional[str] = "latest"
+
 
 class NodeCreate(PasarguardModel):
     name: str = ...
@@ -35,14 +39,16 @@ class NodeCreate(PasarguardModel):
     core_config_id: int = ...
     api_key: str = ...
     data_limit: Optional[int] = 0
-    data_limit_reset_strategy: Optional[DataLimitResetStrategy] = 'no_reset'
+    data_limit_reset_strategy: Optional[DataLimitResetStrategy] = "no_reset"
     reset_time: Optional[int] = -1
     default_timeout: Optional[int] = 10
     internal_timeout: Optional[int] = 15
     proxy_url: Optional[str] = None
 
+
 class NodeGeoFilesUpdate(PasarguardModel):
-    region: Optional[GeoFilseRegion] = 'iran'
+    region: Optional[GeoFilseRegion] = "iran"
+
 
 class NodeModify(PasarguardModel):
     name: Optional[str] = None
@@ -63,6 +69,7 @@ class NodeModify(PasarguardModel):
     proxy_url: Optional[str] = None
     status: Optional[NodeStatus] = None
 
+
 class NodeNotificationEnable(PasarguardModel):
     create: Optional[bool] = True
     modify: Optional[bool] = True
@@ -71,6 +78,7 @@ class NodeNotificationEnable(PasarguardModel):
     error: Optional[bool] = True
     limited: Optional[bool] = True
     reset_usage: Optional[bool] = True
+
 
 class NodeOutboundLatency(PasarguardModel):
     name: str = ...
@@ -81,8 +89,10 @@ class NodeOutboundLatency(PasarguardModel):
     last_try_time: int = ...
     source: str = ...
 
+
 class NodeOutboundsLatencyResponse(PasarguardModel):
     latencies: List[NodeOutboundLatency] = ...
+
 
 class NodeRealtimeStats(PasarguardModel):
     mem_total: int = ...
@@ -92,6 +102,7 @@ class NodeRealtimeStats(PasarguardModel):
     incoming_bandwidth_speed: int = ...
     outgoing_bandwidth_speed: int = ...
     uptime: int = ...
+
 
 class NodeResponse(PasarguardModel):
     name: str = ...
@@ -105,7 +116,7 @@ class NodeResponse(PasarguardModel):
     core_config_id: Optional[int] = ...
     api_key: Optional[str] = ...
     data_limit: Optional[int] = 0
-    data_limit_reset_strategy: Optional[DataLimitResetStrategy] = 'no_reset'
+    data_limit_reset_strategy: Optional[DataLimitResetStrategy] = "no_reset"
     reset_time: Optional[int] = -1
     default_timeout: Optional[int] = 10
     internal_timeout: Optional[int] = 15
@@ -121,13 +132,16 @@ class NodeResponse(PasarguardModel):
     lifetime_downlink: Optional[int] = None
     core_version: Optional[str] = ...
 
+
 class NodeSettings(PasarguardModel):
-    min_node_version: Optional[str] = 'v1.0.0'
+    min_node_version: Optional[str] = "v1.0.0"
+
 
 class NodeSimple(PasarguardModel):
     id: int = ...
     name: str = ...
     status: NodeStatus = ...
+
 
 class NodeStats(PasarguardModel):
     period_start: datetime = ...
@@ -136,16 +150,19 @@ class NodeStats(PasarguardModel):
     incoming_bandwidth_speed: float = ...
     outgoing_bandwidth_speed: float = ...
 
+
 class NodeStatsList(PasarguardModel):
     period: Optional[Period] = None
     start: datetime = ...
     end: datetime = ...
     stats: List[NodeStats] = ...
 
+
 class NodeUsageStat(PasarguardModel):
     uplink: int = ...
     downlink: int = ...
     period_start: datetime = ...
+
 
 class NodeUsageStatsList(PasarguardModel):
     period: Optional[Period] = None
@@ -153,48 +170,54 @@ class NodeUsageStatsList(PasarguardModel):
     end: datetime = ...
     stats: Dict[str, List[NodeUsageStat]] = ...
 
+
 class NodesResponse(PasarguardModel):
     nodes: List[NodeResponse] = ...
     total: int = ...
+
 
 class NodesSimpleResponse(PasarguardModel):
     nodes: List[NodeSimple] = ...
     total: int = ...
 
+
 class RemoveNodesResponse(PasarguardModel):
     nodes: List[str] = ...
     count: int = ...
 
+
 class UserIPList(PasarguardModel):
     ips: Dict[str, int] = ...
+
 
 class UserIPListAll(PasarguardModel):
     nodes: Dict[str, Optional[UserIPList]] = ...
 
+
 NodeResponseList = NodesResponse
 
 __all__ = (
-    'BulkNodeSelection',
-    'BulkNodesActionResponse',
-    'NodeCoreUpdate',
-    'NodeCreate',
-    'NodeGeoFilesUpdate',
-    'NodeModify',
-    'NodeNotificationEnable',
-    'NodeOutboundLatency',
-    'NodeOutboundsLatencyResponse',
-    'NodeRealtimeStats',
-    'NodeResponse',
-    'NodeSettings',
-    'NodeSimple',
-    'NodeStats',
-    'NodeStatsList',
-    'NodeUsageStat',
-    'NodeUsageStatsList',
-    'NodesResponse',
-    'NodesSimpleResponse',
-    'RemoveNodesResponse',
-    'UserIPList',
-    'UserIPListAll',
-    'NodeResponseList',
+    "BulkNodeSelection",
+    "BulkNodesActionResponse",
+    "NodeCoreUpdate",
+    "NodeCreate",
+    "NodeGeoFilesUpdate",
+    "NodeModify",
+    "NodeNotificationEnable",
+    "NodeOutboundLatency",
+    "NodeOutboundsLatencyResponse",
+    "NodeRealtimeStats",
+    "NodeResponse",
+    "NodeResponseList",
+    "NodeSettings",
+    "NodeSimple",
+    "NodeStats",
+    "NodeStatsList",
+    "NodeUsageStat",
+    "NodeUsageStatsList",
+    "NodesResponse",
+    "NodesSimpleResponse",
+    "RemoveNodesResponse",
+    "UserIPList",
+    "UserIPListAll",
 )

@@ -1,12 +1,14 @@
 from __future__ import annotations
 
-from ._base import List, Optional, PasarguardModel
 from ..enums.admin import AdminAccountStatus, AdminStatus
+from ._base import List, Optional, PasarguardModel
 from .admin_role import AdminRoleData, RoleLimits
+
 
 class AdminBase(PasarguardModel):
     id: Optional[int] = None
     username: str = ...
+
 
 class AdminContactInfo(PasarguardModel):
     id: Optional[int] = None
@@ -17,6 +19,7 @@ class AdminContactInfo(PasarguardModel):
     profile_title: Optional[str] = None
     support_url: Optional[str] = None
     notification_enable: Optional[AdminNotificationEnable] = None
+
 
 class AdminCreate(PasarguardModel):
     password: str = ...
@@ -33,6 +36,7 @@ class AdminCreate(PasarguardModel):
     note: Optional[str] = None
     notification_enable: Optional[AdminNotificationEnable] = None
     permission_overrides: Optional[RoleLimits] = None
+
 
 class AdminDetails(PasarguardModel):
     username: str = ...
@@ -55,6 +59,7 @@ class AdminDetails(PasarguardModel):
     role: Optional[AdminRoleData] = None
     permission_overrides: Optional[RoleLimits] = None
 
+
 class AdminModify(PasarguardModel):
     password: Optional[str] = None
     telegram_id: Optional[int] = None
@@ -70,6 +75,7 @@ class AdminModify(PasarguardModel):
     role_id: Optional[int] = None
     permission_overrides: Optional[RoleLimits] = None
 
+
 class AdminNotificationEnable(PasarguardModel):
     create: Optional[bool] = True
     modify: Optional[bool] = True
@@ -79,9 +85,11 @@ class AdminNotificationEnable(PasarguardModel):
     usage_limit_warning: Optional[bool] = True
     usage_limit_warning_percentages: Optional[List[int]] = None
 
+
 class AdminSimple(PasarguardModel):
     id: int = ...
     username: str = ...
+
 
 class AdminsResponse(PasarguardModel):
     admins: List[AdminDetails] = ...
@@ -90,49 +98,56 @@ class AdminsResponse(PasarguardModel):
     disabled: int = ...
     limited: int = ...
 
+
 class AdminsSimpleResponse(PasarguardModel):
     admins: List[AdminSimple] = ...
     total: int = ...
+
 
 class BodyAdminTokenApiAdminTokenPost(PasarguardModel):
     grant_type: Optional[str] = None
     username: str = ...
     password: str = ...
-    scope: Optional[str] = ''
+    scope: Optional[str] = ""
     client_id: Optional[str] = None
     client_secret: Optional[str] = None
 
+
 class BulkAdminSelection(PasarguardModel):
     ids: Optional[List[int]] = None
+
 
 class BulkAdminsActionResponse(PasarguardModel):
     admins: List[str] = ...
     count: int = ...
 
+
 class RemoveAdminsResponse(PasarguardModel):
     admins: List[str] = ...
     count: int = ...
 
+
 class Token(PasarguardModel):
     access_token: str = ...
-    token_type: Optional[str] = 'bearer'
+    token_type: Optional[str] = "bearer"
+
 
 Admin = AdminDetails
 
 __all__ = (
-    'AdminBase',
-    'AdminContactInfo',
-    'AdminCreate',
-    'AdminDetails',
-    'AdminModify',
-    'AdminNotificationEnable',
-    'AdminSimple',
-    'AdminsResponse',
-    'AdminsSimpleResponse',
-    'BodyAdminTokenApiAdminTokenPost',
-    'BulkAdminSelection',
-    'BulkAdminsActionResponse',
-    'RemoveAdminsResponse',
-    'Token',
-    'Admin',
+    "Admin",
+    "AdminBase",
+    "AdminContactInfo",
+    "AdminCreate",
+    "AdminDetails",
+    "AdminModify",
+    "AdminNotificationEnable",
+    "AdminSimple",
+    "AdminsResponse",
+    "AdminsSimpleResponse",
+    "BodyAdminTokenApiAdminTokenPost",
+    "BulkAdminSelection",
+    "BulkAdminsActionResponse",
+    "RemoveAdminsResponse",
+    "Token",
 )

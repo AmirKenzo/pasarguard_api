@@ -1,17 +1,18 @@
 from __future__ import annotations
 
 from datetime import datetime
-from typing import Any, Dict, List, Optional, Union
+from typing import Any, Optional, Union
 
 from pydantic import BaseModel, ConfigDict, Field, RootModel
 
 from ..enums import (
+    XUDP,
     ClientTemplateType,
     ConfigFormat,
     CoreType,
     DataLimitResetStrategy,
     ECHQueryStrategy,
-    FlowOption,  # noqa: F401 - re-exported for backwards compatibility
+    FlowOption,
     GeoFilseRegion,
     HWIDMode,
     Language,
@@ -24,17 +25,19 @@ from ..enums import (
     ProxyHostFingerprint,
     ProxyHostSecurity,
     RunMethod,
-    ShadowsocksMethod,  # noqa: F401 - re-exported for backwards compatibility
+    ShadowsocksMethod,
     ShadowsocksMethods,
-    UsageTable,  # noqa: F401 - re-exported for API helper annotations
+    UsageTable,
     UserCountMetric,
-    UserDataLimitResetStrategy,  # noqa: F401 - re-exported for backwards compatibility
+    UserDataLimitResetStrategy,
+    UsernameGenerationStrategy,
     UserStatus,
     UserStatusCreate,
-    UsernameGenerationStrategy,
     XHttpModes,
-    XUDP,
 )
+
+Dict = dict
+List = list
 
 
 class PasarguardModel(BaseModel):
@@ -42,37 +45,37 @@ class PasarguardModel(BaseModel):
 
 
 __all__ = (
+    "XUDP",
     "Any",
     "BaseModel",
-    "ConfigDict",
-    "Dict",
-    "Field",
-    "List",
-    "Optional",
-    "PasarguardModel",
-    "RootModel",
-    "Union",
-    "datetime",
     "ClientTemplateType",
+    "ConfigDict",
     "ConfigFormat",
     "CoreType",
     "DataLimitResetStrategy",
+    "Dict",
     "ECHQueryStrategy",
+    "Field",
     "FlowOption",
     "GeoFilseRegion",
     "HWIDMode",
     "Language",
+    "List",
     "MultiplexProtocol",
     "NodeConnectionType",
     "NodeStatus",
+    "Optional",
+    "PasarguardModel",
     "Period",
     "Platform",
     "ProxyHostALPN",
     "ProxyHostFingerprint",
     "ProxyHostSecurity",
+    "RootModel",
     "RunMethod",
     "ShadowsocksMethod",
     "ShadowsocksMethods",
+    "Union",
     "UsageTable",
     "UserCountMetric",
     "UserDataLimitResetStrategy",
@@ -80,5 +83,5 @@ __all__ = (
     "UserStatusCreate",
     "UsernameGenerationStrategy",
     "XHttpModes",
-    "XUDP",
+    "datetime",
 )

@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from ._base import (
+    XUDP,
     Field,
     List,
     MultiplexProtocol,
@@ -9,18 +10,19 @@ from ._base import (
     ShadowsocksMethods,
     Union,
     XHttpModes,
-    XUDP,
 )
 from .common import HTTPRequest, HTTPResponse
+
 
 class Brutal(PasarguardModel):
     enable: Optional[bool] = False
     up_mbps: int = ...
     down_mbps: int = ...
 
+
 class ClashMuxSettings(PasarguardModel):
     enable: Optional[bool] = False
-    protocol: Optional[MultiplexProtocol] = 'smux'
+    protocol: Optional[MultiplexProtocol] = "smux"
     max_connections: Optional[int] = None
     max_streams: Optional[int] = None
     min_streams: Optional[int] = None
@@ -29,12 +31,15 @@ class ClashMuxSettings(PasarguardModel):
     statistic: Optional[bool] = False
     only_tcp: Optional[bool] = False
 
+
 class ExtraSettings(PasarguardModel):
-    method: Optional[ShadowsocksMethods] = 'chacha20-ietf-poly1305'
+    method: Optional[ShadowsocksMethods] = "chacha20-ietf-poly1305"
+
 
 class FragmentSettings(PasarguardModel):
     xray: Optional[XrayFragmentSettings] = None
     sing_box: Optional[SingBoxFragmentSettings] = None
+
 
 class GRPCSettings(PasarguardModel):
     multi_mode: Optional[bool] = False
@@ -43,8 +48,10 @@ class GRPCSettings(PasarguardModel):
     permit_without_stream: Optional[bool] = False
     initial_windows_size: Optional[int] = None
 
+
 class HysteriaSettings(PasarguardModel):
     auth: Optional[str] = None
+
 
 class KCPSettings(PasarguardModel):
     mtu: Optional[int] = None
@@ -55,18 +62,22 @@ class KCPSettings(PasarguardModel):
     read_buffer_size: Optional[int] = None
     write_buffer_size: Optional[int] = None
 
+
 class MuxSettingsInput(PasarguardModel):
     sing_box: Optional[SingBoxMuxSettings] = None
     clash: Optional[ClashMuxSettings] = None
     xray: Optional[XrayMuxSettingsInput] = None
+
 
 class MuxSettingsOutput(PasarguardModel):
     sing_box: Optional[SingBoxMuxSettings] = None
     clash: Optional[ClashMuxSettings] = None
     xray: Optional[XrayMuxSettingsOutput] = None
 
+
 class NoiseSettings(PasarguardModel):
     xray: Optional[List[XrayNoiseSettings]] = None
+
 
 class ProxyTable(PasarguardModel):
     vmess: Optional[VMessSettings] = None
@@ -76,28 +87,33 @@ class ProxyTable(PasarguardModel):
     wireguard: Optional[WireGuardSettings] = None
     hysteria: Optional[HysteriaSettings] = None
 
+
 class ShadowsocksSettings(PasarguardModel):
     password: Optional[str] = None
-    method: Optional[ShadowsocksMethods] = 'chacha20-ietf-poly1305'
+    method: Optional[ShadowsocksMethods] = "chacha20-ietf-poly1305"
+
 
 class SingBoxFragmentSettings(PasarguardModel):
     fragment: Optional[bool] = False
-    fragment_fallback_delay: Optional[str] = ''
+    fragment_fallback_delay: Optional[str] = ""
     record_fragment: Optional[bool] = False
+
 
 class SingBoxMuxSettings(PasarguardModel):
     enable: Optional[bool] = False
-    protocol: Optional[MultiplexProtocol] = 'smux'
+    protocol: Optional[MultiplexProtocol] = "smux"
     max_connections: Optional[int] = None
     max_streams: Optional[int] = None
     min_streams: Optional[int] = None
     padding: Optional[bool] = False
     brutal: Optional[Brutal] = None
 
+
 class TcpSettings(PasarguardModel):
-    header: Optional[str] = 'none'
+    header: Optional[str] = "none"
     request: Optional[HTTPRequest] = None
     response: Optional[HTTPResponse] = None
+
 
 class TransportSettingsInput(PasarguardModel):
     xhttp_settings: Optional[XHttpSettingsInput] = None
@@ -106,6 +122,7 @@ class TransportSettingsInput(PasarguardModel):
     tcp_settings: Optional[TcpSettings] = None
     websocket_settings: Optional[WebSocketSettings] = None
 
+
 class TransportSettingsOutput(PasarguardModel):
     xhttp_settings: Optional[XHttpSettingsOutput] = None
     grpc_settings: Optional[GRPCSettings] = None
@@ -113,22 +130,28 @@ class TransportSettingsOutput(PasarguardModel):
     tcp_settings: Optional[TcpSettings] = None
     websocket_settings: Optional[WebSocketSettings] = None
 
+
 class TrojanSettings(PasarguardModel):
     password: Optional[str] = None
+
 
 class VMessSettings(PasarguardModel):
     id: Optional[str] = None
 
+
 class VlessSettings(PasarguardModel):
     id: Optional[str] = None
 
+
 class WebSocketSettings(PasarguardModel):
-    heartbeat_period: Optional[int] = Field(None, alias='heartbeatPeriod')
+    heartbeat_period: Optional[int] = Field(None, alias="heartbeatPeriod")
+
 
 class WireGuardSettings(PasarguardModel):
     private_key: Optional[str] = None
     public_key: Optional[str] = None
     peer_ips: Optional[List[str]] = None
+
 
 class XHttpSettingsInput(PasarguardModel):
     mode: Optional[XHttpModes] = None
@@ -152,6 +175,7 @@ class XHttpSettingsInput(PasarguardModel):
     xmux: Optional[XMuxSettingsInput] = None
     download_settings: Optional[int] = None
 
+
 class XHttpSettingsOutput(PasarguardModel):
     mode: Optional[XHttpModes] = None
     no_grpc_header: Optional[bool] = None
@@ -174,6 +198,7 @@ class XHttpSettingsOutput(PasarguardModel):
     xmux: Optional[XMuxSettingsOutput] = None
     download_settings: Optional[int] = None
 
+
 class XMuxSettingsInput(PasarguardModel):
     max_concurrency: Optional[Union[str, int]] = None
     max_connections: Optional[Union[str, int]] = None
@@ -182,72 +207,78 @@ class XMuxSettingsInput(PasarguardModel):
     h_max_request_times: Optional[Union[str, int]] = None
     h_keep_alive_period: Optional[int] = None
 
+
 class XMuxSettingsOutput(PasarguardModel):
-    max_concurrency: Optional[str] = Field(None, alias='maxConcurrency')
-    max_connections: Optional[str] = Field(None, alias='maxConnections')
-    c_max_reuse_times: Optional[str] = Field(None, alias='cMaxReuseTimes')
-    h_max_reusable_secs: Optional[str] = Field(None, alias='hMaxReusableSecs')
-    h_max_request_times: Optional[str] = Field(None, alias='hMaxRequestTimes')
-    h_keep_alive_period: Optional[int] = Field(None, alias='hKeepAlivePeriod')
+    max_concurrency: Optional[str] = Field(None, alias="maxConcurrency")
+    max_connections: Optional[str] = Field(None, alias="maxConnections")
+    c_max_reuse_times: Optional[str] = Field(None, alias="cMaxReuseTimes")
+    h_max_reusable_secs: Optional[str] = Field(None, alias="hMaxReusableSecs")
+    h_max_request_times: Optional[str] = Field(None, alias="hMaxRequestTimes")
+    h_keep_alive_period: Optional[int] = Field(None, alias="hKeepAlivePeriod")
+
 
 class XrayFragmentSettings(PasarguardModel):
     packets: str = ...
     length: str = ...
     interval: str = ...
 
+
 class XrayMuxSettingsInput(PasarguardModel):
     enabled: Optional[bool] = False
     concurrency: Optional[int] = None
     xudp_concurrency: Optional[int] = None
-    xudp_proxy_udp_443: Optional[XUDP] = 'reject'
+    xudp_proxy_udp_443: Optional[XUDP] = "reject"
+
 
 class XrayMuxSettingsOutput(PasarguardModel):
     enabled: Optional[bool] = False
     concurrency: Optional[int] = None
-    xudp_concurrency: Optional[int] = Field(None, alias='xudpConcurrency')
-    xudp_proxy_u_d_p443: Optional[XUDP] = Field('reject', alias='xudpProxyUDP443')
+    xudp_concurrency: Optional[int] = Field(None, alias="xudpConcurrency")
+    xudp_proxy_u_d_p443: Optional[XUDP] = Field("reject", alias="xudpProxyUDP443")
+
 
 class XrayNoiseSettings(PasarguardModel):
     type: str = ...
     packet: str = ...
     delay: str = ...
-    apply_to: Optional[str] = 'ip'
+    apply_to: Optional[str] = "ip"
     rand_range: Optional[str] = None
+
 
 VmessSettings = VMessSettings
 ProxySettings = ProxyTable
 
 __all__ = (
-    'Brutal',
-    'ClashMuxSettings',
-    'ExtraSettings',
-    'FragmentSettings',
-    'GRPCSettings',
-    'HysteriaSettings',
-    'KCPSettings',
-    'MuxSettingsInput',
-    'MuxSettingsOutput',
-    'NoiseSettings',
-    'ProxyTable',
-    'ShadowsocksSettings',
-    'SingBoxFragmentSettings',
-    'SingBoxMuxSettings',
-    'TcpSettings',
-    'TransportSettingsInput',
-    'TransportSettingsOutput',
-    'TrojanSettings',
-    'VMessSettings',
-    'VlessSettings',
-    'WebSocketSettings',
-    'WireGuardSettings',
-    'XHttpSettingsInput',
-    'XHttpSettingsOutput',
-    'XMuxSettingsInput',
-    'XMuxSettingsOutput',
-    'XrayFragmentSettings',
-    'XrayMuxSettingsInput',
-    'XrayMuxSettingsOutput',
-    'XrayNoiseSettings',
-    'ProxySettings',
-    'VmessSettings',
+    "Brutal",
+    "ClashMuxSettings",
+    "ExtraSettings",
+    "FragmentSettings",
+    "GRPCSettings",
+    "HysteriaSettings",
+    "KCPSettings",
+    "MuxSettingsInput",
+    "MuxSettingsOutput",
+    "NoiseSettings",
+    "ProxySettings",
+    "ProxyTable",
+    "ShadowsocksSettings",
+    "SingBoxFragmentSettings",
+    "SingBoxMuxSettings",
+    "TcpSettings",
+    "TransportSettingsInput",
+    "TransportSettingsOutput",
+    "TrojanSettings",
+    "VMessSettings",
+    "VlessSettings",
+    "VmessSettings",
+    "WebSocketSettings",
+    "WireGuardSettings",
+    "XHttpSettingsInput",
+    "XHttpSettingsOutput",
+    "XMuxSettingsInput",
+    "XMuxSettingsOutput",
+    "XrayFragmentSettings",
+    "XrayMuxSettingsInput",
+    "XrayMuxSettingsOutput",
+    "XrayNoiseSettings",
 )

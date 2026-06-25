@@ -3,16 +3,20 @@ from __future__ import annotations
 from ._base import DataLimitResetStrategy, List, Optional, PasarguardModel, UserStatusCreate
 from .proxy import ExtraSettings
 
+
 class BulkUserTemplateSelection(PasarguardModel):
     ids: Optional[List[int]] = None
+
 
 class BulkUserTemplatesActionResponse(PasarguardModel):
     templates: List[str] = ...
     count: int = ...
 
+
 class RemoveUserTemplatesResponse(PasarguardModel):
     templates: List[str] = ...
     count: int = ...
+
 
 class UserTemplateCreate(PasarguardModel):
     name: Optional[str] = None
@@ -26,8 +30,9 @@ class UserTemplateCreate(PasarguardModel):
     status: Optional[UserStatusCreate] = None
     reset_usages: Optional[bool] = None
     on_hold_timeout: Optional[int] = None
-    data_limit_reset_strategy: Optional[DataLimitResetStrategy] = 'no_reset'
+    data_limit_reset_strategy: Optional[DataLimitResetStrategy] = "no_reset"
     is_disabled: Optional[bool] = None
+
 
 class UserTemplateModify(PasarguardModel):
     name: Optional[str] = None
@@ -41,8 +46,9 @@ class UserTemplateModify(PasarguardModel):
     status: Optional[UserStatusCreate] = None
     reset_usages: Optional[bool] = None
     on_hold_timeout: Optional[int] = None
-    data_limit_reset_strategy: Optional[DataLimitResetStrategy] = 'no_reset'
+    data_limit_reset_strategy: Optional[DataLimitResetStrategy] = "no_reset"
     is_disabled: Optional[bool] = None
+
 
 class UserTemplateResponse(PasarguardModel):
     name: Optional[str] = None
@@ -56,25 +62,28 @@ class UserTemplateResponse(PasarguardModel):
     status: Optional[UserStatusCreate] = None
     reset_usages: Optional[bool] = None
     on_hold_timeout: Optional[int] = None
-    data_limit_reset_strategy: Optional[DataLimitResetStrategy] = 'no_reset'
+    data_limit_reset_strategy: Optional[DataLimitResetStrategy] = "no_reset"
     is_disabled: Optional[bool] = None
     id: int = ...
+
 
 class UserTemplateSimple(PasarguardModel):
     id: int = ...
     name: Optional[str] = None
 
+
 class UserTemplatesSimpleResponse(PasarguardModel):
     templates: List[UserTemplateSimple] = ...
     total: int = ...
 
+
 __all__ = (
-    'BulkUserTemplateSelection',
-    'BulkUserTemplatesActionResponse',
-    'RemoveUserTemplatesResponse',
-    'UserTemplateCreate',
-    'UserTemplateModify',
-    'UserTemplateResponse',
-    'UserTemplateSimple',
-    'UserTemplatesSimpleResponse',
+    "BulkUserTemplateSelection",
+    "BulkUserTemplatesActionResponse",
+    "RemoveUserTemplatesResponse",
+    "UserTemplateCreate",
+    "UserTemplateModify",
+    "UserTemplateResponse",
+    "UserTemplateSimple",
+    "UserTemplatesSimpleResponse",
 )

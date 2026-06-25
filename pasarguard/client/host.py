@@ -1,82 +1,82 @@
 from __future__ import annotations
 
-from ._imports import (
+from ..models import (
     BaseHost,
-    BulkHostSelection,
     BulkHostsActionResponse,
+    BulkHostSelection,
     CreateHost,
-    List,
-    Optional,
     RemoveHostsResponse,
 )
 
 
 class HostMixin:
     async def get_host(self, host_id: int, token: str) -> BaseHost:
-        url = '/api/host/{host_id}'.format(host_id=host_id)
+        url = f"/api/host/{host_id}"
         params = None
         headers = None
-        response = await self._request('GET', url, token=token, params=params, headers=headers)
+        response = await self._request("GET", url, token=token, params=params, headers=headers)
         return self._parse_response(response, BaseHost)
 
     async def modify_host(self, host_id: int, host: CreateHost, token: str) -> BaseHost:
-        url = '/api/host/{host_id}'.format(host_id=host_id)
+        url = f"/api/host/{host_id}"
         params = None
         headers = None
         payload = self._validate_payload(host, CreateHost)
-        response = await self._request('PUT', url, token=token, json_data=payload, params=params, headers=headers)
+        response = await self._request("PUT", url, token=token, json_data=payload, params=params, headers=headers)
         return self._parse_response(response, BaseHost)
 
     async def remove_host(self, host_id: int, token: str) -> None:
-        url = '/api/host/{host_id}'.format(host_id=host_id)
+        url = f"/api/host/{host_id}"
         params = None
         headers = None
-        response = await self._request('DELETE', url, token=token, params=params, headers=headers)
+        response = await self._request("DELETE", url, token=token, params=params, headers=headers)
         return self._parse_response(response, None)
 
-    async def get_hosts(self, token: str, ids: Optional[List[int]] = None, offset: Optional[int] = 0, limit: Optional[int] = 0) -> List[BaseHost]:
-        url = '/api/hosts'
-        params = {'ids': ids, 'offset': offset, 'limit': limit}
+    async def get_hosts(
+        self, token: str, ids: list[int] | None = None, offset: int | None = 0, limit: int | None = 0
+    ) -> list[BaseHost]:
+        url = "/api/hosts"
+        params = {"ids": ids, "offset": offset, "limit": limit}
         headers = None
-        response = await self._request('GET', url, token=token, params=params, headers=headers)
-        return self._parse_response(response, List[BaseHost])
+        response = await self._request("GET", url, token=token, params=params, headers=headers)
+        return self._parse_response(response, list[BaseHost])
 
-    async def modify_hosts(self, hosts: List[CreateHost], token: str) -> List[BaseHost]:
-        url = '/api/hosts'
+    async def modify_hosts(self, hosts: list[CreateHost], token: str) -> list[BaseHost]:
+        url = "/api/hosts"
         params = None
         headers = None
-        payload = self._validate_payload(hosts, List[CreateHost])
-        response = await self._request('PUT', url, token=token, json_data=payload, params=params, headers=headers)
-        return self._parse_response(response, List[BaseHost])
+        payload = self._validate_payload(hosts, list[CreateHost])
+        response = await self._request("PUT", url, token=token, json_data=payload, params=params, headers=headers)
+        return self._parse_response(response, list[BaseHost])
 
     async def create_host(self, host: CreateHost, token: str) -> BaseHost:
-        url = '/api/host/'
+        url = "/api/host/"
         params = None
         headers = None
         payload = self._validate_payload(host, CreateHost)
-        response = await self._request('POST', url, token=token, json_data=payload, params=params, headers=headers)
+        response = await self._request("POST", url, token=token, json_data=payload, params=params, headers=headers)
         return self._parse_response(response, BaseHost)
 
     async def bulk_delete_hosts(self, bulk: BulkHostSelection, token: str) -> RemoveHostsResponse:
-        url = '/api/hosts/bulk/delete'
+        url = "/api/hosts/bulk/delete"
         params = None
         headers = None
         payload = self._validate_payload(bulk, BulkHostSelection)
-        response = await self._request('POST', url, token=token, json_data=payload, params=params, headers=headers)
+        response = await self._request("POST", url, token=token, json_data=payload, params=params, headers=headers)
         return self._parse_response(response, RemoveHostsResponse)
 
     async def bulk_disable_hosts(self, bulk: BulkHostSelection, token: str) -> BulkHostsActionResponse:
-        url = '/api/hosts/bulk/disable'
+        url = "/api/hosts/bulk/disable"
         params = None
         headers = None
         payload = self._validate_payload(bulk, BulkHostSelection)
-        response = await self._request('POST', url, token=token, json_data=payload, params=params, headers=headers)
+        response = await self._request("POST", url, token=token, json_data=payload, params=params, headers=headers)
         return self._parse_response(response, BulkHostsActionResponse)
 
     async def bulk_enable_hosts(self, bulk: BulkHostSelection, token: str) -> BulkHostsActionResponse:
-        url = '/api/hosts/bulk/enable'
+        url = "/api/hosts/bulk/enable"
         params = None
         headers = None
         payload = self._validate_payload(bulk, BulkHostSelection)
-        response = await self._request('POST', url, token=token, json_data=payload, params=params, headers=headers)
+        response = await self._request("POST", url, token=token, json_data=payload, params=params, headers=headers)
         return self._parse_response(response, BulkHostsActionResponse)

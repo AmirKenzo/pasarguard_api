@@ -22,6 +22,7 @@ from .proxy import (
 )
 from .subscription import SubscriptionTemplates
 
+
 class BaseHost(PasarguardModel):
     id: Optional[int] = None
     remark: str = ...
@@ -31,9 +32,9 @@ class BaseHost(PasarguardModel):
     sni: Optional[List[str]] = None
     host: Optional[List[str]] = None
     path: Optional[str] = None
-    security: Optional[ProxyHostSecurity] = 'inbound_default'
+    security: Optional[ProxyHostSecurity] = "inbound_default"
     alpn: Optional[List[ProxyHostALPN]] = None
-    fingerprint: Optional[ProxyHostFingerprint] = ''
+    fingerprint: Optional[ProxyHostFingerprint] = ""
     allowinsecure: Optional[bool] = None
     is_disabled: Optional[bool] = False
     http_headers: Optional[Dict[str, str]] = None
@@ -53,12 +54,15 @@ class BaseHost(PasarguardModel):
     wireguard_overrides: Optional[WireGuardHostOverrides] = None
     subscription_templates: Optional[SubscriptionTemplates] = None
 
+
 class BulkHostSelection(PasarguardModel):
     ids: Optional[List[int]] = None
+
 
 class BulkHostsActionResponse(PasarguardModel):
     hosts: List[str] = ...
     count: int = ...
+
 
 class CreateHost(PasarguardModel):
     id: Optional[int] = None
@@ -69,9 +73,9 @@ class CreateHost(PasarguardModel):
     sni: Optional[List[str]] = None
     host: Optional[List[str]] = None
     path: Optional[str] = None
-    security: Optional[ProxyHostSecurity] = 'inbound_default'
+    security: Optional[ProxyHostSecurity] = "inbound_default"
     alpn: Optional[List[ProxyHostALPN]] = None
-    fingerprint: Optional[ProxyHostFingerprint] = ''
+    fingerprint: Optional[ProxyHostFingerprint] = ""
     allowinsecure: Optional[bool] = None
     is_disabled: Optional[bool] = False
     http_headers: Optional[Dict[str, str]] = None
@@ -91,15 +95,18 @@ class CreateHost(PasarguardModel):
     wireguard_overrides: Optional[WireGuardHostOverrides] = None
     subscription_templates: Optional[SubscriptionTemplates] = None
 
+
 class HostNotificationEnable(PasarguardModel):
     create: Optional[bool] = True
     modify: Optional[bool] = True
     delete: Optional[bool] = True
     modify_hosts: Optional[bool] = True
 
+
 class RemoveHostsResponse(PasarguardModel):
     hosts: List[str] = ...
     count: int = ...
+
 
 class WireGuardHostOverrides(PasarguardModel):
     allowed_ips: Optional[List[str]] = None
@@ -108,21 +115,23 @@ class WireGuardHostOverrides(PasarguardModel):
     keepalive_seconds: Optional[int] = None
     dns: Optional[List[str]] = None
 
+
 class HostsModel(RootModel[List[CreateHost]]):
     pass
+
 
 HostBase = CreateHost
 HostResponse = BaseHost
 
 __all__ = (
-    'BaseHost',
-    'BulkHostSelection',
-    'BulkHostsActionResponse',
-    'CreateHost',
-    'HostNotificationEnable',
-    'RemoveHostsResponse',
-    'WireGuardHostOverrides',
-    'HostsModel',
-    'HostBase',
-    'HostResponse',
+    "BaseHost",
+    "BulkHostSelection",
+    "BulkHostsActionResponse",
+    "CreateHost",
+    "HostBase",
+    "HostNotificationEnable",
+    "HostResponse",
+    "HostsModel",
+    "RemoveHostsResponse",
+    "WireGuardHostOverrides",
 )

@@ -1,7 +1,6 @@
 from __future__ import annotations
 
-# ruff: noqa: F401, F403
-
+# ruff: noqa: F403
 from .admin import *
 from .client_template import *
 from .core import *
