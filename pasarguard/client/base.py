@@ -85,7 +85,13 @@ class BaseAPIClient:
         if ssh_host and not ssh_private_key_path and not ssh_password:
             raise ValueError("For an SSH tunnel, specify either ssh_private_key_path or ssh_password")
         if not ssh_host:
-            self.client = httpx.AsyncClient(base_url=self.base_url, verify=self.verify, timeout=self.timeout, proxy=self.proxy, trust_env=self.trust_env)
+            self.client = httpx.AsyncClient(
+                base_url=self.base_url,
+                verify=self.verify,
+                timeout=self.timeout,
+                proxy=self.proxy,
+                trust_env=self.trust_env,
+            )
 
     async def __aenter__(self):
         return self
@@ -111,8 +117,7 @@ class BaseAPIClient:
             from sshtunnel import SSHTunnelForwarder
         except ImportError as exc:
             raise ImportError(
-                "SSH tunnel support requires optional dependencies. "
-                "Install them with: pip install 'pasarguard[ssh]'"
+                "SSH tunnel support requires optional dependencies. Install them with: pip install 'pasarguard[ssh]'"
             ) from exc
         return paramiko, SSHTunnelForwarder
 
@@ -122,7 +127,11 @@ class BaseAPIClient:
         if self._tunnel and self._tunnel.is_active:
             return
         _, tunnel_forwarder = self._import_ssh_dependencies()
-        private_key = self._load_private_key(self.ssh_private_key_path, self.ssh_key_passphrase) if self.ssh_private_key_path else None
+        private_key = (
+            self._load_private_key(self.ssh_private_key_path, self.ssh_key_passphrase)
+            if self.ssh_private_key_path
+            else None
+        )
         self._tunnel = tunnel_forwarder(
             (self.ssh_host, self.ssh_port),
             ssh_username=self.ssh_username,
@@ -137,14 +146,20 @@ class BaseAPIClient:
             timeout=self.timeout,
             verify=self.verify,
             proxy=self.proxy,
-            trust_env=self.trust_env
+            trust_env=self.trust_env,
         )
 
     def _ensure_client(self) -> httpx.AsyncClient:
         if self.ssh_host and (not self.client or not self._tunnel or not self._tunnel.is_active):
             self._initialize()
         if not self.client:
-            self.client = httpx.AsyncClient(base_url=self.base_url, verify=self.verify, timeout=self.timeout, proxy=self.proxy, trust_env=self.trust_env)
+            self.client = httpx.AsyncClient(
+                base_url=self.base_url,
+                verify=self.verify,
+                timeout=self.timeout,
+                proxy=self.proxy,
+                trust_env=self.trust_env,
+            )
         return self.client
 
     def _get_headers(self, token: Optional[str] = None, extra: Optional[Mapping[str, Any]] = None) -> Dict[str, str]:
@@ -219,7 +234,14 @@ class BaseAPIClient:
         return TypeAdapter(model).validate_python(payload)
 
     async def get_token(self, username: str, password: str) -> Token:
-        payload = {"grant_type": "password", "username": username, "password": password, "scope": "", "client_id": "", "client_secret": ""}
+        payload = {
+            "grant_type": "password",
+            "username": username,
+            "password": password,
+            "scope": "",
+            "client_id": "",
+            "client_secret": "",
+        }
         response = await self._request("POST", "/api/admin/token", form_data=payload)
         return self._parse_response(response, Token)
 

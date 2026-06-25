@@ -12,27 +12,24 @@
 		"python.analysis.inlayHints.callArgumentNames": "all",
 		"python.analysis.inlayHints.functionReturnTypes": true,
 		"ruff.enable": true,
-		"ruff.format.preview": true,
+		"ruff.importStrategy": "fromEnvironment",
 		"ruff.fixAll": true,
 		"ruff.organizeImports": true,
 		"ruff.showSyntaxErrors": true,
 		"[python]": {
 			"editor.defaultFormatter": "charliermarsh.ruff",
- 			"editor.formatOnSave": true,
- 			"editor.codeActionsOnSave": {
- 				"source.fixAll.ruff": "explicit",
- 				"source.organizeImports.ruff": "explicit",
+			"editor.formatOnSave": true,
+			"editor.codeActionsOnSave": {
+				"source.fixAll.ruff": "explicit",
+				"source.organizeImports.ruff": "explicit",
 			},
 		},
-		"ruff.configuration": "pyproject.toml",
-		 
 		"editor.codeActionsOnSave": {
 			"source.fixAll": "explicit",
 			"source.organizeImports": "never"
 		},
 		"remote.localPortHost": "allInterfaces",
 		"files.autoSave": "afterDelay",
-		"ruff.lineLength": 120,
 	},
 	"launch": {
 		"version": "0.2.0",

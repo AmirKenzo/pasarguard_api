@@ -2,10 +2,12 @@ from __future__ import annotations
 
 from ._base import Optional, PasarguardModel
 
+
 class InboundSummary(PasarguardModel):
     tag: str = ...
     protocol: str = ...
     network: Optional[str] = None
+
 
 class SystemStats(PasarguardModel):
     version: str = ...
@@ -26,6 +28,7 @@ class SystemStats(PasarguardModel):
     incoming_bandwidth: int = ...
     outgoing_bandwidth: int = ...
 
+
 class SystemUsersStats(PasarguardModel):
     total_user: int = ...
     online_users: int = ...
@@ -37,6 +40,7 @@ class SystemUsersStats(PasarguardModel):
     incoming_bandwidth: int = ...
     outgoing_bandwidth: int = ...
 
+
 class SystemResourceStats(PasarguardModel):
     version: str = ...
     uptime_seconds: int = ...
@@ -47,20 +51,23 @@ class SystemResourceStats(PasarguardModel):
     cpu_cores: Optional[int] = None
     cpu_usage: Optional[float] = None
 
+
 class WorkerHealth(PasarguardModel):
     status: str = ...
     response_time_ms: Optional[int] = None
     error: Optional[str] = None
 
+
 class WorkersHealth(PasarguardModel):
     scheduler: WorkerHealth = ...
     node: WorkerHealth = ...
 
+
 __all__ = (
-    'InboundSummary',
-    'SystemResourceStats',
-    'SystemStats',
-    'SystemUsersStats',
-    'WorkerHealth',
-    'WorkersHealth',
+    "InboundSummary",
+    "SystemResourceStats",
+    "SystemStats",
+    "SystemUsersStats",
+    "WorkerHealth",
+    "WorkersHealth",
 )

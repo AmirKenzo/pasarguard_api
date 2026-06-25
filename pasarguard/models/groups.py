@@ -1,6 +1,7 @@
 from __future__ import annotations
 
-from ._base import List, Optional, PasarguardModel
+from ._base import Field, List, Optional, PasarguardModel
+
 
 class BulkGroup(PasarguardModel):
     group_ids: List[int] = ...
@@ -9,55 +10,65 @@ class BulkGroup(PasarguardModel):
     users: Optional[List[int]] = None
     dry_run: Optional[bool] = False
 
+
 class BulkGroupSelection(PasarguardModel):
     ids: Optional[List[int]] = None
+
 
 class BulkGroupsActionResponse(PasarguardModel):
     groups: List[str] = ...
     count: int = ...
+
 
 class GroupCreate(PasarguardModel):
     name: str = ...
     inbound_tags: List[str] = ...
     is_disabled: Optional[bool] = False
 
+
 class GroupModify(PasarguardModel):
     name: str = ...
-    inbound_tags: Optional[List[str]] = []
+    inbound_tags: Optional[List[str]] = Field(default_factory=list)
     is_disabled: Optional[bool] = False
+
 
 class GroupResponse(PasarguardModel):
     name: str = ...
-    inbound_tags: Optional[List[str]] = []
+    inbound_tags: Optional[List[str]] = Field(default_factory=list)
     is_disabled: Optional[bool] = False
     id: int = ...
     total_users: Optional[int] = 0
+
 
 class GroupSimple(PasarguardModel):
     id: int = ...
     name: str = ...
 
+
 class GroupsResponse(PasarguardModel):
     groups: List[GroupResponse] = ...
     total: int = ...
+
 
 class GroupsSimpleResponse(PasarguardModel):
     groups: List[GroupSimple] = ...
     total: int = ...
 
+
 class RemoveGroupsResponse(PasarguardModel):
     groups: List[str] = ...
     count: int = ...
 
+
 __all__ = (
-    'BulkGroup',
-    'BulkGroupSelection',
-    'BulkGroupsActionResponse',
-    'GroupCreate',
-    'GroupModify',
-    'GroupResponse',
-    'GroupSimple',
-    'GroupsResponse',
-    'GroupsSimpleResponse',
-    'RemoveGroupsResponse',
+    "BulkGroup",
+    "BulkGroupSelection",
+    "BulkGroupsActionResponse",
+    "GroupCreate",
+    "GroupModify",
+    "GroupResponse",
+    "GroupSimple",
+    "GroupsResponse",
+    "GroupsSimpleResponse",
+    "RemoveGroupsResponse",
 )

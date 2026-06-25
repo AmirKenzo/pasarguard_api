@@ -1,16 +1,18 @@
 from __future__ import annotations
 
-# Generated client surface imports every public model so annotations and TypeAdapter calls stay stable.
-# ruff: noqa: F401, F403
+from collections.abc import Mapping
 
+# Generated client surface imports every public model so annotations and TypeAdapter calls stay stable.
+# ruff: noqa: F401
 from datetime import date, datetime
 from enum import Enum
-from typing import Any, Dict, List, Literal, Mapping, Optional, Union
+from typing import Any, Literal, Optional, Union
 
 import httpx
 from pydantic import BaseModel, TypeAdapter
 
 from ..enums import (
+    XUDP,
     ClientTemplateType,
     ConfigFormat,
     CoreType,
@@ -34,11 +36,10 @@ from ..enums import (
     UsageTable,
     UserCountMetric,
     UserDataLimitResetStrategy,
+    UsernameGenerationStrategy,
     UserStatus,
     UserStatusCreate,
-    UsernameGenerationStrategy,
     XHttpModes,
-    XUDP,
 )
 from ..models import (
     Admin,
@@ -61,20 +62,18 @@ from ..models import (
     BaseNotificationEnable,
     BodyAdminTokenApiAdminTokenPost,
     Brutal,
-    BulkAdminSelection,
     BulkAdminsActionResponse,
+    BulkAdminSelection,
     BulkClientTemplateSelection,
     BulkCoreSelection,
     BulkGroup,
-    BulkGroupSelection,
     BulkGroupsActionResponse,
-    BulkHostSelection,
+    BulkGroupSelection,
     BulkHostsActionResponse,
-    BulkNodeSelection,
+    BulkHostSelection,
     BulkNodesActionResponse,
+    BulkNodeSelection,
     BulkUser,
-    BulkUserTemplateSelection,
-    BulkUserTemplatesActionResponse,
     BulkUsersActionResponse,
     BulkUsersApplyTemplate,
     BulkUsersCreateResponse,
@@ -82,6 +81,8 @@ from ..models import (
     BulkUsersProxy,
     BulkUsersSelection,
     BulkUsersSetOwner,
+    BulkUserTemplatesActionResponse,
+    BulkUserTemplateSelection,
     BulkWireGuardPeerIPs,
     ClashMuxSettings,
     ClientTemplateCreate,
@@ -102,7 +103,6 @@ from ..models import (
     ExtraSettings,
     Forbidden,
     FragmentSettings,
-    GRPCSettings,
     General,
     GroupCreate,
     GroupModify,
@@ -110,15 +110,16 @@ from ..models import (
     GroupSimple,
     GroupsResponse,
     GroupsSimpleResponse,
+    GRPCSettings,
+    HostBase,
+    HostNotificationEnable,
+    HostResponse,
+    HostsModel,
     HTTPException,
     HTTPRequest,
     HTTPResponse,
     HTTPValidationError,
     HWIDSettings,
-    HostBase,
-    HostNotificationEnable,
-    HostResponse,
-    HostsModel,
     HysteriaSettings,
     InboundSummary,
     KCPSettings,
@@ -138,21 +139,21 @@ from ..models import (
     NodeResponseList,
     NodeSettings,
     NodeSimple,
+    NodesResponse,
+    NodesSimpleResponse,
     NodeStats,
     NodeStatsList,
     NodeUsageStat,
     NodeUsageStatsList,
-    OwnerCreateRequest,
-    OwnerResetRequest,
-    OwnerUpgradeRequest,
-    NodesResponse,
-    NodesSimpleResponse,
     NoiseSettings,
     NotFound,
     NotificationChannel,
     NotificationChannels,
     NotificationEnable,
     NotificationSettings,
+    OwnerCreateRequest,
+    OwnerResetRequest,
+    OwnerUpgradeRequest,
     PasarguardModel,
     ProxySettings,
     ProxyTable,
@@ -162,8 +163,8 @@ from ..models import (
     RemoveGroupsResponse,
     RemoveHostsResponse,
     RemoveNodesResponse,
-    RemoveUserTemplatesResponse,
     RemoveUsersResponse,
+    RemoveUserTemplatesResponse,
     RoleHWIDSettings,
     SettingsSchema,
     ShadowsocksSettings,
@@ -195,6 +196,8 @@ from ..models import (
     UserNotificationEnable,
     UserResponse,
     UserSimple,
+    UsersResponse,
+    UsersSimpleResponse,
     UserStatusToggle,
     UserSubscriptionUpdateChart,
     UserSubscriptionUpdateChartSegment,
@@ -207,15 +210,13 @@ from ..models import (
     UserTemplatesSimpleResponse,
     UserUsageStat,
     UserUsageStatsList,
-    UsersResponse,
-    UsersSimpleResponse,
-    VMessSettings,
     ValidationError,
     VlessSettings,
+    VMessSettings,
     VmessSettings,
-    WebSocketSettings,
     Webhook,
     WebhookInfo,
+    WebSocketSettings,
     WireGuardHostOverrides,
     WireGuardPeerIPsReallocateResponse,
     WireGuardSettings,
@@ -230,3 +231,6 @@ from ..models import (
     XrayMuxSettingsOutput,
     XrayNoiseSettings,
 )
+
+Dict = dict
+List = list

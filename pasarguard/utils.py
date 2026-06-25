@@ -4,13 +4,13 @@ import secrets
 import string
 import time
 from datetime import datetime, timedelta
-from typing import TYPE_CHECKING, Optional, Union
+from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
     from pasarguard import PasarguardAPI
 
 
-Number = Union[int, float]
+Number = int | float
 
 _SIZE_UNITS = {
     "mb": 1024**2,
@@ -42,7 +42,7 @@ def _parse_amount_unit(value: str) -> tuple[float, str]:
     return float(match.group(1)), match.group(2).lower()
 
 
-def to_bytes(value: Union[str, Number], unit: Optional[str] = None) -> int:
+def to_bytes(value: str | Number, unit: str | None = None) -> int:
     if isinstance(value, str):
         amount, parsed_unit = _parse_amount_unit(value)
         unit_key = parsed_unit
@@ -57,6 +57,7 @@ def to_bytes(value: Union[str, Number], unit: Optional[str] = None) -> int:
         raise ValueError(f"unsupported size unit: {unit_key!r}") from exc
     return int(amount * multiplier)
 
+
 def mb(value: Number) -> int:
     return to_bytes(value, "mb")
 
@@ -69,7 +70,7 @@ def tb(value: Number) -> int:
     return to_bytes(value, "tb")
 
 
-def _duration_seconds(value: Union[str, Number], unit: Optional[str] = None) -> int:
+def _duration_seconds(value: str | Number, unit: str | None = None) -> int:
     if isinstance(value, str):
         amount, parsed_unit = _parse_amount_unit(value)
         unit_key = parsed_unit
@@ -85,7 +86,7 @@ def _duration_seconds(value: Union[str, Number], unit: Optional[str] = None) -> 
     return int(amount * multiplier)
 
 
-def to_timestamp(value: Union[str, Number], unit: Optional[str] = None, *, now: Optional[Number] = None) -> int:
+def to_timestamp(value: str | Number, unit: str | None = None, *, now: Number | None = None) -> int:
     current = int(time.time() if now is None else now)
     return current + _duration_seconds(value, unit)
 
@@ -126,8 +127,8 @@ class PasarguardTokenCache:
         self._username = username
         self._password = password
         self._token_expire_minutes = token_expire_minutes
-        self._token: Optional[str] = None
-        self._exp_at: Optional[datetime] = None
+        self._token: str | None = None
+        self._exp_at: datetime | None = None
 
     async def get_token(self):
         if not self._exp_at or self._exp_at < datetime.now():

@@ -20,14 +20,14 @@ class AdminRoleMixin:
         return self._parse_response(response, AdminRoleResponse)
 
     async def get_role(self, role_id: int, token: str) -> AdminRoleResponse:
-        url = "/api/admin-role/{role_id}".format(role_id=role_id)
+        url = f"/api/admin-role/{role_id}"
         params = None
         headers = None
         response = await self._request("GET", url, token=token, params=params, headers=headers)
         return self._parse_response(response, AdminRoleResponse)
 
     async def modify_role(self, role_id: int, role: AdminRoleModify, token: str) -> AdminRoleResponse:
-        url = "/api/admin-role/{role_id}".format(role_id=role_id)
+        url = f"/api/admin-role/{role_id}"
         params = None
         headers = None
         payload = self._validate_payload(role, AdminRoleModify)
@@ -35,7 +35,7 @@ class AdminRoleMixin:
         return self._parse_response(response, AdminRoleResponse)
 
     async def delete_role(self, role_id: int, token: str) -> None:
-        url = "/api/admin-role/{role_id}".format(role_id=role_id)
+        url = f"/api/admin-role/{role_id}"
         params = None
         headers = None
         response = await self._request("DELETE", url, token=token, params=params, headers=headers)

@@ -10,12 +10,13 @@ from ._base import (
     ShadowsocksMethods,
     Union,
     UserCountMetric,
-    UserStatus,
     UsernameGenerationStrategy,
+    UserStatus,
     datetime,
 )
 from .admin import AdminBase
 from .proxy import ProxyTable
+
 
 class BulkUser(PasarguardModel):
     dry_run: Optional[bool] = False
@@ -27,26 +28,31 @@ class BulkUser(PasarguardModel):
     expire_before: Optional[datetime] = None
     amount: int = ...
 
+
 class BulkUsersActionResponse(PasarguardModel):
     users: List[str] = ...
     count: int = ...
+
 
 class BulkUsersApplyTemplate(PasarguardModel):
     user_template_id: int = ...
     note: Optional[str] = None
     ids: Optional[List[int]] = None
 
+
 class BulkUsersCreateResponse(PasarguardModel):
     subscription_urls: Optional[List[str]] = None
     created: Optional[int] = 0
+
 
 class BulkUsersFromTemplate(PasarguardModel):
     user_template_id: int = ...
     note: Optional[str] = None
     username: Optional[str] = None
     count: int = ...
-    strategy: Optional[UsernameGenerationStrategy] = 'random'
+    strategy: Optional[UsernameGenerationStrategy] = "random"
     start_number: Optional[int] = None
+
 
 class BulkUsersProxy(PasarguardModel):
     dry_run: Optional[bool] = False
@@ -58,12 +64,15 @@ class BulkUsersProxy(PasarguardModel):
     expire_before: Optional[datetime] = None
     method: Optional[ShadowsocksMethods] = None
 
+
 class BulkUsersSelection(PasarguardModel):
     ids: Optional[List[int]] = None
+
 
 class BulkUsersSetOwner(PasarguardModel):
     ids: Optional[List[int]] = None
     admin_username: str = ...
+
 
 class BulkWireGuardPeerIPs(PasarguardModel):
     dry_run: Optional[bool] = False
@@ -76,14 +85,17 @@ class BulkWireGuardPeerIPs(PasarguardModel):
     confirm: Optional[bool] = False
     replace_all: Optional[bool] = False
 
+
 class CreateUserFromTemplate(PasarguardModel):
     user_template_id: int = ...
     note: Optional[str] = None
     username: str = ...
 
+
 class ModifyUserByTemplate(PasarguardModel):
     user_template_id: int = ...
     note: Optional[str] = None
+
 
 class NextPlanModel(PasarguardModel):
     user_template_id: Optional[int] = None
@@ -91,13 +103,16 @@ class NextPlanModel(PasarguardModel):
     expire: Optional[int] = None
     add_remaining_traffic: Optional[bool] = False
 
+
 class RemoveUsersResponse(PasarguardModel):
     users: List[str] = ...
     count: int = ...
 
+
 class UserCountMetricStat(PasarguardModel):
     count: int = ...
     period_start: datetime = ...
+
 
 class UserCountMetricStatsList(PasarguardModel):
     period: Optional[Period] = None
@@ -106,6 +121,7 @@ class UserCountMetricStatsList(PasarguardModel):
     metric: UserCountMetric = ...
     stats: Dict[str, List[UserCountMetricStat]] = ...
     count_during_period: Optional[int] = None
+
 
 class UserCreate(PasarguardModel):
     proxy_settings: Optional[ProxyTable] = None
@@ -122,6 +138,7 @@ class UserCreate(PasarguardModel):
     username: str = ...
     status: Optional[UserStatus] = None
 
+
 class UserModify(PasarguardModel):
     proxy_settings: Optional[ProxyTable] = None
     expire: Optional[Union[datetime, int]] = None
@@ -136,6 +153,7 @@ class UserModify(PasarguardModel):
     next_plan: Optional[NextPlanModel] = None
     status: Optional[UserStatus] = None
 
+
 class UserNotificationEnable(PasarguardModel):
     create: Optional[bool] = True
     modify: Optional[bool] = True
@@ -144,6 +162,7 @@ class UserNotificationEnable(PasarguardModel):
     reset_data_usage: Optional[bool] = True
     data_reset_by_next: Optional[bool] = True
     subscription_revoked: Optional[bool] = True
+
 
 class UserResponse(PasarguardModel):
     proxy_settings: Optional[ProxyTable] = None
@@ -165,25 +184,30 @@ class UserResponse(PasarguardModel):
     created_at: datetime = ...
     edit_at: Optional[datetime] = None
     online_at: Optional[datetime] = None
-    subscription_url: Optional[str] = ''
+    subscription_url: Optional[str] = ""
     admin: Optional[AdminBase] = None
+
 
 class UserSimple(PasarguardModel):
     id: int = ...
     username: str = ...
 
+
 class UserSubscriptionUpdateChart(PasarguardModel):
     total: int = ...
     segments: Optional[List[UserSubscriptionUpdateChartSegment]] = None
+
 
 class UserSubscriptionUpdateChartSegment(PasarguardModel):
     name: str = ...
     count: int = ...
     percentage: float = ...
 
+
 class UserSubscriptionUpdateList(PasarguardModel):
     updates: Optional[List[UserSubscriptionUpdateSchema]] = None
     count: int = ...
+
 
 class UserSubscriptionUpdateSchema(PasarguardModel):
     created_at: datetime = ...
@@ -191,9 +215,11 @@ class UserSubscriptionUpdateSchema(PasarguardModel):
     ip: Optional[str] = None
     hwid: Optional[str] = None
 
+
 class UserUsageStat(PasarguardModel):
     total_traffic: int = ...
     period_start: datetime = ...
+
 
 class UserUsageStatsList(PasarguardModel):
     period: Optional[Period] = None
@@ -201,16 +227,20 @@ class UserUsageStatsList(PasarguardModel):
     end: datetime = ...
     stats: Dict[str, List[UserUsageStat]] = ...
 
+
 class UsersResponse(PasarguardModel):
     users: List[UserResponse] = ...
     total: int = ...
+
 
 class UsersSimpleResponse(PasarguardModel):
     users: List[UserSimple] = ...
     total: int = ...
 
+
 class UserStatusToggle(PasarguardModel):
     disabled: bool = ...
+
 
 class WireGuardPeerIPsReallocateResponse(PasarguardModel):
     wireguard_inbound_tags: int = ...
@@ -220,35 +250,36 @@ class WireGuardPeerIPsReallocateResponse(PasarguardModel):
     sample_usernames: List[str] = ...
     affected_users: int = ...
 
+
 __all__ = (
-    'BulkUser',
-    'BulkUsersActionResponse',
-    'BulkUsersApplyTemplate',
-    'BulkUsersCreateResponse',
-    'BulkUsersFromTemplate',
-    'BulkUsersProxy',
-    'BulkUsersSelection',
-    'BulkUsersSetOwner',
-    'BulkWireGuardPeerIPs',
-    'CreateUserFromTemplate',
-    'ModifyUserByTemplate',
-    'NextPlanModel',
-    'RemoveUsersResponse',
-    'UserCountMetricStat',
-    'UserCountMetricStatsList',
-    'UserCreate',
-    'UserModify',
-    'UserNotificationEnable',
-    'UserResponse',
-    'UserSimple',
-    'UserSubscriptionUpdateChart',
-    'UserSubscriptionUpdateChartSegment',
-    'UserSubscriptionUpdateList',
-    'UserSubscriptionUpdateSchema',
-    'UserUsageStat',
-    'UserUsageStatsList',
-    'UserStatusToggle',
-    'UsersResponse',
-    'UsersSimpleResponse',
-    'WireGuardPeerIPsReallocateResponse',
+    "BulkUser",
+    "BulkUsersActionResponse",
+    "BulkUsersApplyTemplate",
+    "BulkUsersCreateResponse",
+    "BulkUsersFromTemplate",
+    "BulkUsersProxy",
+    "BulkUsersSelection",
+    "BulkUsersSetOwner",
+    "BulkWireGuardPeerIPs",
+    "CreateUserFromTemplate",
+    "ModifyUserByTemplate",
+    "NextPlanModel",
+    "RemoveUsersResponse",
+    "UserCountMetricStat",
+    "UserCountMetricStatsList",
+    "UserCreate",
+    "UserModify",
+    "UserNotificationEnable",
+    "UserResponse",
+    "UserSimple",
+    "UserStatusToggle",
+    "UserSubscriptionUpdateChart",
+    "UserSubscriptionUpdateChartSegment",
+    "UserSubscriptionUpdateList",
+    "UserSubscriptionUpdateSchema",
+    "UserUsageStat",
+    "UserUsageStatsList",
+    "UsersResponse",
+    "UsersSimpleResponse",
+    "WireGuardPeerIPsReallocateResponse",
 )

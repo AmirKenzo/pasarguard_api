@@ -1,9 +1,11 @@
 from __future__ import annotations
 
-from ._base import ClientTemplateType, List, Optional, PasarguardModel
+from ._base import ClientTemplateType, Field, List, Optional, PasarguardModel
+
 
 class BulkClientTemplateSelection(PasarguardModel):
     ids: Optional[List[int]] = None
+
 
 class ClientTemplateCreate(PasarguardModel):
     name: str = ...
@@ -11,10 +13,12 @@ class ClientTemplateCreate(PasarguardModel):
     content: str = ...
     is_default: Optional[bool] = False
 
+
 class ClientTemplateModify(PasarguardModel):
     name: Optional[str] = None
     content: Optional[str] = None
     is_default: Optional[bool] = None
+
 
 class ClientTemplateResponse(PasarguardModel):
     id: int = ...
@@ -24,9 +28,11 @@ class ClientTemplateResponse(PasarguardModel):
     is_default: bool = ...
     is_system: bool = ...
 
+
 class ClientTemplateResponseList(PasarguardModel):
     count: int = ...
-    templates: Optional[List[ClientTemplateResponse]] = []
+    templates: Optional[List[ClientTemplateResponse]] = Field(default_factory=list)
+
 
 class ClientTemplateSimple(PasarguardModel):
     id: int = ...
@@ -34,21 +40,24 @@ class ClientTemplateSimple(PasarguardModel):
     template_type: ClientTemplateType = ...
     is_default: bool = ...
 
+
 class ClientTemplatesSimpleResponse(PasarguardModel):
     templates: List[ClientTemplateSimple] = ...
     total: int = ...
+
 
 class RemoveClientTemplatesResponse(PasarguardModel):
     templates: List[str] = ...
     count: int = ...
 
+
 __all__ = (
-    'BulkClientTemplateSelection',
-    'ClientTemplateCreate',
-    'ClientTemplateModify',
-    'ClientTemplateResponse',
-    'ClientTemplateResponseList',
-    'ClientTemplateSimple',
-    'ClientTemplatesSimpleResponse',
-    'RemoveClientTemplatesResponse',
+    "BulkClientTemplateSelection",
+    "ClientTemplateCreate",
+    "ClientTemplateModify",
+    "ClientTemplateResponse",
+    "ClientTemplateResponseList",
+    "ClientTemplateSimple",
+    "ClientTemplatesSimpleResponse",
+    "RemoveClientTemplatesResponse",
 )

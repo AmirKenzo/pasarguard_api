@@ -17,20 +17,23 @@ from ._base import (
 from .proxy import ProxyTable
 from .user import NextPlanModel
 
+
 class Application(PasarguardModel):
     name: str = ...
-    icon_url: Optional[str] = ''
-    import_url: Optional[str] = ''
+    icon_url: Optional[str] = ""
+    import_url: Optional[str] = ""
     description: Optional[Dict[str, str]] = None
     recommended: Optional[bool] = False
     show_when_hwid_enabled: Optional[bool] = False
     platform: Platform = ...
     download_links: List[DownloadLink] = ...
 
+
 class DownloadLink(PasarguardModel):
     name: str = ...
     url: str = ...
     language: Language = ...
+
 
 class SubFormatEnable(PasarguardModel):
     links: Optional[bool] = True
@@ -42,18 +45,20 @@ class SubFormatEnable(PasarguardModel):
     clash_meta: Optional[bool] = True
     outline: Optional[bool] = True
 
+
 class SubRule(PasarguardModel):
     pattern: str = ...
     target: ConfigFormat = ...
     response_headers: Optional[Dict[str, Any]] = None
 
+
 class Subscription(PasarguardModel):
-    url_prefix: Optional[str] = ''
+    url_prefix: Optional[str] = ""
     update_interval: Optional[int] = 12
-    support_url: Optional[str] = 'https://t.me/'
-    profile_title: Optional[str] = 'Subscription'
-    announce: Optional[str] = ''
-    announce_url: Optional[str] = ''
+    support_url: Optional[str] = "https://t.me/"
+    profile_title: Optional[str] = "Subscription"
+    announce: Optional[str] = ""
+    announce_url: Optional[str] = ""
     response_headers: Optional[Dict[str, Any]] = None
     rules: List[SubRule] = ...
     manual_sub_request: Optional[SubFormatEnable] = None
@@ -62,8 +67,10 @@ class Subscription(PasarguardModel):
     disable_sub_template: Optional[bool] = False
     randomize_order: Optional[bool] = False
 
+
 class SubscriptionTemplates(PasarguardModel):
     xray: Optional[int] = None
+
 
 class SubscriptionUserResponse(PasarguardModel):
     proxy_settings: Optional[ProxyTable] = None
@@ -85,12 +92,13 @@ class SubscriptionUserResponse(PasarguardModel):
     online_at: Optional[datetime] = None
     ip: Optional[str] = None
 
+
 __all__ = (
-    'Application',
-    'DownloadLink',
-    'SubFormatEnable',
-    'SubRule',
-    'Subscription',
-    'SubscriptionTemplates',
-    'SubscriptionUserResponse',
+    "Application",
+    "DownloadLink",
+    "SubFormatEnable",
+    "SubRule",
+    "Subscription",
+    "SubscriptionTemplates",
+    "SubscriptionUserResponse",
 )

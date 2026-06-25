@@ -2,7 +2,6 @@ from __future__ import annotations
 
 # Public model facade. Definitions live in section modules; this keeps old imports stable.
 # ruff: noqa: F401, F403
-
 from pydantic import BaseModel
 
 from ._base import PasarguardModel
@@ -35,7 +34,5 @@ def _rebuild_models() -> None:
 _rebuild_models()
 
 __all__ = tuple(
-    name
-    for name, value in globals().items()
-    if not name.startswith("_") and name not in {"BaseModel", "annotations"}
+    name for name, value in globals().items() if not name.startswith("_") and name not in {"BaseModel", "annotations"}
 )
