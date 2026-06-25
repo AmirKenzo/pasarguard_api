@@ -1,9 +1,6 @@
 from __future__ import annotations
 
-from ._imports import (
-    Any,
-    Dict,
-)
+from typing import Any
 
 
 class DefaultMixin:
@@ -14,9 +11,9 @@ class DefaultMixin:
         response = await self._request("GET", url, token=None, params=params, headers=headers)
         return self._parse_response(response, str)
 
-    async def health(self) -> Dict[str, Any]:
+    async def health(self) -> dict[str, Any]:
         url = "/health"
         params = None
         headers = None
         response = await self._request("GET", url, token=None, params=params, headers=headers)
-        return self._parse_response(response, Dict[str, Any])
+        return self._parse_response(response, dict[str, Any])

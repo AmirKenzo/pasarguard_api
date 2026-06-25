@@ -1,7 +1,10 @@
 from __future__ import annotations
 
-from ._imports import (
+from typing import (
     Any,
+)
+
+from ..models import (
     BulkGroup,
     BulkGroupsActionResponse,
     BulkGroupSelection,
@@ -10,8 +13,6 @@ from ._imports import (
     GroupResponse,
     GroupsResponse,
     GroupsSimpleResponse,
-    List,
-    Optional,
     RemoveGroupsResponse,
 )
 
@@ -26,7 +27,7 @@ class GroupsMixin:
         return self._parse_response(response, GroupResponse)
 
     async def get_all_groups(
-        self, token: str, ids: Optional[List[int]] = None, offset: Optional[int] = None, limit: Optional[int] = None
+        self, token: str, ids: list[int] | None = None, offset: int | None = None, limit: int | None = None
     ) -> GroupsResponse:
         url = "/api/groups"
         params = {"ids": ids, "offset": offset, "limit": limit}
@@ -37,12 +38,12 @@ class GroupsMixin:
     async def get_groups_simple(
         self,
         token: str,
-        ids: Optional[List[int]] = None,
-        offset: Optional[int] = None,
-        limit: Optional[int] = None,
-        search: Optional[str] = None,
-        sort: Optional[str] = None,
-        all: Optional[bool] = False,
+        ids: list[int] | None = None,
+        offset: int | None = None,
+        limit: int | None = None,
+        search: str | None = None,
+        sort: str | None = None,
+        all: bool | None = False,
     ) -> GroupsSimpleResponse:
         url = "/api/groups/simple"
         params = {"ids": ids, "offset": offset, "limit": limit, "search": search, "sort": sort, "all": all}

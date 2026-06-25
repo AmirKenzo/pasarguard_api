@@ -1,12 +1,11 @@
 from __future__ import annotations
 
-from ._imports import (
+from ..models import (
     AdminRoleCreate,
     AdminRoleModify,
     AdminRoleResponse,
     AdminRolesResponse,
     AdminRolesSimpleResponse,
-    Optional,
 )
 
 
@@ -44,10 +43,10 @@ class AdminRoleMixin:
     async def get_roles(
         self,
         token: str,
-        search: Optional[str] = None,
-        offset: Optional[int] = None,
-        limit: Optional[int] = None,
-        sort: Optional[str] = None,
+        search: str | None = None,
+        offset: int | None = None,
+        limit: int | None = None,
+        sort: str | None = None,
     ) -> AdminRolesResponse:
         url = "/api/admin-roles"
         params = {"search": search, "offset": offset, "limit": limit, "sort": sort}

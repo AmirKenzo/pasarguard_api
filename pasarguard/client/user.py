@@ -1,7 +1,19 @@
 from __future__ import annotations
 
-from ._imports import (
+from datetime import datetime
+from typing import (
     Any,
+    Literal,
+)
+
+from ..enums import (
+    ConfigFormat,
+    DataLimitResetStrategy,
+    Period,
+    UserCountMetric,
+    UserStatus,
+)
+from ..models import (
     BulkUser,
     BulkUsersActionResponse,
     BulkUsersApplyTemplate,
@@ -11,30 +23,20 @@ from ._imports import (
     BulkUsersSelection,
     BulkUsersSetOwner,
     BulkWireGuardPeerIPs,
-    ConfigFormat,
     CreateUserFromTemplate,
-    DataLimitResetStrategy,
-    List,
-    Literal,
     ModifyUserByTemplate,
-    Optional,
-    Period,
     RemoveUsersResponse,
-    Union,
-    UserCountMetric,
     UserCountMetricStatsList,
     UserCreate,
     UserModify,
     UserResponse,
     UsersResponse,
     UsersSimpleResponse,
-    UserStatus,
     UserStatusToggle,
     UserSubscriptionUpdateChart,
     UserSubscriptionUpdateList,
     UserUsageStatsList,
     WireGuardPeerIPsReallocateResponse,
-    datetime,
 )
 
 ExpiredUsersTarget = Literal["expired", "limited"]
@@ -170,7 +172,7 @@ class UserMixin:
         return self._parse_response(response, Any)
 
     async def get_users_sub_update_chart(
-        self, token: str, user_id: Optional[int] = None, username: Optional[str] = None, admin_id: Optional[int] = None
+        self, token: str, user_id: int | None = None, username: str | None = None, admin_id: int | None = None
     ) -> UserSubscriptionUpdateChart:
         url = "/api/users/sub_update/chart"
         params = {"user_id": user_id, "username": username, "admin_id": admin_id}
@@ -228,7 +230,7 @@ class UserMixin:
         return self._parse_response(response, Any)
 
     async def get_user_sub_update_list(
-        self, username: str, token: str, offset: Optional[int] = 0, limit: Optional[int] = 10
+        self, username: str, token: str, offset: int | None = 0, limit: int | None = 10
     ) -> UserSubscriptionUpdateList:
         url = f"/api/user/{username}/sub_update"
         params = {"offset": offset, "limit": limit}
@@ -237,7 +239,7 @@ class UserMixin:
         return self._parse_response(response, UserSubscriptionUpdateList)
 
     async def get_user_sub_update_list_by_username(
-        self, username: str, token: str, offset: Optional[int] = 0, limit: Optional[int] = 10
+        self, username: str, token: str, offset: int | None = 0, limit: int | None = 10
     ) -> UserSubscriptionUpdateList:
         url = f"/api/user/by-username/{username}/sub_update"
         params = {"offset": offset, "limit": limit}
@@ -246,7 +248,7 @@ class UserMixin:
         return self._parse_response(response, UserSubscriptionUpdateList)
 
     async def get_user_sub_update_list_by_id(
-        self, user_id: int, token: str, offset: Optional[int] = 0, limit: Optional[int] = 10
+        self, user_id: int, token: str, offset: int | None = 0, limit: int | None = 10
     ) -> UserSubscriptionUpdateList:
         url = f"/api/user/by-id/{user_id}/sub_update"
         params = {"offset": offset, "limit": limit}
@@ -257,29 +259,29 @@ class UserMixin:
     async def get_users(
         self,
         token: str,
-        offset: Optional[int] = None,
-        limit: Optional[int] = None,
-        ids: Optional[List[int]] = None,
-        username: Optional[List[str]] = None,
-        usernames: Optional[List[str]] = None,
-        admin: Optional[List[str]] = None,
-        admin_ids: Optional[List[int]] = None,
-        group: Optional[List[int]] = None,
-        search: Optional[str] = None,
-        status: Optional[Union[UserStatus, List[UserStatus]]] = None,
-        sort: Optional[str] = None,
-        proxy_id: Optional[str] = None,
-        data_limit_reset_strategy: Optional[Union[DataLimitResetStrategy, List[DataLimitResetStrategy]]] = None,
-        data_limit_min: Optional[int] = None,
-        data_limit_max: Optional[int] = None,
-        expire_after: Optional[datetime] = None,
-        expire_before: Optional[datetime] = None,
-        online_after: Optional[datetime] = None,
-        online_before: Optional[datetime] = None,
-        online: Optional[bool] = False,
-        no_data_limit: Optional[bool] = False,
-        no_expire: Optional[bool] = False,
-        load_sub: Optional[bool] = False,
+        offset: int | None = None,
+        limit: int | None = None,
+        ids: list[int] | None = None,
+        username: list[str] | None = None,
+        usernames: list[str] | None = None,
+        admin: list[str] | None = None,
+        admin_ids: list[int] | None = None,
+        group: list[int] | None = None,
+        search: str | None = None,
+        status: UserStatus | list[UserStatus] = None,
+        sort: str | None = None,
+        proxy_id: str | None = None,
+        data_limit_reset_strategy: DataLimitResetStrategy | list[DataLimitResetStrategy] | None = None,
+        data_limit_min: int | None = None,
+        data_limit_max: int | None = None,
+        expire_after: datetime | None = None,
+        expire_before: datetime | None = None,
+        online_after: datetime | None = None,
+        online_before: datetime | None = None,
+        online: bool | None = False,
+        no_data_limit: bool | None = False,
+        no_expire: bool | None = False,
+        load_sub: bool | None = False,
     ) -> UsersResponse:
         url = "/api/users"
         params = {
@@ -314,13 +316,13 @@ class UserMixin:
     async def get_users_simple(
         self,
         token: str,
-        ids: Optional[List[int]] = None,
-        usernames: Optional[List[str]] = None,
-        offset: Optional[int] = None,
-        limit: Optional[int] = None,
-        search: Optional[str] = None,
-        sort: Optional[str] = None,
-        all: Optional[bool] = False,
+        ids: list[int] | None = None,
+        usernames: list[str] | None = None,
+        offset: int | None = None,
+        limit: int | None = None,
+        search: str | None = None,
+        sort: str | None = None,
+        all: bool | None = False,
     ) -> UsersSimpleResponse:
         url = "/api/users/simple"
         params = {
@@ -340,11 +342,11 @@ class UserMixin:
         self,
         username: str,
         token: str,
-        period: Optional[Period] = "hour",
-        node_id: Optional[int] = None,
-        group_by_node: Optional[bool] = False,
-        start: Optional[datetime] = None,
-        end: Optional[datetime] = None,
+        period: Period | None = "hour",
+        node_id: int | None = None,
+        group_by_node: bool | None = False,
+        start: datetime | None = None,
+        end: datetime | None = None,
     ) -> UserUsageStatsList:
         url = f"/api/user/{username}/usage"
         params = {"period": period, "node_id": node_id, "group_by_node": group_by_node, "start": start, "end": end}
@@ -356,11 +358,11 @@ class UserMixin:
         self,
         username: str,
         token: str,
-        period: Optional[Period] = "hour",
-        node_id: Optional[int] = None,
-        group_by_node: Optional[bool] = False,
-        start: Optional[datetime] = None,
-        end: Optional[datetime] = None,
+        period: Period | None = "hour",
+        node_id: int | None = None,
+        group_by_node: bool | None = False,
+        start: datetime | None = None,
+        end: datetime | None = None,
     ) -> UserUsageStatsList:
         url = f"/api/user/by-username/{username}/usage"
         params = {"period": period, "node_id": node_id, "group_by_node": group_by_node, "start": start, "end": end}
@@ -372,11 +374,11 @@ class UserMixin:
         self,
         user_id: int,
         token: str,
-        period: Optional[Period] = "hour",
-        node_id: Optional[int] = None,
-        group_by_node: Optional[bool] = False,
-        start: Optional[datetime] = None,
-        end: Optional[datetime] = None,
+        period: Period | None = "hour",
+        node_id: int | None = None,
+        group_by_node: bool | None = False,
+        start: datetime | None = None,
+        end: datetime | None = None,
     ) -> UserUsageStatsList:
         url = f"/api/user/by-id/{user_id}/usage"
         params = {"period": period, "node_id": node_id, "group_by_node": group_by_node, "start": start, "end": end}
@@ -387,12 +389,12 @@ class UserMixin:
     async def get_users_usage(
         self,
         token: str,
-        period: Optional[Period] = "hour",
-        node_id: Optional[int] = None,
-        group_by_node: Optional[bool] = False,
-        start: Optional[datetime] = None,
-        end: Optional[datetime] = None,
-        admin: Optional[List[str]] = None,
+        period: Period | None = "hour",
+        node_id: int | None = None,
+        group_by_node: bool | None = False,
+        start: datetime | None = None,
+        end: datetime | None = None,
+        admin: list[str] | None = None,
     ) -> UserUsageStatsList:
         url = "/api/users/usage"
         params = {
@@ -411,12 +413,12 @@ class UserMixin:
         self,
         metric: UserCountMetric,
         token: str,
-        period: Optional[Period] = "hour",
-        node_id: Optional[int] = None,
-        group_by_node: Optional[bool] = False,
-        start: Optional[datetime] = None,
-        end: Optional[datetime] = None,
-        admin: Optional[List[str]] = None,
+        period: Period | None = "hour",
+        node_id: int | None = None,
+        group_by_node: bool | None = False,
+        start: datetime | None = None,
+        end: datetime | None = None,
+        admin: list[str] | None = None,
     ) -> UserCountMetricStatsList:
         url = f"/api/users/counts/{metric}"
         params = {
@@ -434,11 +436,11 @@ class UserMixin:
     async def get_expired_users(
         self,
         token: str,
-        admin_username: Optional[str] = None,
-        target: Optional[ExpiredUsersTarget] = "expired",
-        expired_after: Optional[datetime] = None,
-        expired_before: Optional[datetime] = None,
-    ) -> List[str]:
+        admin_username: str | None = None,
+        target: ExpiredUsersTarget | None = "expired",
+        expired_after: datetime | None = None,
+        expired_before: datetime | None = None,
+    ) -> list[str]:
         url = "/api/users/expired"
         params = {
             "admin_username": admin_username,
@@ -448,15 +450,15 @@ class UserMixin:
         }
         headers = None
         response = await self._request("GET", url, token=token, params=params, headers=headers)
-        return self._parse_response(response, List[str])
+        return self._parse_response(response, list[str])
 
     async def delete_expired_users(
         self,
         token: str,
-        admin_username: Optional[str] = None,
-        target: Optional[ExpiredUsersTarget] = "expired",
-        expired_after: Optional[datetime] = None,
-        expired_before: Optional[datetime] = None,
+        admin_username: str | None = None,
+        target: ExpiredUsersTarget | None = "expired",
+        expired_after: datetime | None = None,
+        expired_before: datetime | None = None,
     ) -> RemoveUsersResponse:
         url = "/api/users/expired"
         params = {

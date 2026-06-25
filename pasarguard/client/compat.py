@@ -1,18 +1,22 @@
 from __future__ import annotations
 
-from ._imports import (
+from datetime import datetime
+from typing import (
     Any,
+)
+
+from ..enums import (
     ConfigFormat,
     GeoFilseRegion,
+    Period,
+)
+from ..models import (
     NodeCoreUpdate,
     NodeGeoFilesUpdate,
-    Optional,
-    Period,
     SubscriptionUserResponse,
     UserCreate,
     UserResponse,
     UserUsageStatsList,
-    datetime,
 )
 
 
@@ -27,8 +31,8 @@ class CompatibilityMixin:
         self,
         username: str,
         token: str,
-        start_date: Optional[datetime] = None,
-        end_date: Optional[datetime] = None,
+        start_date: datetime | None = None,
+        end_date: datetime | None = None,
         period: Period = Period.HOUR,
     ) -> UserUsageStatsList:
         return await self.get_user_usage(username=username, token=token, start=start_date, end=end_date, period=period)
@@ -48,7 +52,7 @@ class CompatibilityMixin:
         )
 
     async def get_user_subscription_info(
-        self, url: Optional[str] = None, token: Optional[str] = None
+        self, url: str | None = None, token: str | None = None
     ) -> SubscriptionUserResponse:
         if url:
             response = await self._request("GET", url.rstrip("/") + "/info")
@@ -59,11 +63,11 @@ class CompatibilityMixin:
 
     async def get_sub_user_usage_by_url(
         self,
-        url: Optional[str] = None,
-        token: Optional[str] = None,
+        url: str | None = None,
+        token: str | None = None,
         period: Period = Period.HOUR,
-        start: Optional[datetime] = None,
-        end: Optional[datetime] = None,
+        start: datetime | None = None,
+        end: datetime | None = None,
     ) -> UserUsageStatsList:
         if url:
             response = await self._request(
@@ -75,7 +79,7 @@ class CompatibilityMixin:
         raise ValueError("Either url or token must be provided")
 
     async def get_user_subscription_with_client_type(
-        self, client_type: ConfigFormat | str, url: Optional[str] = None, token: Optional[str] = None, **headers: Any
+        self, client_type: ConfigFormat | str, url: str | None = None, token: str | None = None, **headers: Any
     ) -> list[str]:
         if url:
             response = await self._request("GET", url.rstrip("/") + f"/{self._serialize(client_type)}", headers=headers)

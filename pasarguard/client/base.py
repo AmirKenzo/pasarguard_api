@@ -1,18 +1,14 @@
 from __future__ import annotations
 
-from ._imports import (
-    Any,
-    BaseModel,
-    Dict,
-    Enum,
-    Mapping,
-    Optional,
-    Token,
-    TypeAdapter,
-    date,
-    datetime,
-    httpx,
-)
+from collections.abc import Mapping
+from datetime import date, datetime
+from enum import Enum
+from typing import Any
+
+import httpx
+from pydantic import BaseModel, TypeAdapter
+
+from ..models import Token
 
 
 class BaseAPIClient:
@@ -22,14 +18,14 @@ class BaseAPIClient:
         *,
         timeout: float = 10.0,
         verify: bool = False,
-        proxy: Optional[str] = None,
+        proxy: str | None = None,
         trust_env: bool = True,
-        ssh_username: Optional[str] = None,
-        ssh_host: Optional[str] = None,
-        ssh_port: Optional[int] = 22,
-        ssh_private_key_path: Optional[str] = None,
-        ssh_key_passphrase: Optional[str] = None,
-        ssh_password: Optional[str] = None,
+        ssh_username: str | None = None,
+        ssh_host: str | None = None,
+        ssh_port: int | None = 22,
+        ssh_private_key_path: str | None = None,
+        ssh_key_passphrase: str | None = None,
+        ssh_password: str | None = None,
         local_bind_host: str = "127.0.0.1",
         local_bind_port: int = 8000,
         remote_bind_host: str = "127.0.0.1",
@@ -80,7 +76,7 @@ class BaseAPIClient:
         self.local_bind_port = local_bind_port
         self.remote_bind_host = remote_bind_host
         self.remote_bind_port = remote_bind_port
-        self.client: Optional[httpx.AsyncClient] = None
+        self.client: httpx.AsyncClient | None = None
         self._tunnel = None
         if ssh_host and not ssh_private_key_path and not ssh_password:
             raise ValueError("For an SSH tunnel, specify either ssh_private_key_path or ssh_password")
@@ -99,7 +95,7 @@ class BaseAPIClient:
     async def __aexit__(self, exc_type, exc, tb):
         await self.close()
 
-    def _load_private_key(self, key_path: str, passphrase: Optional[str]):
+    def _load_private_key(self, key_path: str, passphrase: str | None):
         paramiko = self._import_ssh_dependencies()[0]
         for key_class in (paramiko.RSAKey, paramiko.DSSKey, paramiko.ECDSAKey, paramiko.Ed25519Key):
             try:
@@ -162,8 +158,8 @@ class BaseAPIClient:
             )
         return self.client
 
-    def _get_headers(self, token: Optional[str] = None, extra: Optional[Mapping[str, Any]] = None) -> Dict[str, str]:
-        headers: Dict[str, str] = {}
+    def _get_headers(self, token: str | None = None, extra: Mapping[str, Any] | None = None) -> dict[str, str]:
+        headers: dict[str, str] = {}
         if token:
             headers["Authorization"] = f"Bearer {token}"
         for key, value in (extra or {}).items():
@@ -186,7 +182,7 @@ class BaseAPIClient:
             return {key: self._serialize(item) for key, item in value.items() if item is not None}
         return value
 
-    def _clean_params(self, params: Optional[Mapping[str, Any]]) -> Dict[str, Any]:
+    def _clean_params(self, params: Mapping[str, Any] | None) -> dict[str, Any]:
         return {key: self._serialize(value) for key, value in (params or {}).items() if value is not None}
 
     def _validate_payload(self, data: Any, model: Any) -> Any:
@@ -200,11 +196,11 @@ class BaseAPIClient:
         method: str,
         url: str,
         *,
-        token: Optional[str] = None,
+        token: str | None = None,
         json_data: Any = None,
         form_data: Any = None,
-        params: Optional[Mapping[str, Any]] = None,
-        headers: Optional[Mapping[str, Any]] = None,
+        params: Mapping[str, Any] | None = None,
+        headers: Mapping[str, Any] | None = None,
     ) -> httpx.Response:
         client = self._ensure_client()
         response = await client.request(

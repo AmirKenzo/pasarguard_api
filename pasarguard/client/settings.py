@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from ._imports import (
+from ..models import (
     General,
     SettingsSchema,
 )

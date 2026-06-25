@@ -1,15 +1,13 @@
 from __future__ import annotations
 
-from ._imports import (
+from ..enums import ClientTemplateType
+from ..models import (
     BulkClientTemplateSelection,
     ClientTemplateCreate,
     ClientTemplateModify,
     ClientTemplateResponse,
     ClientTemplateResponseList,
     ClientTemplatesSimpleResponse,
-    ClientTemplateType,
-    List,
-    Optional,
     RemoveClientTemplatesResponse,
 )
 
@@ -50,10 +48,10 @@ class ClientTemplateMixin:
     async def get_client_templates(
         self,
         token: str,
-        ids: Optional[List[int]] = None,
-        template_type: Optional[ClientTemplateType] = None,
-        offset: Optional[int] = None,
-        limit: Optional[int] = None,
+        ids: list[int] | None = None,
+        template_type: ClientTemplateType | None = None,
+        offset: int | None = None,
+        limit: int | None = None,
     ) -> ClientTemplateResponseList:
         url = "/api/client_templates"
         params = {"ids": ids, "template_type": template_type, "offset": offset, "limit": limit}
@@ -64,13 +62,13 @@ class ClientTemplateMixin:
     async def get_client_templates_simple(
         self,
         token: str,
-        ids: Optional[List[int]] = None,
-        template_type: Optional[ClientTemplateType] = None,
-        offset: Optional[int] = None,
-        limit: Optional[int] = None,
-        search: Optional[str] = None,
-        sort: Optional[str] = None,
-        all: Optional[bool] = False,
+        ids: list[int] | None = None,
+        template_type: ClientTemplateType | None = None,
+        offset: int | None = None,
+        limit: int | None = None,
+        search: str | None = None,
+        sort: str | None = None,
+        all: bool | None = False,
     ) -> ClientTemplatesSimpleResponse:
         url = "/api/client_templates/simple"
         params = {

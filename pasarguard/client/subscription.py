@@ -1,15 +1,18 @@
 from __future__ import annotations
 
-from ._imports import (
+from datetime import datetime
+from typing import (
     Any,
-    Application,
+)
+
+from ..enums import (
     ConfigFormat,
-    List,
-    Optional,
     Period,
+)
+from ..models import (
+    Application,
     SubscriptionUserResponse,
     UserUsageStatsList,
-    datetime,
 )
 
 
@@ -17,11 +20,11 @@ class SubscriptionMixin:
     async def user_subscription(
         self,
         token: str,
-        user_agent: Optional[str] = "",
-        x_h_w_i_d: Optional[str] = None,
-        x_device_o_s: Optional[str] = None,
-        x_ver_o_s: Optional[str] = None,
-        x_device_model: Optional[str] = None,
+        user_agent: str | None = "",
+        x_h_w_i_d: str | None = None,
+        x_device_o_s: str | None = None,
+        x_ver_o_s: str | None = None,
+        x_device_model: str | None = None,
     ) -> Any:
         url = f"/sub/{token}/"
         params = None
@@ -45,11 +48,11 @@ class SubscriptionMixin:
     async def user_subscription_raw(
         self,
         token: str,
-        x_subscription_user_agent: Optional[str] = "",
-        x_h_w_i_d: Optional[str] = None,
-        x_device_o_s: Optional[str] = None,
-        x_ver_o_s: Optional[str] = None,
-        x_device_model: Optional[str] = None,
+        x_subscription_user_agent: str | None = "",
+        x_h_w_i_d: str | None = None,
+        x_device_o_s: str | None = None,
+        x_ver_o_s: str | None = None,
+        x_device_model: str | None = None,
     ) -> Any:
         url = f"/sub/{token}/raw"
         params = None
@@ -63,19 +66,19 @@ class SubscriptionMixin:
         response = await self._request("GET", url, token=None, params=params, headers=headers)
         return self._parse_response(response, Any)
 
-    async def user_subscription_apps(self, token: str) -> List[Application]:
+    async def user_subscription_apps(self, token: str) -> list[Application]:
         url = f"/sub/{token}/apps"
         params = None
         headers = None
         response = await self._request("GET", url, token=None, params=params, headers=headers)
-        return self._parse_response(response, List[Application])
+        return self._parse_response(response, list[Application])
 
     async def get_sub_user_usage(
         self,
         token: str,
-        period: Optional[Period] = "hour",
-        start: Optional[datetime] = None,
-        end: Optional[datetime] = None,
+        period: Period | None = "hour",
+        start: datetime | None = None,
+        end: datetime | None = None,
     ) -> UserUsageStatsList:
         url = f"/sub/{token}/usage"
         params = {"period": period, "start": start, "end": end}
@@ -87,10 +90,10 @@ class SubscriptionMixin:
         self,
         token: str,
         client_type: ConfigFormat,
-        x_h_w_i_d: Optional[str] = None,
-        x_device_o_s: Optional[str] = None,
-        x_ver_o_s: Optional[str] = None,
-        x_device_model: Optional[str] = None,
+        x_h_w_i_d: str | None = None,
+        x_device_o_s: str | None = None,
+        x_ver_o_s: str | None = None,
+        x_device_model: str | None = None,
     ) -> Any:
         url = f"/sub/{token}/{client_type}"
         params = None

@@ -1,12 +1,10 @@
 from __future__ import annotations
 
-from ._imports import (
+from ..models import (
     BaseHost,
     BulkHostsActionResponse,
     BulkHostSelection,
     CreateHost,
-    List,
-    Optional,
     RemoveHostsResponse,
 )
 
@@ -35,21 +33,21 @@ class HostMixin:
         return self._parse_response(response, None)
 
     async def get_hosts(
-        self, token: str, ids: Optional[List[int]] = None, offset: Optional[int] = 0, limit: Optional[int] = 0
-    ) -> List[BaseHost]:
+        self, token: str, ids: list[int] | None = None, offset: int | None = 0, limit: int | None = 0
+    ) -> list[BaseHost]:
         url = "/api/hosts"
         params = {"ids": ids, "offset": offset, "limit": limit}
         headers = None
         response = await self._request("GET", url, token=token, params=params, headers=headers)
-        return self._parse_response(response, List[BaseHost])
+        return self._parse_response(response, list[BaseHost])
 
-    async def modify_hosts(self, hosts: List[CreateHost], token: str) -> List[BaseHost]:
+    async def modify_hosts(self, hosts: list[CreateHost], token: str) -> list[BaseHost]:
         url = "/api/hosts"
         params = None
         headers = None
-        payload = self._validate_payload(hosts, List[CreateHost])
+        payload = self._validate_payload(hosts, list[CreateHost])
         response = await self._request("PUT", url, token=token, json_data=payload, params=params, headers=headers)
-        return self._parse_response(response, List[BaseHost])
+        return self._parse_response(response, list[BaseHost])
 
     async def create_host(self, host: CreateHost, token: str) -> BaseHost:
         url = "/api/host/"

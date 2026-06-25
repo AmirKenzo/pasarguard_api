@@ -1,10 +1,8 @@
 from __future__ import annotations
 
-from ._imports import (
+from ..models import (
     BulkUserTemplatesActionResponse,
     BulkUserTemplateSelection,
-    List,
-    Optional,
     RemoveUserTemplatesResponse,
     UserTemplateCreate,
     UserTemplateModify,
@@ -47,23 +45,23 @@ class UserTemplateMixin:
         return self._parse_response(response, None)
 
     async def get_user_templates(
-        self, token: str, ids: Optional[List[int]] = None, offset: Optional[int] = None, limit: Optional[int] = None
-    ) -> List[UserTemplateResponse]:
+        self, token: str, ids: list[int] | None = None, offset: int | None = None, limit: int | None = None
+    ) -> list[UserTemplateResponse]:
         url = "/api/user_templates"
         params = {"ids": ids, "offset": offset, "limit": limit}
         headers = None
         response = await self._request("GET", url, token=token, params=params, headers=headers)
-        return self._parse_response(response, List[UserTemplateResponse])
+        return self._parse_response(response, list[UserTemplateResponse])
 
     async def get_user_templates_simple(
         self,
         token: str,
-        ids: Optional[List[int]] = None,
-        offset: Optional[int] = None,
-        limit: Optional[int] = None,
-        search: Optional[str] = None,
-        sort: Optional[str] = None,
-        all: Optional[bool] = False,
+        ids: list[int] | None = None,
+        offset: int | None = None,
+        limit: int | None = None,
+        search: str | None = None,
+        sort: str | None = None,
+        all: bool | None = False,
     ) -> UserTemplatesSimpleResponse:
         url = "/api/user_templates/simple"
         params = {"ids": ids, "offset": offset, "limit": limit, "search": search, "sort": sort, "all": all}

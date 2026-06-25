@@ -1,9 +1,8 @@
 from __future__ import annotations
 
-from ._imports import (
-    Any,
-    UserHWIDListResponse,
-)
+from typing import Any
+
+from ..models import UserHWIDListResponse
 
 
 class UserHWIDMixin:

@@ -1,13 +1,11 @@
 from __future__ import annotations
 
-from ._imports import (
+from ..models import (
     BulkCoreSelection,
     CoreCreate,
     CoreResponse,
     CoreResponseList,
     CoresSimpleResponse,
-    List,
-    Optional,
     RemoveCoresResponse,
 )
 
@@ -36,7 +34,7 @@ class CoreMixin:
         response = await self._request("PUT", url, token=token, json_data=payload, params=params, headers=headers)
         return self._parse_response(response, CoreResponse)
 
-    async def delete_core_config(self, core_id: int, token: str, restart_nodes: Optional[bool] = False) -> None:
+    async def delete_core_config(self, core_id: int, token: str, restart_nodes: bool | None = False) -> None:
         url = f"/api/core/{core_id}"
         params = {"restart_nodes": restart_nodes}
         headers = None
@@ -44,7 +42,7 @@ class CoreMixin:
         return self._parse_response(response, None)
 
     async def get_all_cores(
-        self, token: str, ids: Optional[List[int]] = None, offset: Optional[int] = None, limit: Optional[int] = None
+        self, token: str, ids: list[int] | None = None, offset: int | None = None, limit: int | None = None
     ) -> CoreResponseList:
         url = "/api/cores"
         params = {"ids": ids, "offset": offset, "limit": limit}
@@ -55,12 +53,12 @@ class CoreMixin:
     async def get_cores_simple(
         self,
         token: str,
-        ids: Optional[List[int]] = None,
-        offset: Optional[int] = None,
-        limit: Optional[int] = None,
-        search: Optional[str] = None,
-        sort: Optional[str] = None,
-        all: Optional[bool] = False,
+        ids: list[int] | None = None,
+        offset: int | None = None,
+        limit: int | None = None,
+        search: str | None = None,
+        sort: str | None = None,
+        all: bool | None = False,
     ) -> CoresSimpleResponse:
         url = "/api/cores/simple"
         params = {"ids": ids, "offset": offset, "limit": limit, "search": search, "sort": sort, "all": all}

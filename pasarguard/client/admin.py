@@ -1,20 +1,21 @@
 from __future__ import annotations
 
-from ._imports import (
+from datetime import datetime
+from typing import (
+    Any,
+)
+
+from ..enums import Period
+from ..models import (
     AdminCreate,
     AdminDetails,
     AdminModify,
     AdminsResponse,
     AdminsSimpleResponse,
-    Any,
     BulkAdminsActionResponse,
     BulkAdminSelection,
-    List,
-    Optional,
-    Period,
     RemoveAdminsResponse,
     UserUsageStatsList,
-    datetime,
 )
 
 
@@ -89,12 +90,12 @@ class AdminMixin:
     async def get_admins(
         self,
         token: str,
-        ids: Optional[List[int]] = None,
-        usernames: Optional[List[str]] = None,
-        username: Optional[str] = None,
-        offset: Optional[int] = None,
-        limit: Optional[int] = None,
-        sort: Optional[str] = None,
+        ids: list[int] | None = None,
+        usernames: list[str] | None = None,
+        username: str | None = None,
+        offset: int | None = None,
+        limit: int | None = None,
+        sort: str | None = None,
     ) -> AdminsResponse:
         url = "/api/admins"
         params = {
@@ -112,13 +113,13 @@ class AdminMixin:
     async def get_admins_simple(
         self,
         token: str,
-        ids: Optional[List[int]] = None,
-        usernames: Optional[List[str]] = None,
-        search: Optional[str] = None,
-        offset: Optional[int] = None,
-        limit: Optional[int] = None,
-        sort: Optional[str] = None,
-        all: Optional[bool] = False,
+        ids: list[int] | None = None,
+        usernames: list[str] | None = None,
+        search: str | None = None,
+        offset: int | None = None,
+        limit: int | None = None,
+        sort: str | None = None,
+        all: bool | None = False,
     ) -> AdminsSimpleResponse:
         url = "/api/admins/simple"
         params = {
@@ -138,11 +139,11 @@ class AdminMixin:
         self,
         username: str,
         token: str,
-        period: Optional[Period] = "hour",
-        node_id: Optional[int] = None,
-        group_by_node: Optional[bool] = False,
-        start: Optional[datetime] = None,
-        end: Optional[datetime] = None,
+        period: Period | None = "hour",
+        node_id: int | None = None,
+        group_by_node: bool | None = False,
+        start: datetime | None = None,
+        end: datetime | None = None,
     ) -> UserUsageStatsList:
         url = f"/api/admin/{username}/usage"
         params = {"period": period, "node_id": node_id, "group_by_node": group_by_node, "start": start, "end": end}
@@ -154,11 +155,11 @@ class AdminMixin:
         self,
         username: str,
         token: str,
-        period: Optional[Period] = "hour",
-        node_id: Optional[int] = None,
-        group_by_node: Optional[bool] = False,
-        start: Optional[datetime] = None,
-        end: Optional[datetime] = None,
+        period: Period | None = "hour",
+        node_id: int | None = None,
+        group_by_node: bool | None = False,
+        start: datetime | None = None,
+        end: datetime | None = None,
     ) -> UserUsageStatsList:
         url = f"/api/admin/by-username/{username}/usage"
         params = {"period": period, "node_id": node_id, "group_by_node": group_by_node, "start": start, "end": end}
@@ -170,11 +171,11 @@ class AdminMixin:
         self,
         admin_id: int,
         token: str,
-        period: Optional[Period] = "hour",
-        node_id: Optional[int] = None,
-        group_by_node: Optional[bool] = False,
-        start: Optional[datetime] = None,
-        end: Optional[datetime] = None,
+        period: Period | None = "hour",
+        node_id: int | None = None,
+        group_by_node: bool | None = False,
+        start: datetime | None = None,
+        end: datetime | None = None,
     ) -> UserUsageStatsList:
         url = f"/api/admin/by-id/{admin_id}/usage"
         params = {"period": period, "node_id": node_id, "group_by_node": group_by_node, "start": start, "end": end}

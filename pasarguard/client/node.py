@@ -1,11 +1,19 @@
 from __future__ import annotations
 
-from ._imports import (
+from datetime import datetime
+from typing import (
     Any,
+)
+
+from ..enums import (
+    NodeStatus,
+    Period,
+    UsageTable,
+    UserCountMetric,
+)
+from ..models import (
     BulkNodesActionResponse,
     BulkNodeSelection,
-    Dict,
-    List,
     NodeCoreUpdate,
     NodeCreate,
     NodeGeoFilesUpdate,
@@ -17,18 +25,11 @@ from ._imports import (
     NodesResponse,
     NodesSimpleResponse,
     NodeStatsList,
-    NodeStatus,
     NodeUsageStatsList,
-    Optional,
-    Period,
     RemoveNodesResponse,
-    Union,
-    UsageTable,
-    UserCountMetric,
     UserCountMetricStatsList,
     UserIPList,
     UserIPListAll,
-    datetime,
 )
 
 
@@ -43,11 +44,11 @@ class NodeMixin:
     async def get_usage(
         self,
         token: str,
-        period: Optional[Period] = "hour",
-        node_id: Optional[int] = None,
-        group_by_node: Optional[bool] = False,
-        start: Optional[datetime] = None,
-        end: Optional[datetime] = None,
+        period: Period | None = "hour",
+        node_id: int | None = None,
+        group_by_node: bool | None = False,
+        start: datetime | None = None,
+        end: datetime | None = None,
     ) -> NodeUsageStatsList:
         url = "/api/node/usage"
         params = {"period": period, "node_id": node_id, "group_by_node": group_by_node, "start": start, "end": end}
@@ -59,11 +60,11 @@ class NodeMixin:
         self,
         metric: UserCountMetric,
         token: str,
-        period: Optional[Period] = "hour",
-        node_id: Optional[int] = None,
-        group_by_node: Optional[bool] = False,
-        start: Optional[datetime] = None,
-        end: Optional[datetime] = None,
+        period: Period | None = "hour",
+        node_id: int | None = None,
+        group_by_node: bool | None = False,
+        start: datetime | None = None,
+        end: datetime | None = None,
     ) -> UserCountMetricStatsList:
         url = f"/api/node/user_counts/{metric}"
         params = {"period": period, "node_id": node_id, "group_by_node": group_by_node, "start": start, "end": end}
@@ -74,13 +75,13 @@ class NodeMixin:
     async def get_nodes(
         self,
         token: str,
-        core_id: Optional[int] = None,
-        offset: Optional[int] = None,
-        limit: Optional[int] = None,
-        ids: Optional[List[int]] = None,
-        status: Optional[Union[NodeStatus, List[NodeStatus]]] = None,
-        enabled: Optional[bool] = False,
-        search: Optional[str] = None,
+        core_id: int | None = None,
+        offset: int | None = None,
+        limit: int | None = None,
+        ids: list[int] | None = None,
+        status: NodeStatus | list[NodeStatus] = None,
+        enabled: bool | None = False,
+        search: str | None = None,
     ) -> NodesResponse:
         url = "/api/nodes"
         params = {
@@ -99,12 +100,12 @@ class NodeMixin:
     async def get_nodes_simple(
         self,
         token: str,
-        ids: Optional[List[int]] = None,
-        offset: Optional[int] = None,
-        limit: Optional[int] = None,
-        search: Optional[str] = None,
-        sort: Optional[str] = None,
-        all: Optional[bool] = False,
+        ids: list[int] | None = None,
+        offset: int | None = None,
+        limit: int | None = None,
+        search: str | None = None,
+        sort: str | None = None,
+        all: bool | None = False,
     ) -> NodesSimpleResponse:
         url = "/api/nodes/simple"
         params = {"ids": ids, "offset": offset, "limit": limit, "search": search, "sort": sort, "all": all}
@@ -112,7 +113,7 @@ class NodeMixin:
         response = await self._request("GET", url, token=token, params=params, headers=headers)
         return self._parse_response(response, NodesSimpleResponse)
 
-    async def reconnect_all_node(self, token: str, core_id: Optional[int] = None) -> Any:
+    async def reconnect_all_node(self, token: str, core_id: int | None = None) -> Any:
         url = "/api/nodes/reconnect"
         params = {"core_id": core_id}
         headers = None
@@ -186,7 +187,7 @@ class NodeMixin:
         response = await self._request("POST", url, token=token, params=params, headers=headers)
         return self._parse_response(response, Any)
 
-    async def sync_node(self, node_id: int, token: str, flush_users: Optional[bool] = False) -> Any:
+    async def sync_node(self, node_id: int, token: str, flush_users: bool | None = False) -> Any:
         url = f"/api/node/{node_id}/sync"
         params = {"flush_users": flush_users}
         headers = None
@@ -204,9 +205,9 @@ class NodeMixin:
         self,
         node_id: int,
         token: str,
-        period: Optional[Period] = "hour",
-        start: Optional[datetime] = None,
-        end: Optional[datetime] = None,
+        period: Period | None = "hour",
+        start: datetime | None = None,
+        end: datetime | None = None,
     ) -> NodeStatsList:
         url = f"/api/node/{node_id}/stats"
         params = {"period": period, "start": start, "end": end}
@@ -222,7 +223,7 @@ class NodeMixin:
         return self._parse_response(response, NodeRealtimeStats)
 
     async def node_outbounds_latency(
-        self, node_id: int, token: str, name: Optional[str] = "", timeout: Optional[int] = None
+        self, node_id: int, token: str, name: str | None = "", timeout: int | None = None
     ) -> NodeOutboundsLatencyResponse:
         url = f"/api/node/{node_id}/outbounds_latency"
         params = {"name": name, "timeout": timeout}
@@ -230,12 +231,12 @@ class NodeMixin:
         response = await self._request("GET", url, token=token, params=params, headers=headers)
         return self._parse_response(response, NodeOutboundsLatencyResponse)
 
-    async def realtime_nodes_stats(self, token: str) -> Dict[str, Optional[NodeRealtimeStats]]:
+    async def realtime_nodes_stats(self, token: str) -> dict[str, NodeRealtimeStats | None]:
         url = "/api/nodes/realtime_stats"
         params = None
         headers = None
         response = await self._request("GET", url, token=token, params=params, headers=headers)
-        return self._parse_response(response, Dict[str, Optional[NodeRealtimeStats]])
+        return self._parse_response(response, dict[str, NodeRealtimeStats | None])
 
     async def user_online_ip_list_all_nodes(self, user_id: int, token: str) -> UserIPListAll:
         url = f"/api/node/online_stats/{user_id}/ip"
@@ -244,12 +245,12 @@ class NodeMixin:
         response = await self._request("GET", url, token=token, params=params, headers=headers)
         return self._parse_response(response, UserIPListAll)
 
-    async def user_online_stats(self, node_id: int, user_id: int, token: str) -> Dict[str, int]:
+    async def user_online_stats(self, node_id: int, user_id: int, token: str) -> dict[str, int]:
         url = f"/api/node/{node_id}/online_stats/{user_id}"
         params = None
         headers = None
         response = await self._request("GET", url, token=token, params=params, headers=headers)
-        return self._parse_response(response, Dict[str, int])
+        return self._parse_response(response, dict[str, int])
 
     async def user_online_ip_list(self, node_id: int, user_id: int, token: str) -> UserIPList:
         url = f"/api/node/{node_id}/online_stats/{user_id}/ip"
@@ -259,7 +260,7 @@ class NodeMixin:
         return self._parse_response(response, UserIPList)
 
     async def clear_usage_data(
-        self, table: UsageTable, token: str, start: Optional[datetime] = None, end: Optional[datetime] = None
+        self, table: UsageTable, token: str, start: datetime | None = None, end: datetime | None = None
     ) -> Any:
         url = f"/api/nodes/clear_usage_data/{table}"
         params = {"start": start, "end": end}
