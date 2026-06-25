@@ -1,6 +1,6 @@
 [project]
 name = "pasarguard"
-version = "2.2.3"
+version = "2.2.4"
 description = "A modern async Python client for the Pasarguard API with typed models and full admin automation support"
 readme = "README.md"
 license = "MIT"
