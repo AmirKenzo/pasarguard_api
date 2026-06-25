@@ -58,6 +58,7 @@ python users.py
 | [`setup.py`](setup.py) | Initial owner setup |
 | [`user_hwid.py`](user_hwid.py) | User HWID devices |
 | [`health.py`](health.py) | API health |
+| [`proxy.py`](proxy.py) | HTTP/SOCKS proxy for API requests |
 | [`legacy_aliases.py`](legacy_aliases.py) | Backward-compatible method names |
 
 ## Notes
