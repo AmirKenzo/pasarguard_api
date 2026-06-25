@@ -24,7 +24,7 @@ classifiers = [
 keywords = ["pasarguard", "api", "async", "httpx", "pydantic"]
 dependencies = [
     "datetime>=5.5",
-    "httpx>=0.28.1",
+    "httpx[socks]>=0.28.1",
     "pydantic>=2.4.1,<2.14",
 ]
 
@@ -46,3 +46,51 @@ build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
 packages = ["pasarguard"]
+
+# ----------------- Ruff ----------------- #
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+exclude = [
+    ".git",
+    ".venv",
+    "__pycache__",
+    ".mypy_cache",
+    ".pytest_cache",
+    ".ruff_cache",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",      # pycodestyle errors
+    "F",      # pyflakes: unused imports, undefined names, etc.
+    "I",      # isort: import sorting
+    "UP",     # pyupgrade: modern Python syntax
+    "B",      # flake8-bugbear: common bugs
+    "ASYNC",  # async/await common mistakes
+    "C4",     # comprehensions improvements
+    "SIM",    # simplify code
+    "RET",    # return statement improvements
+    "RUF",    # Ruff-specific rules
+]
+ignore = [
+    "E501",    # line length handled by formatter
+    "B008",    # allow function calls in default args when project already uses them
+    "RUF001",  # allow Persian/Unicode text that may look ambiguous
+    "RUF002",
+    "RUF003",
+]
+
+fixable = ["ALL"]
+unfixable = []
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+split-on-trailing-comma = true
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "auto"
+docstring-code-format = true
+docstring-code-line-length = 120

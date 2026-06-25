@@ -22,6 +22,8 @@ class BaseAPIClient:
         *,
         timeout: float = 10.0,
         verify: bool = False,
+        proxy: Optional[str] = None,
+        trust_env: bool = True,
         ssh_username: Optional[str] = None,
         ssh_host: Optional[str] = None,
         ssh_port: Optional[int] = 22,
@@ -33,9 +35,41 @@ class BaseAPIClient:
         remote_bind_host: str = "127.0.0.1",
         remote_bind_port: int = 8000,
     ):
+        """Create an async HTTP client for the Pasarguard panel API.
+
+        Args:
+            base_url: Panel base URL, e.g. ``"https://panel.example.com"``.
+            timeout: Request timeout in seconds.
+            verify: Whether to verify TLS certificates.
+            proxy: Optional proxy URL for all outgoing requests (passed to httpx).
+                Supported formats:
+
+                - ``"http://127.0.0.1:8080"`` — HTTP proxy without auth
+                - ``"http://user:pass@127.0.0.1:8080"`` — HTTP proxy with auth
+                - ``"socks5://127.0.0.1:1080"`` — SOCKS5 proxy without auth
+                - ``"socks5://user:pass@127.0.0.1:1080"`` — SOCKS5 proxy with auth
+
+                Set to ``None`` to disable an explicit proxy. When ``trust_env`` is
+                ``True``, httpx may still use ``HTTP_PROXY`` / ``HTTPS_PROXY`` from
+                the environment.
+            trust_env: Whether httpx reads proxy and TLS settings from environment
+                variables.
+            ssh_username: SSH username for tunnel mode (requires ``pasarguard[ssh]``).
+            ssh_host: Remote SSH host; when set, API calls go through an SSH tunnel.
+            ssh_port: SSH port on the remote host.
+            ssh_private_key_path: Path to an SSH private key file.
+            ssh_key_passphrase: Passphrase for an encrypted private key.
+            ssh_password: SSH password (alternative to a private key).
+            local_bind_host: Local address the SSH tunnel binds to.
+            local_bind_port: Local port the SSH tunnel binds to.
+            remote_bind_host: Remote address the tunnel forwards to.
+            remote_bind_port: Remote port the tunnel forwards to.
+        """
         self.base_url = base_url.rstrip("/")
         self.timeout = timeout
         self.verify = verify
+        self.proxy = proxy
+        self.trust_env = trust_env
         self.ssh_username = ssh_username
         self.ssh_host = ssh_host
         self.ssh_port = ssh_port
@@ -51,7 +85,7 @@ class BaseAPIClient:
         if ssh_host and not ssh_private_key_path and not ssh_password:
             raise ValueError("For an SSH tunnel, specify either ssh_private_key_path or ssh_password")
         if not ssh_host:
-            self.client = httpx.AsyncClient(base_url=self.base_url, verify=self.verify, timeout=self.timeout)
+            self.client = httpx.AsyncClient(base_url=self.base_url, verify=self.verify, timeout=self.timeout, proxy=self.proxy, trust_env=self.trust_env)
 
     async def __aenter__(self):
         return self
@@ -102,13 +136,15 @@ class BaseAPIClient:
             base_url=f"http://{self.local_bind_host}:{self.local_bind_port}",
             timeout=self.timeout,
             verify=self.verify,
+            proxy=self.proxy,
+            trust_env=self.trust_env
         )
 
     def _ensure_client(self) -> httpx.AsyncClient:
         if self.ssh_host and (not self.client or not self._tunnel or not self._tunnel.is_active):
             self._initialize()
         if not self.client:
-            self.client = httpx.AsyncClient(base_url=self.base_url, verify=self.verify, timeout=self.timeout)
+            self.client = httpx.AsyncClient(base_url=self.base_url, verify=self.verify, timeout=self.timeout, proxy=self.proxy, trust_env=self.trust_env)
         return self.client
 
     def _get_headers(self, token: Optional[str] = None, extra: Optional[Mapping[str, Any]] = None) -> Dict[str, str]:
