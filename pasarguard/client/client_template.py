@@ -13,7 +13,9 @@ from ..models import (
 
 
 class ClientTemplateMixin:
-    async def create_client_template(self, template: ClientTemplateCreate, token: str) -> ClientTemplateResponse:
+    async def create_client_template(
+        self, template: ClientTemplateCreate, token: str | None = None
+    ) -> ClientTemplateResponse:
         url = "/api/client_template"
         params = None
         headers = None
@@ -21,7 +23,7 @@ class ClientTemplateMixin:
         response = await self._request("POST", url, token=token, json_data=payload, params=params, headers=headers)
         return self._parse_response(response, ClientTemplateResponse)
 
-    async def get_client_template(self, template_id: int, token: str) -> ClientTemplateResponse:
+    async def get_client_template(self, template_id: int, token: str | None = None) -> ClientTemplateResponse:
         url = f"/api/client_template/{template_id}"
         params = None
         headers = None
@@ -29,7 +31,7 @@ class ClientTemplateMixin:
         return self._parse_response(response, ClientTemplateResponse)
 
     async def modify_client_template(
-        self, template_id: int, template: ClientTemplateModify, token: str
+        self, template_id: int, template: ClientTemplateModify, token: str | None = None
     ) -> ClientTemplateResponse:
         url = f"/api/client_template/{template_id}"
         params = None
@@ -38,7 +40,7 @@ class ClientTemplateMixin:
         response = await self._request("PUT", url, token=token, json_data=payload, params=params, headers=headers)
         return self._parse_response(response, ClientTemplateResponse)
 
-    async def remove_client_template(self, template_id: int, token: str) -> None:
+    async def remove_client_template(self, template_id: int, token: str | None = None) -> None:
         url = f"/api/client_template/{template_id}"
         params = None
         headers = None
@@ -47,7 +49,7 @@ class ClientTemplateMixin:
 
     async def get_client_templates(
         self,
-        token: str,
+        token: str | None = None,
         ids: list[int] | None = None,
         template_type: ClientTemplateType | None = None,
         offset: int | None = None,
@@ -61,7 +63,7 @@ class ClientTemplateMixin:
 
     async def get_client_templates_simple(
         self,
-        token: str,
+        token: str | None = None,
         ids: list[int] | None = None,
         template_type: ClientTemplateType | None = None,
         offset: int | None = None,
@@ -85,7 +87,7 @@ class ClientTemplateMixin:
         return self._parse_response(response, ClientTemplatesSimpleResponse)
 
     async def bulk_delete_client_templates(
-        self, bulk: BulkClientTemplateSelection, token: str
+        self, bulk: BulkClientTemplateSelection, token: str | None = None
     ) -> RemoveClientTemplatesResponse:
         url = "/api/client_templates/bulk/delete"
         params = None

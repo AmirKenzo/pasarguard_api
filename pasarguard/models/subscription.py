@@ -14,6 +14,7 @@ from ._base import (
     UserStatus,
     datetime,
 )
+from .common import CustomVariable
 from .proxy import ProxyTable
 from .user import NextPlanModel
 
@@ -66,6 +67,7 @@ class Subscription(PasarguardModel):
     allow_browser_config: Optional[bool] = True
     disable_sub_template: Optional[bool] = False
     randomize_order: Optional[bool] = False
+    custom_variables: Optional[List[CustomVariable]] = None
 
 
 class SubscriptionTemplates(PasarguardModel):

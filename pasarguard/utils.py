@@ -122,15 +122,29 @@ def random_username(
 
 
 class PasarguardTokenCache:
-    def __init__(self, client: "PasarguardAPI", username: str, password: str, token_expire_minutes: int = 1440):
+    def __init__(
+        self,
+        client: "PasarguardAPI",
+        username: str | None = None,
+        password: str | None = None,
+        api_key: str | None = None,
+        token_expire_minutes: int = 1440,
+    ):
+        if api_key and (username or password):
+            raise ValueError("Provide either api_key or username/password for PasarguardTokenCache")
+        if not api_key and not (username and password):
+            raise ValueError("PasarguardTokenCache requires api_key or username and password")
         self._client = client
         self._username = username
         self._password = password
+        self._api_key = api_key
         self._token_expire_minutes = token_expire_minutes
         self._token: str | None = None
         self._exp_at: datetime | None = None
 
     async def get_token(self):
+        if self._api_key:
+            return self._api_key
         if not self._exp_at or self._exp_at < datetime.now():
             logging.info("Get new token")
             self._token = await self.get_new_token()
@@ -138,6 +152,8 @@ class PasarguardTokenCache:
         return self._token
 
     async def get_new_token(self):
+        if self._api_key:
+            return self._api_key
         try:
             token = await self._client.get_token(username=self._username, password=self._password)
             return token.access_token

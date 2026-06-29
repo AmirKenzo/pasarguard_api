@@ -16,6 +16,7 @@ Set environment variables before running:
 export PASARGUARD_BASE_URL="https://panel.example.com"
 export PASARGUARD_ADMIN_USERNAME="admin"
 export PASARGUARD_ADMIN_PASSWORD="your-password"
+export PASARGUARD_API_KEY="pg_key_..."   # optional: skip login, use API key auth
 ```
 
 PowerShell:
@@ -46,6 +47,7 @@ python users.py
 | [`users.py`](users.py) | User CRUD, bulk ops, templates, usage |
 | [`admins.py`](admins.py) | Admin management |
 | [`admin_roles.py`](admin_roles.py) | Admin roles |
+| [`api_keys.py`](api_keys.py) | API keys (create, list, revoke, delete) |
 | [`groups.py`](groups.py) | Groups |
 | [`nodes.py`](nodes.py) | Nodes, stats, sync |
 | [`hosts.py`](hosts.py) | Hosts |

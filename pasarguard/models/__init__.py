@@ -7,6 +7,7 @@ from pydantic import BaseModel
 from ._base import PasarguardModel
 from .admin import *
 from .admin_role import *
+from .api_key import *
 from .client_template import *
 from .common import *
 from .core import *

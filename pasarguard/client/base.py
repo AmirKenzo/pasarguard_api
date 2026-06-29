@@ -30,6 +30,8 @@ class BaseAPIClient:
         local_bind_port: int = 8000,
         remote_bind_host: str = "127.0.0.1",
         remote_bind_port: int = 8000,
+        token: str | None = None,
+        api_key: str | None = None,
     ):
         """Create an async HTTP client for the Pasarguard panel API.
 
@@ -60,7 +62,14 @@ class BaseAPIClient:
             local_bind_port: Local port the SSH tunnel binds to.
             remote_bind_host: Remote address the tunnel forwards to.
             remote_bind_port: Remote port the tunnel forwards to.
+            token: Default admin JWT access token for authenticated API calls.
+                When set, you can omit ``token=`` on admin methods.
+            api_key: Default API key for authenticated API calls. Sent as the ``X-API-Key``
+                request header (not Bearer). When set, you can omit ``token=`` on admin
+                methods and skip username/password login.
         """
+        if token and api_key:
+            raise ValueError("Provide only one of token or api_key as the default credential")
         self.base_url = base_url.rstrip("/")
         self.timeout = timeout
         self.verify = verify
@@ -76,6 +85,8 @@ class BaseAPIClient:
         self.local_bind_port = local_bind_port
         self.remote_bind_host = remote_bind_host
         self.remote_bind_port = remote_bind_port
+        self._default_auth = token
+        self._default_api_key = api_key
         self.client: httpx.AsyncClient | None = None
         self._tunnel = None
         if ssh_host and not ssh_private_key_path and not ssh_password:
@@ -156,10 +167,33 @@ class BaseAPIClient:
             )
         return self.client
 
-    def _get_headers(self, token: str | None = None, extra: Mapping[str, Any] | None = None) -> dict[str, str]:
+    @staticmethod
+    def _looks_like_api_key(credential: str) -> bool:
+        return credential.startswith("pg_key_")
+
+    def _resolve_credential(self, token: str | None, authenticated: bool) -> str | None:
+        if not authenticated:
+            return None
+        if token is not None:
+            return token
+        if self._default_api_key:
+            return self._default_api_key
+        return self._default_auth
+
+    def _apply_auth_header(self, headers: dict[str, str], credential: str | None) -> None:
+        if not credential:
+            return
+        if self._default_api_key and credential == self._default_api_key:
+            headers["X-API-Key"] = credential
+            return
+        if self._looks_like_api_key(credential):
+            headers["X-API-Key"] = credential
+            return
+        headers["Authorization"] = f"Bearer {credential}"
+
+    def _get_headers(self, credential: str | None = None, extra: Mapping[str, Any] | None = None) -> dict[str, str]:
         headers: dict[str, str] = {}
-        if token:
-            headers["Authorization"] = f"Bearer {token}"
+        self._apply_auth_header(headers, credential)
         for key, value in (extra or {}).items():
             if value is not None:
                 headers[key] = str(self._serialize(value))
@@ -199,12 +233,18 @@ class BaseAPIClient:
         form_data: Any = None,
         params: Mapping[str, Any] | None = None,
         headers: Mapping[str, Any] | None = None,
+        authenticated: bool = True,
     ) -> httpx.Response:
+        auth_credential = self._resolve_credential(token, authenticated)
+        if authenticated and auth_credential is None:
+            raise ValueError(
+                "No auth credentials. Pass token= to this method, or set api_key= or token= when creating PasarguardAPI(...)"
+            )
         client = self._ensure_client()
         response = await client.request(
             method,
             url,
-            headers=self._get_headers(token, headers),
+            headers=self._get_headers(auth_credential, headers),
             json=json_data,
             data=form_data,
             params=self._clean_params(params),
@@ -236,7 +276,7 @@ class BaseAPIClient:
             "client_id": "",
             "client_secret": "",
         }
-        response = await self._request("POST", "/api/admin/token", form_data=payload)
+        response = await self._request("POST", "/api/admin/token", form_data=payload, authenticated=False)
         return self._parse_response(response, Token)
 
     async def admin_token(self, username: str, password: str) -> Token:
