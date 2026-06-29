@@ -3,6 +3,7 @@ from __future__ import annotations
 from ..enums.admin import AdminAccountStatus, AdminStatus
 from ._base import List, Optional, PasarguardModel
 from .admin_role import AdminRoleData, RoleLimits
+from .common import CustomVariable
 
 
 class AdminBase(PasarguardModel):
@@ -19,6 +20,7 @@ class AdminContactInfo(PasarguardModel):
     profile_title: Optional[str] = None
     support_url: Optional[str] = None
     notification_enable: Optional[AdminNotificationEnable] = None
+    custom_variables: Optional[List[CustomVariable]] = None
 
 
 class AdminCreate(PasarguardModel):
@@ -36,6 +38,7 @@ class AdminCreate(PasarguardModel):
     note: Optional[str] = None
     notification_enable: Optional[AdminNotificationEnable] = None
     permission_overrides: Optional[RoleLimits] = None
+    custom_variables: Optional[List[CustomVariable]] = None
 
 
 class AdminDetails(PasarguardModel):
@@ -58,6 +61,7 @@ class AdminDetails(PasarguardModel):
     note: Optional[str] = None
     role: Optional[AdminRoleData] = None
     permission_overrides: Optional[RoleLimits] = None
+    custom_variables: Optional[List[CustomVariable]] = None
 
 
 class AdminModify(PasarguardModel):
@@ -74,6 +78,7 @@ class AdminModify(PasarguardModel):
     notification_enable: Optional[AdminNotificationEnable] = None
     role_id: Optional[int] = None
     permission_overrides: Optional[RoleLimits] = None
+    custom_variables: Optional[List[CustomVariable]] = None
 
 
 class AdminNotificationEnable(PasarguardModel):
@@ -104,13 +109,16 @@ class AdminsSimpleResponse(PasarguardModel):
     total: int = ...
 
 
-class BodyAdminTokenApiAdminTokenPost(PasarguardModel):
+class BodyAdminToken(PasarguardModel):
     grant_type: Optional[str] = None
     username: str = ...
     password: str = ...
     scope: Optional[str] = ""
     client_id: Optional[str] = None
     client_secret: Optional[str] = None
+
+
+BodyAdminTokenApiAdminTokenPost = BodyAdminToken
 
 
 class BulkAdminSelection(PasarguardModel):
@@ -145,6 +153,7 @@ __all__ = (
     "AdminSimple",
     "AdminsResponse",
     "AdminsSimpleResponse",
+    "BodyAdminToken",
     "BodyAdminTokenApiAdminTokenPost",
     "BulkAdminSelection",
     "BulkAdminsActionResponse",

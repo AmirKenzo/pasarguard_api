@@ -14,14 +14,16 @@ class SetupMixin:
         params = None
         headers = None
         payload = self._validate_payload(request, OwnerCreateRequest)
-        response = await self._request("POST", url, token=None, json_data=payload, params=params, headers=headers)
+        response = await self._request(
+            "POST", url, authenticated=False, json_data=payload, params=params, headers=headers
+        )
         return self._parse_response(response, AdminDetails)
 
     async def delete_owner(self, key: str) -> None:
         url = "/api/setup/owner"
         params = {"key": key}
         headers = None
-        response = await self._request("DELETE", url, token=None, params=params, headers=headers)
+        response = await self._request("DELETE", url, authenticated=False, params=params, headers=headers)
         return self._parse_response(response, None)
 
     async def upgrade_owner(self, request: OwnerUpgradeRequest) -> AdminDetails:
@@ -29,7 +31,9 @@ class SetupMixin:
         params = None
         headers = None
         payload = self._validate_payload(request, OwnerUpgradeRequest)
-        response = await self._request("POST", url, token=None, json_data=payload, params=params, headers=headers)
+        response = await self._request(
+            "POST", url, authenticated=False, json_data=payload, params=params, headers=headers
+        )
         return self._parse_response(response, AdminDetails)
 
     async def reset_owner_password(self, request: OwnerResetRequest) -> AdminDetails:
@@ -37,5 +41,7 @@ class SetupMixin:
         params = None
         headers = None
         payload = self._validate_payload(request, OwnerResetRequest)
-        response = await self._request("PATCH", url, token=None, json_data=payload, params=params, headers=headers)
+        response = await self._request(
+            "PATCH", url, authenticated=False, json_data=payload, params=params, headers=headers
+        )
         return self._parse_response(response, AdminDetails)

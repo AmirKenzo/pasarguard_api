@@ -51,6 +51,51 @@ class HwidsPermissions(PasarguardModel):
     delete: Optional[bool] = None
 
 
+class APIKeysPermissions(PasarguardModel):
+    create: Optional[bool] = None
+    read: Optional[Union[bool, PermissionScope]] = None
+    read_simple: Optional[Union[bool, PermissionScope]] = None
+    update: Optional[Union[bool, PermissionScope]] = None
+    delete: Optional[Union[bool, PermissionScope]] = None
+
+    @model_validator(mode="before")
+    @classmethod
+    def _parse_api_payload(cls, data: Any) -> Any:
+        if not isinstance(data, dict):
+            return data
+        return {key: cls._parse_value(value) for key, value in data.items()}
+
+    @staticmethod
+    def _parse_value(value: Any) -> Union[bool, PermissionScope, None]:
+        if value is None:
+            return None
+        if isinstance(value, bool):
+            return value
+        if isinstance(value, PermissionScope):
+            return value
+        if isinstance(value, int):
+            return PermissionScope(value)
+        if isinstance(value, dict):
+            return PermissionScope(int(value["scope"]))
+        raise ValueError(f"invalid api key permission: {value!r}")
+
+    @staticmethod
+    def _wire_value(value: Union[bool, PermissionScope, int, None]) -> Any:
+        if value is None:
+            return None
+        if isinstance(value, bool):
+            return value
+        if isinstance(value, int):
+            value = PermissionScope(value)
+        if value is PermissionScope.NONE:
+            return None
+        return {"scope": int(value)}
+
+    @model_serializer(mode="wrap")
+    def _to_api_payload(self, handler):
+        return {key: wired for key, value in handler(self).items() if (wired := self._wire_value(value)) is not None}
+
+
 class SettingsPermissions(PasarguardModel):
     read: Optional[bool] = None
     read_general: Optional[bool] = None
@@ -146,6 +191,7 @@ class RolePermissions(PasarguardModel):
     system: Optional[SystemPermissions] = None
     hwids: Optional[HwidsPermissions] = None
     admin_roles: Optional[CRUDPermissions] = None
+    api_keys: Optional[APIKeysPermissions] = None
 
 
 class AdminRoleCreate(PasarguardModel):
@@ -234,6 +280,7 @@ class OwnerUpgradeRequest(PasarguardModel):
 
 
 __all__ = (
+    "APIKeysPermissions",
     "AdminRoleCreate",
     "AdminRoleData",
     "AdminRoleModify",

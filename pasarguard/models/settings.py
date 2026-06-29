@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from ._base import Field, HWIDMode, List, Optional, PasarguardModel, RunMethod, ShadowsocksMethods
 from .admin import AdminNotificationEnable
-from .common import BaseNotificationEnable
+from .common import BaseNotificationEnable, CustomVariable
 from .host import HostNotificationEnable
 from .node import NodeNotificationEnable
 from .subscription import Subscription
@@ -11,6 +11,7 @@ from .user import UserNotificationEnable
 
 class General(PasarguardModel):
     default_method: Optional[ShadowsocksMethods] = "chacha20-ietf-poly1305"
+    custom_variables: Optional[List[CustomVariable]] = None
 
 
 class HWIDSettings(PasarguardModel):
@@ -47,6 +48,7 @@ class NotificationChannels(PasarguardModel):
     node: Optional[NotificationChannel] = None
     user: Optional[NotificationChannel] = None
     user_template: Optional[NotificationChannel] = None
+    api_key: Optional[NotificationChannel] = None
 
 
 class NotificationEnable(PasarguardModel):
@@ -58,6 +60,7 @@ class NotificationEnable(PasarguardModel):
     node: Optional[NodeNotificationEnable] = None
     user: Optional[UserNotificationEnable] = None
     user_template: Optional[BaseNotificationEnable] = None
+    api_key: Optional[BaseNotificationEnable] = None
     days_left: Optional[bool] = True
     percentage_reached: Optional[bool] = True
 

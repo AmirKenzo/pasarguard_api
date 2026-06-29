@@ -35,14 +35,14 @@ class SubscriptionMixin:
             "X-Ver-OS": x_ver_o_s,
             "X-Device-Model": x_device_model,
         }
-        response = await self._request("GET", url, token=None, params=params, headers=headers)
+        response = await self._request("GET", url, authenticated=False, params=params, headers=headers)
         return self._parse_response(response, Any)
 
     async def user_subscription_info(self, token: str) -> SubscriptionUserResponse:
         url = f"/sub/{token}/info"
         params = None
         headers = None
-        response = await self._request("GET", url, token=None, params=params, headers=headers)
+        response = await self._request("GET", url, authenticated=False, params=params, headers=headers)
         return self._parse_response(response, SubscriptionUserResponse)
 
     async def user_subscription_raw(
@@ -63,14 +63,14 @@ class SubscriptionMixin:
             "X-Ver-OS": x_ver_o_s,
             "X-Device-Model": x_device_model,
         }
-        response = await self._request("GET", url, token=None, params=params, headers=headers)
+        response = await self._request("GET", url, authenticated=False, params=params, headers=headers)
         return self._parse_response(response, Any)
 
     async def user_subscription_apps(self, token: str) -> list[Application]:
         url = f"/sub/{token}/apps"
         params = None
         headers = None
-        response = await self._request("GET", url, token=None, params=params, headers=headers)
+        response = await self._request("GET", url, authenticated=False, params=params, headers=headers)
         return self._parse_response(response, list[Application])
 
     async def get_sub_user_usage(
@@ -83,7 +83,7 @@ class SubscriptionMixin:
         url = f"/sub/{token}/usage"
         params = {"period": period, "start": start, "end": end}
         headers = None
-        response = await self._request("GET", url, token=None, params=params, headers=headers)
+        response = await self._request("GET", url, authenticated=False, params=params, headers=headers)
         return self._parse_response(response, UserUsageStatsList)
 
     async def user_subscription_with_client_type(
@@ -103,5 +103,5 @@ class SubscriptionMixin:
             "X-Ver-OS": x_ver_o_s,
             "X-Device-Model": x_device_model,
         }
-        response = await self._request("GET", url, token=None, params=params, headers=headers)
+        response = await self._request("GET", url, authenticated=False, params=params, headers=headers)
         return self._parse_response(response, Any)

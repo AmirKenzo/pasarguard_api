@@ -20,6 +20,7 @@ from pasarguard import PasarguardAPI, PasarguardTokenCache
 BASE_URL = os.environ.get("PASARGUARD_BASE_URL", "https://your-panel.example.com")
 ADMIN_USERNAME = os.environ.get("PASARGUARD_ADMIN_USERNAME", "admin")
 ADMIN_PASSWORD = os.environ.get("PASARGUARD_ADMIN_PASSWORD", "password")
+API_KEY = os.environ.get("PASARGUARD_API_KEY")
 
 
 async def main() -> None:
@@ -41,7 +42,18 @@ async def main() -> None:
         )
         cached = await cache.get_token()
         assert cached == await cache.get_token()
-        print("OK PasarguardTokenCache")
+        print("OK PasarguardTokenCache (username/password)")
+
+        if API_KEY:
+            async with PasarguardAPI(base_url=BASE_URL, api_key=API_KEY, verify=True, timeout=30.0) as api_key_client:
+                me = await api_key_client.get_current_admin()
+                print(f"OK API key client -> {me.username}")
+
+            key_cache = PasarguardTokenCache(client=api, api_key=API_KEY)
+            assert await key_cache.get_token() == API_KEY
+            print("OK PasarguardTokenCache (api_key)")
+        else:
+            print("INFO set PASARGUARD_API_KEY to demo API-key auth without login")
 
         # Telegram Mini App only — requires a valid X-Telegram-Authorization header
         # telegram_auth = "query_id=...&user=...&auth_date=...&hash=..."

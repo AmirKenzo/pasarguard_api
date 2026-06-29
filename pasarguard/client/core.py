@@ -11,7 +11,7 @@ from ..models import (
 
 
 class CoreMixin:
-    async def create_core_config(self, core: CoreCreate, token: str) -> CoreResponse:
+    async def create_core_config(self, core: CoreCreate, token: str | None = None) -> CoreResponse:
         url = "/api/core"
         params = None
         headers = None
@@ -19,14 +19,16 @@ class CoreMixin:
         response = await self._request("POST", url, token=token, json_data=payload, params=params, headers=headers)
         return self._parse_response(response, CoreResponse)
 
-    async def get_core_config(self, core_id: int, token: str) -> CoreResponse:
+    async def get_core_config(self, core_id: int, token: str | None = None) -> CoreResponse:
         url = f"/api/core/{core_id}"
         params = None
         headers = None
         response = await self._request("GET", url, token=token, params=params, headers=headers)
         return self._parse_response(response, CoreResponse)
 
-    async def modify_core_config(self, core_id: int, core: CoreCreate, restart_nodes: bool, token: str) -> CoreResponse:
+    async def modify_core_config(
+        self, core_id: int, core: CoreCreate, restart_nodes: bool, token: str | None = None
+    ) -> CoreResponse:
         url = f"/api/core/{core_id}"
         params = {"restart_nodes": restart_nodes}
         headers = None
@@ -34,7 +36,9 @@ class CoreMixin:
         response = await self._request("PUT", url, token=token, json_data=payload, params=params, headers=headers)
         return self._parse_response(response, CoreResponse)
 
-    async def delete_core_config(self, core_id: int, token: str, restart_nodes: bool | None = False) -> None:
+    async def delete_core_config(
+        self, core_id: int, token: str | None = None, restart_nodes: bool | None = False
+    ) -> None:
         url = f"/api/core/{core_id}"
         params = {"restart_nodes": restart_nodes}
         headers = None
@@ -42,7 +46,11 @@ class CoreMixin:
         return self._parse_response(response, None)
 
     async def get_all_cores(
-        self, token: str, ids: list[int] | None = None, offset: int | None = None, limit: int | None = None
+        self,
+        token: str | None = None,
+        ids: list[int] | None = None,
+        offset: int | None = None,
+        limit: int | None = None,
     ) -> CoreResponseList:
         url = "/api/cores"
         params = {"ids": ids, "offset": offset, "limit": limit}
@@ -52,7 +60,7 @@ class CoreMixin:
 
     async def get_cores_simple(
         self,
-        token: str,
+        token: str | None = None,
         ids: list[int] | None = None,
         offset: int | None = None,
         limit: int | None = None,
@@ -66,14 +74,14 @@ class CoreMixin:
         response = await self._request("GET", url, token=token, params=params, headers=headers)
         return self._parse_response(response, CoresSimpleResponse)
 
-    async def restart_core(self, core_id: int, token: str) -> None:
+    async def restart_core(self, core_id: int, token: str | None = None) -> None:
         url = f"/api/core/{core_id}/restart"
         params = None
         headers = None
         response = await self._request("POST", url, token=token, params=params, headers=headers)
         return self._parse_response(response, None)
 
-    async def bulk_delete_cores(self, bulk: BulkCoreSelection, token: str) -> RemoveCoresResponse:
+    async def bulk_delete_cores(self, bulk: BulkCoreSelection, token: str | None = None) -> RemoveCoresResponse:
         url = "/api/cores/bulk/delete"
         params = None
         headers = None

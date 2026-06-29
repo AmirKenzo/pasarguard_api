@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from .admin import AdminMixin
 from .admin_role import AdminRoleMixin
+from .api_key import ApiKeyMixin
 from .base import BaseAPIClient
 from .client_template import ClientTemplateMixin
 from .compat import CompatibilityMixin
@@ -23,6 +24,7 @@ class PasarguardAPI(
     CompatibilityMixin,
     SetupMixin,
     AdminRoleMixin,
+    ApiKeyMixin,
     UserHWIDMixin,
     UserTemplateMixin,
     SubscriptionMixin,

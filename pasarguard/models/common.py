@@ -3,6 +3,11 @@ from __future__ import annotations
 from ._base import Any, Dict, List, Optional, PasarguardModel, Union
 
 
+class CustomVariable(PasarguardModel):
+    key: str = ...
+    value: Optional[str] = ""
+
+
 class BaseNotificationEnable(PasarguardModel):
     create: Optional[bool] = True
     modify: Optional[bool] = True
@@ -57,6 +62,7 @@ class ValidationError(PasarguardModel):
 __all__ = (
     "BaseNotificationEnable",
     "Conflict",
+    "CustomVariable",
     "Forbidden",
     "HTTPException",
     "HTTPRequest",

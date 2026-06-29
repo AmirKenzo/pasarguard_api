@@ -75,6 +75,7 @@ class NodeNotificationEnable(PasarguardModel):
     modify: Optional[bool] = True
     delete: Optional[bool] = True
     connect: Optional[bool] = True
+    recovered: Optional[bool] = True
     error: Optional[bool] = True
     limited: Optional[bool] = True
     reset_usage: Optional[bool] = True
