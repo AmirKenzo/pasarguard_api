@@ -239,10 +239,11 @@ class XrayMuxSettingsOutput(PasarguardModel):
 
 class XrayNoiseSettings(PasarguardModel):
     type: str = ...
-    packet: str = ...
-    delay: str = ...
+    packet: Optional[Union[str, List[int]]] = None
+    delay: Optional[Union[str, int]] = None
     apply_to: Optional[str] = "ip"
-    rand_range: Optional[str] = None
+    rand: Optional[Union[int, str]] = None
+    rand_range: Optional[str] = Field(None, alias="randRange")
 
 
 VmessSettings = VMessSettings
