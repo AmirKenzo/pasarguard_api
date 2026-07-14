@@ -17,6 +17,13 @@ from ..models import (
 
 
 class SubscriptionMixin:
+    async def user_subscription_head(self, token: str) -> Any:
+        url = f"/sub/{token}/"
+        params = None
+        headers = None
+        response = await self._request("HEAD", url, authenticated=False, params=params, headers=headers)
+        return self._parse_response(response, Any)
+
     async def user_subscription(
         self,
         token: str,
