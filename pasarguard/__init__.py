@@ -249,8 +249,8 @@ from .models import (
 )
 from .utils import PasarguardTokenCache, Tools
 
-__version__ = "2.3.0"
-OPENAPI_VERSION = "5.0.3"
+__version__ = "2.3.1"
+OPENAPI_VERSION = "5.1.0"
 
 __all__ = (
     "OPENAPI_VERSION",

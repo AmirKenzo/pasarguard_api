@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from ._base import (
+    Any,
     Dict,
     ECHQueryStrategy,
     List,
@@ -42,6 +43,7 @@ class BaseHost(PasarguardModel):
     mux_settings: Optional[MuxSettingsOutput] = None
     fragment_settings: Optional[FragmentSettings] = None
     noise_settings: Optional[NoiseSettings] = None
+    final_mask_settings: Optional[Dict[str, Any]] = None
     random_user_agent: Optional[bool] = False
     use_sni_as_host: Optional[bool] = False
     vless_route: Optional[str] = None
@@ -83,6 +85,7 @@ class CreateHost(PasarguardModel):
     mux_settings: Optional[MuxSettingsInput] = None
     fragment_settings: Optional[FragmentSettings] = None
     noise_settings: Optional[NoiseSettings] = None
+    final_mask_settings: Optional[Dict[str, Any]] = None
     random_user_agent: Optional[bool] = False
     use_sni_as_host: Optional[bool] = False
     vless_route: Optional[str] = None
