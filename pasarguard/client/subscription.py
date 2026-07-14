@@ -28,18 +28,18 @@ class SubscriptionMixin:
         self,
         token: str,
         user_agent: str | None = "",
-        x_h_w_i_d: str | None = None,
-        x_device_o_s: str | None = None,
-        x_ver_o_s: str | None = None,
+        x_hwid: str | None = None,
+        x_device_os: str | None = None,
+        x_ver_os: str | None = None,
         x_device_model: str | None = None,
     ) -> Any:
         url = f"/sub/{token}/"
         params = None
         headers = {
             "user-agent": user_agent,
-            "X-HWID": x_h_w_i_d,
-            "X-Device-OS": x_device_o_s,
-            "X-Ver-OS": x_ver_o_s,
+            "X-HWID": x_hwid,
+            "X-Device-OS": x_device_os,
+            "X-Ver-OS": x_ver_os,
             "X-Device-Model": x_device_model,
         }
         response = await self._request("GET", url, authenticated=False, params=params, headers=headers)
@@ -56,18 +56,18 @@ class SubscriptionMixin:
         self,
         token: str,
         x_subscription_user_agent: str | None = "",
-        x_h_w_i_d: str | None = None,
-        x_device_o_s: str | None = None,
-        x_ver_o_s: str | None = None,
+        x_hwid: str | None = None,
+        x_device_os: str | None = None,
+        x_ver_os: str | None = None,
         x_device_model: str | None = None,
     ) -> Any:
         url = f"/sub/{token}/raw"
         params = None
         headers = {
             "X-Subscription-User-Agent": x_subscription_user_agent,
-            "X-HWID": x_h_w_i_d,
-            "X-Device-OS": x_device_o_s,
-            "X-Ver-OS": x_ver_o_s,
+            "X-HWID": x_hwid,
+            "X-Device-OS": x_device_os,
+            "X-Ver-OS": x_ver_os,
             "X-Device-Model": x_device_model,
         }
         response = await self._request("GET", url, authenticated=False, params=params, headers=headers)
@@ -97,17 +97,17 @@ class SubscriptionMixin:
         self,
         token: str,
         client_type: ConfigFormat,
-        x_h_w_i_d: str | None = None,
-        x_device_o_s: str | None = None,
-        x_ver_o_s: str | None = None,
+        x_hwid: str | None = None,
+        x_device_os: str | None = None,
+        x_ver_os: str | None = None,
         x_device_model: str | None = None,
     ) -> Any:
         url = f"/sub/{token}/{client_type}"
         params = None
         headers = {
-            "X-HWID": x_h_w_i_d,
-            "X-Device-OS": x_device_o_s,
-            "X-Ver-OS": x_ver_o_s,
+            "X-HWID": x_hwid,
+            "X-Device-OS": x_device_os,
+            "X-Ver-OS": x_ver_os,
             "X-Device-Model": x_device_model,
         }
         response = await self._request("GET", url, authenticated=False, params=params, headers=headers)
