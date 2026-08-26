@@ -86,7 +86,6 @@ from .models import (
     BulkUsersSetOwner,
     BulkUserTemplatesActionResponse,
     BulkUserTemplateSelection,
-    BulkWireGuardPeerIPs,
     ClashMuxSettings,
     ClientTemplateCreate,
     ClientTemplateModify,
@@ -165,6 +164,8 @@ from .models import (
     PasarguardModel,
     ProxySettings,
     ProxyTable,
+    RealityScanRequest,
+    RealityScanResult,
     RemoveAdminsResponse,
     RemoveAPIKeysResponse,
     RemoveClientTemplatesResponse,
@@ -217,6 +218,7 @@ from .models import (
     UserStatusToggle,
     UserSubscriptionUpdateChart,
     UserSubscriptionUpdateChartSegment,
+    UserSubscriptionUpdateChartStat,
     UserSubscriptionUpdateList,
     UserSubscriptionUpdateSchema,
     UserTemplateCreate,
@@ -234,8 +236,8 @@ from .models import (
     WebhookInfo,
     WebSocketSettings,
     WireGuardHostOverrides,
-    WireGuardPeerIPsReallocateResponse,
     WireGuardSettings,
+    WireGuardSubnetUsage,
     WorkerHealth,
     WorkersHealth,
     XHttpSettingsInput,
@@ -250,7 +252,7 @@ from .models import (
 from .utils import PasarguardTokenCache, Tools
 
 __version__ = "2.3.1"
-OPENAPI_VERSION = "5.1.0"
+OPENAPI_VERSION = "5.2.1"
 
 __all__ = (
     "OPENAPI_VERSION",
@@ -310,7 +312,6 @@ __all__ = (
     "BulkUsersProxy",
     "BulkUsersSelection",
     "BulkUsersSetOwner",
-    "BulkWireGuardPeerIPs",
     "CRUDPermissions",
     "ClashMuxSettings",
     "ClientTemplateCreate",
@@ -409,6 +410,8 @@ __all__ = (
     "ProxyHostSecurity",
     "ProxySettings",
     "ProxyTable",
+    "RealityScanRequest",
+    "RealityScanResult",
     "RemoveAPIKeysResponse",
     "RemoveAdminsResponse",
     "RemoveClientTemplatesResponse",
@@ -467,6 +470,7 @@ __all__ = (
     "UserStatusToggle",
     "UserSubscriptionUpdateChart",
     "UserSubscriptionUpdateChartSegment",
+    "UserSubscriptionUpdateChartStat",
     "UserSubscriptionUpdateList",
     "UserSubscriptionUpdateSchema",
     "UserTemplateCreate",
@@ -488,8 +492,8 @@ __all__ = (
     "Webhook",
     "WebhookInfo",
     "WireGuardHostOverrides",
-    "WireGuardPeerIPsReallocateResponse",
     "WireGuardSettings",
+    "WireGuardSubnetUsage",
     "WorkerHealth",
     "WorkersHealth",
     "XHttpModes",

@@ -5,6 +5,7 @@ from ..models import (
     SystemResourceStats,
     SystemStats,
     SystemUsersStats,
+    WireGuardSubnetUsage,
     WorkersHealth,
 )
 
@@ -53,3 +54,10 @@ class SystemMixin:
         headers = None
         response = await self._request("GET", url, token=token, params=params, headers=headers)
         return self._parse_response(response, WorkersHealth)
+
+    async def get_wireguard_subnets(self, token: str | None = None) -> list[WireGuardSubnetUsage]:
+        url = "/api/wireguard/subnets"
+        params = None
+        headers = None
+        response = await self._request("GET", url, token=token, params=params, headers=headers)
+        return self._parse_response(response, list[WireGuardSubnetUsage])

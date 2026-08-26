@@ -165,6 +165,8 @@ class XHttpSettingsInput(PasarguardModel):
     uplink_http_method: Optional[str] = None
     session_placement: Optional[str] = None
     session_key: Optional[str] = None
+    session_id_table: Optional[str] = None
+    session_id_length: Optional[Union[str, int]] = None
     seq_placement: Optional[str] = None
     seq_key: Optional[str] = None
     uplink_data_placement: Optional[str] = None
@@ -188,6 +190,8 @@ class XHttpSettingsOutput(PasarguardModel):
     uplink_http_method: Optional[str] = None
     session_placement: Optional[str] = None
     session_key: Optional[str] = None
+    session_id_table: Optional[str] = None
+    session_id_length: Optional[str] = None
     seq_placement: Optional[str] = None
     seq_key: Optional[str] = None
     uplink_data_placement: Optional[str] = None

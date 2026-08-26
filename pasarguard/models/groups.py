@@ -6,6 +6,7 @@ from ._base import Field, List, Optional, PasarguardModel
 class BulkGroup(PasarguardModel):
     group_ids: List[int] = ...
     has_group_ids: Optional[List[int]] = None
+    has_no_group: Optional[bool] = False
     admins: Optional[List[int]] = None
     users: Optional[List[int]] = None
     dry_run: Optional[bool] = False

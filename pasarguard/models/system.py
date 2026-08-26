@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from ._base import Optional, PasarguardModel
+from ._base import List, Optional, PasarguardModel
 
 
 class InboundSummary(PasarguardModel):
@@ -58,6 +58,15 @@ class WorkerHealth(PasarguardModel):
     error: Optional[str] = None
 
 
+class WireGuardSubnetUsage(PasarguardModel):
+    subnet: str = ...
+    interface_tags: List[str] = ...
+    capacity: int = ...
+    used: int = ...
+    free: int = ...
+    free_ips: List[str] = ...
+
+
 class WorkersHealth(PasarguardModel):
     scheduler: WorkerHealth = ...
     node: WorkerHealth = ...
@@ -68,6 +77,7 @@ __all__ = (
     "SystemResourceStats",
     "SystemStats",
     "SystemUsersStats",
+    "WireGuardSubnetUsage",
     "WorkerHealth",
     "WorkersHealth",
 )

@@ -22,7 +22,6 @@ from ..models import (
     BulkUsersProxy,
     BulkUsersSelection,
     BulkUsersSetOwner,
-    BulkWireGuardPeerIPs,
     CreateUserFromTemplate,
     ModifyUserByTemplate,
     RemoveUsersResponse,
@@ -36,7 +35,6 @@ from ..models import (
     UserSubscriptionUpdateChart,
     UserSubscriptionUpdateList,
     UserUsageStatsList,
-    WireGuardPeerIPsReallocateResponse,
 )
 
 ExpiredUsersTarget = Literal["expired", "limited"]
@@ -612,16 +610,6 @@ class UserMixin:
         payload = self._validate_payload(bulk, BulkUsersProxy)
         response = await self._request("POST", url, token=token, json_data=payload, params=params, headers=headers)
         return self._parse_response(response, Any)
-
-    async def bulk_reallocate_wireguard_peer_ips(
-        self, bulk: BulkWireGuardPeerIPs, token: str | None = None
-    ) -> WireGuardPeerIPsReallocateResponse:
-        url = "/api/users/bulk/wireguard/reallocate-peer-ips"
-        params = None
-        headers = None
-        payload = self._validate_payload(bulk, BulkWireGuardPeerIPs)
-        response = await self._request("POST", url, token=token, json_data=payload, params=params, headers=headers)
-        return self._parse_response(response, WireGuardPeerIPsReallocateResponse)
 
     async def set_user_disabled(
         self, username: str, status: UserStatusToggle, token: str | None = None
