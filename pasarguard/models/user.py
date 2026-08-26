@@ -74,18 +74,6 @@ class BulkUsersSetOwner(PasarguardModel):
     admin_username: str = ...
 
 
-class BulkWireGuardPeerIPs(PasarguardModel):
-    dry_run: Optional[bool] = False
-    group_ids: Optional[List[int]] = None
-    admins: Optional[List[int]] = None
-    users: Optional[List[int]] = None
-    status: Optional[List[UserStatus]] = None
-    expire_after: Optional[datetime] = None
-    expire_before: Optional[datetime] = None
-    confirm: Optional[bool] = False
-    replace_all: Optional[bool] = False
-
-
 class CreateUserFromTemplate(PasarguardModel):
     user_template_id: int = ...
     note: Optional[str] = None
@@ -194,14 +182,24 @@ class UserSimple(PasarguardModel):
 
 
 class UserSubscriptionUpdateChart(PasarguardModel):
+    period: Optional[Period] = None
+    start: datetime = ...
+    end: datetime = ...
     total: int = ...
     segments: Optional[List[UserSubscriptionUpdateChartSegment]] = None
+    stats: Optional[List[UserSubscriptionUpdateChartStat]] = None
 
 
 class UserSubscriptionUpdateChartSegment(PasarguardModel):
     name: str = ...
     count: int = ...
     percentage: float = ...
+
+
+class UserSubscriptionUpdateChartStat(PasarguardModel):
+    period_start: datetime = ...
+    agent: str = ...
+    count: int = ...
 
 
 class UserSubscriptionUpdateList(PasarguardModel):
@@ -242,15 +240,6 @@ class UserStatusToggle(PasarguardModel):
     disabled: bool = ...
 
 
-class WireGuardPeerIPsReallocateResponse(PasarguardModel):
-    wireguard_inbound_tags: int = ...
-    candidates: int = ...
-    updated: int = ...
-    dry_run: bool = ...
-    sample_usernames: List[str] = ...
-    affected_users: int = ...
-
-
 __all__ = (
     "BulkUser",
     "BulkUsersActionResponse",
@@ -260,7 +249,6 @@ __all__ = (
     "BulkUsersProxy",
     "BulkUsersSelection",
     "BulkUsersSetOwner",
-    "BulkWireGuardPeerIPs",
     "CreateUserFromTemplate",
     "ModifyUserByTemplate",
     "NextPlanModel",
@@ -275,11 +263,11 @@ __all__ = (
     "UserStatusToggle",
     "UserSubscriptionUpdateChart",
     "UserSubscriptionUpdateChartSegment",
+    "UserSubscriptionUpdateChartStat",
     "UserSubscriptionUpdateList",
     "UserSubscriptionUpdateSchema",
     "UserUsageStat",
     "UserUsageStatsList",
     "UsersResponse",
     "UsersSimpleResponse",
-    "WireGuardPeerIPsReallocateResponse",
 )

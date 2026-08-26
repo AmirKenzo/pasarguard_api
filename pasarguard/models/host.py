@@ -55,6 +55,7 @@ class BaseHost(PasarguardModel):
     verify_peer_cert_by_name: Optional[List[str]] = None
     wireguard_overrides: Optional[WireGuardHostOverrides] = None
     subscription_templates: Optional[SubscriptionTemplates] = None
+    cipher_suites: Optional[str] = None
 
 
 class BulkHostSelection(PasarguardModel):
@@ -97,6 +98,7 @@ class CreateHost(PasarguardModel):
     verify_peer_cert_by_name: Optional[List[str]] = None
     wireguard_overrides: Optional[WireGuardHostOverrides] = None
     subscription_templates: Optional[SubscriptionTemplates] = None
+    cipher_suites: Optional[str] = None
 
 
 class HostNotificationEnable(PasarguardModel):

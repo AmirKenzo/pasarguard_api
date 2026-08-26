@@ -6,6 +6,8 @@ from ..models import (
     CoreResponse,
     CoreResponseList,
     CoresSimpleResponse,
+    RealityScanRequest,
+    RealityScanResult,
     RemoveCoresResponse,
 )
 
@@ -88,3 +90,11 @@ class CoreMixin:
         payload = self._validate_payload(bulk, BulkCoreSelection)
         response = await self._request("POST", url, token=token, json_data=payload, params=params, headers=headers)
         return self._parse_response(response, RemoveCoresResponse)
+
+    async def scan_reality_target(self, scan: RealityScanRequest, token: str | None = None) -> RealityScanResult:
+        url = "/api/core/reality-scan"
+        params = None
+        headers = None
+        payload = self._validate_payload(scan, RealityScanRequest)
+        response = await self._request("POST", url, token=token, json_data=payload, params=params, headers=headers)
+        return self._parse_response(response, RealityScanResult)
