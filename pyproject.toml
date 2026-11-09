@@ -25,7 +25,7 @@ keywords = ["pasarguard", "api", "async", "httpx", "pydantic"]
 dependencies = [
     "datetime>=5.5",
     "httpx[socks]>=0.28.1",
-    "pydantic>=2.4.1,<2.14",
+    "pydantic>=2.4.1,<2.15",
 ]
 
 [project.optional-dependencies]
