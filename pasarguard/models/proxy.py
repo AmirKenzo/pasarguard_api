@@ -237,12 +237,12 @@ class XHttpSettingsOutput(PasarguardModel):
 
 
 class XMuxSettingsInput(PasarguardModel):
-    max_concurrency: Optional[Union[str, int]] = None
-    max_connections: Optional[Union[str, int]] = None
-    c_max_reuse_times: Optional[Union[str, int]] = None
-    h_max_reusable_secs: Optional[Union[str, int]] = None
-    h_max_request_times: Optional[Union[str, int]] = None
-    h_keep_alive_period: Optional[int] = None
+    max_concurrency: Optional[Union[str, int]] = Field(None, alias="maxConcurrency")
+    max_connections: Optional[Union[str, int]] = Field(None, alias="maxConnections")
+    c_max_reuse_times: Optional[Union[str, int]] = Field(None, alias="cMaxReuseTimes")
+    h_max_reusable_secs: Optional[Union[str, int]] = Field(None, alias="hMaxReusableSecs")
+    h_max_request_times: Optional[Union[str, int]] = Field(None, alias="hMaxRequestTimes")
+    h_keep_alive_period: Optional[int] = Field(None, alias="hKeepAlivePeriod")
 
 
 class XMuxSettingsOutput(PasarguardModel):
@@ -258,6 +258,7 @@ class XrayFragmentSettings(PasarguardModel):
     packets: str = ...
     length: str = ...
     interval: str = ...
+    max_split: Optional[str] = Field(None, alias="maxSplit")
 
 
 class XrayMuxSettingsInput(PasarguardModel):

@@ -52,18 +52,18 @@ class General(PasarguardModel):
 
 
 class HWIDSettings(PasarguardModel):
-    enabled: Optional[bool] = False
+    enabled: Optional[bool] = True
     forced: Optional[bool] = False
-    require_hwid_for_manual_sub: Optional[bool] = True
-    fallback_limit: Optional[int] = 0
-    min_limit: Optional[int] = 0
-    max_limit: Optional[int] = 0
+    require_hwid_for_manual_sub: Optional[bool] = False
+    fallback_limit: Optional[int] = None
+    min_limit: Optional[int] = None
+    max_limit: Optional[int] = None
 
 
 class RoleHWIDSettings(PasarguardModel):
     enabled: Optional[bool] = True
     forced: Optional[bool] = False
-    require_hwid_for_manual_sub: Optional[bool] = True
+    require_hwid_for_manual_sub: Optional[bool] = False
     fallback_limit: Optional[int] = None
     min_limit: Optional[int] = None
     max_limit: Optional[int] = None
