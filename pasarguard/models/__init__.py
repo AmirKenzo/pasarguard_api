@@ -14,6 +14,7 @@ from .core import *
 from .groups import *
 from .host import *
 from .node import *
+from .passkey import *
 from .proxy import *
 from .settings import *
 from .subscription import *

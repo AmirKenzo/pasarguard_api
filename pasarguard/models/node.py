@@ -95,6 +95,20 @@ class NodeOutboundsLatencyResponse(PasarguardModel):
     latencies: List[NodeOutboundLatency] = ...
 
 
+class NodeOutboundUsageStat(PasarguardModel):
+    period_start: datetime = ...
+    uplink: int = ...
+    downlink: int = ...
+    node_id: Optional[int] = None
+
+
+class NodeOutboundUsageStatsList(PasarguardModel):
+    period: Optional[Period] = None
+    start: datetime = ...
+    end: datetime = ...
+    stats: Dict[str, List[NodeOutboundUsageStat]] = ...
+
+
 class NodeRealtimeStats(PasarguardModel):
     mem_total: int = ...
     mem_used: int = ...
@@ -132,6 +146,7 @@ class NodeResponse(PasarguardModel):
     lifetime_uplink: Optional[int] = None
     lifetime_downlink: Optional[int] = None
     core_version: Optional[str] = ...
+    sort_order: Optional[int] = 0
 
 
 class NodeSettings(PasarguardModel):
@@ -142,6 +157,7 @@ class NodeSimple(PasarguardModel):
     id: int = ...
     name: str = ...
     status: NodeStatus = ...
+    core_config_id: Optional[int] = None
 
 
 class NodeStats(PasarguardModel):
@@ -206,6 +222,8 @@ __all__ = (
     "NodeModify",
     "NodeNotificationEnable",
     "NodeOutboundLatency",
+    "NodeOutboundUsageStat",
+    "NodeOutboundUsageStatsList",
     "NodeOutboundsLatencyResponse",
     "NodeRealtimeStats",
     "NodeResponse",

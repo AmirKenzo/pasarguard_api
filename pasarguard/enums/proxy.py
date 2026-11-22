@@ -68,6 +68,14 @@ class FlowOption(StrEnum):
     XTLS_RPRX_VISION = "xtls-rprx-vision"
 
 
+class MtprotoLinkType(StrEnum):
+    AUTO = "auto"
+    TLS = "tls"
+    SECURE = "secure"
+    CLASSIC = "classic"
+    WEB = "web"
+
+
 ShadowsocksMethod = ShadowsocksMethods
 
 
@@ -75,6 +83,7 @@ __all__ = (
     "XUDP",
     "ECHQueryStrategy",
     "FlowOption",
+    "MtprotoLinkType",
     "MultiplexProtocol",
     "ProxyHostALPN",
     "ProxyHostFingerprint",

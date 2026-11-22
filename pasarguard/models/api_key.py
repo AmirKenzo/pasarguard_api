@@ -11,6 +11,8 @@ class APIKeyCreate(PasarguardModel):
     permissions: Optional[RolePermissions] = None
     inherit_permissions: Optional[bool] = True
     expire_date: Optional[datetime] = None
+    max_requests: Optional[int] = None
+    delete_on_limit: Optional[bool] = False
     admin_id: Optional[int] = None
 
 
@@ -27,6 +29,9 @@ class APIKeyCreateResponse(PasarguardModel):
     revoked_at: Optional[datetime] = None
     status: Optional[APIKeyStatus] = APIKeyStatus.ACTIVE
     is_expired: Optional[bool] = False
+    max_requests: Optional[int] = None
+    request_count: Optional[int] = 0
+    delete_on_limit: Optional[bool] = False
     api_key: str = ...
 
 
@@ -43,6 +48,9 @@ class APIKeyResponse(PasarguardModel):
     revoked_at: Optional[datetime] = None
     status: Optional[APIKeyStatus] = APIKeyStatus.ACTIVE
     is_expired: Optional[bool] = False
+    max_requests: Optional[int] = None
+    request_count: Optional[int] = 0
+    delete_on_limit: Optional[bool] = False
 
 
 class APIKeyUpdate(PasarguardModel):
@@ -53,6 +61,8 @@ class APIKeyUpdate(PasarguardModel):
     inherit_permissions: Optional[bool] = None
     expire_date: Optional[datetime] = None
     status: Optional[APIKeyStatus] = None
+    max_requests: Optional[int] = None
+    delete_on_limit: Optional[bool] = None
 
 
 class APIKeysResponse(PasarguardModel):

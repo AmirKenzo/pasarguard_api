@@ -9,6 +9,7 @@ from ..models import (
     RealityScanRequest,
     RealityScanResult,
     RemoveCoresResponse,
+    ReorderRequest,
 )
 
 
@@ -75,6 +76,13 @@ class CoreMixin:
         headers = None
         response = await self._request("GET", url, token=token, params=params, headers=headers)
         return self._parse_response(response, CoresSimpleResponse)
+
+    async def reorder_core_configs(self, ordered_ids: list[int], token: str | None = None) -> None:
+        """Persist the display order of core configurations."""
+        url = "/api/cores/order"
+        payload = self._validate_payload(ReorderRequest(ordered_ids=ordered_ids), ReorderRequest)
+        response = await self._request("PUT", url, token=token, json_data=payload)
+        return self._parse_response(response, None)
 
     async def restart_core(self, core_id: int, token: str | None = None) -> None:
         url = f"/api/core/{core_id}/restart"

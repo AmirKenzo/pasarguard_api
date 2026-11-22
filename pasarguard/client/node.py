@@ -19,6 +19,7 @@ from ..models import (
     NodeGeoFilesUpdate,
     NodeModify,
     NodeOutboundsLatencyResponse,
+    NodeOutboundUsageStatsList,
     NodeRealtimeStats,
     NodeResponse,
     NodeSettings,
@@ -27,6 +28,7 @@ from ..models import (
     NodeStatsList,
     NodeUsageStatsList,
     RemoveNodesResponse,
+    ReorderRequest,
     UserCountMetricStatsList,
     UserIPList,
     UserIPListAll,
@@ -55,6 +57,21 @@ class NodeMixin:
         headers = None
         response = await self._request("GET", url, token=token, params=params, headers=headers)
         return self._parse_response(response, NodeUsageStatsList)
+
+    async def get_outbound_usage(
+        self,
+        token: str | None = None,
+        period: Period | None = "hour",
+        node_id: int | None = None,
+        group_by_node: bool | None = False,
+        start: datetime | None = None,
+        end: datetime | None = None,
+    ) -> NodeOutboundUsageStatsList:
+        """Retrieve usage per outbound tag, over all nodes or one, within a date range."""
+        url = "/api/node/usage/outbounds"
+        params = {"period": period, "node_id": node_id, "group_by_node": group_by_node, "start": start, "end": end}
+        response = await self._request("GET", url, token=token, params=params)
+        return self._parse_response(response, NodeOutboundUsageStatsList)
 
     async def get_user_count_metric(
         self,
@@ -112,6 +129,13 @@ class NodeMixin:
         headers = None
         response = await self._request("GET", url, token=token, params=params, headers=headers)
         return self._parse_response(response, NodesSimpleResponse)
+
+    async def reorder_nodes(self, ordered_ids: list[int], token: str | None = None) -> None:
+        """Persist the display order of nodes."""
+        url = "/api/nodes/order"
+        payload = self._validate_payload(ReorderRequest(ordered_ids=ordered_ids), ReorderRequest)
+        response = await self._request("PUT", url, token=token, json_data=payload)
+        return self._parse_response(response, None)
 
     async def reconnect_all_node(self, token: str | None = None, core_id: int | None = None) -> Any:
         url = "/api/nodes/reconnect"

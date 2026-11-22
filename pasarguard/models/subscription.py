@@ -5,6 +5,7 @@ from ._base import (
     ConfigFormat,
     DataLimitResetStrategy,
     Dict,
+    HeaderPlacement,
     Language,
     List,
     Optional,
@@ -68,6 +69,8 @@ class Subscription(PasarguardModel):
     disable_sub_template: Optional[bool] = False
     randomize_order: Optional[bool] = False
     custom_variables: Optional[List[CustomVariable]] = None
+    header_placement: Optional[HeaderPlacement] = HeaderPlacement.HEADER
+    clients_limit: Optional[int] = 10
 
 
 class SubscriptionTemplates(PasarguardModel):

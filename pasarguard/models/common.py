@@ -47,6 +47,10 @@ class NotFound(PasarguardModel):
     detail: Optional[str] = "Entity {} not found"
 
 
+class ReorderRequest(PasarguardModel):
+    ordered_ids: List[int] = ...
+
+
 class Unauthorized(PasarguardModel):
     detail: Optional[str] = "Not authenticated"
 
@@ -69,6 +73,7 @@ __all__ = (
     "HTTPResponse",
     "HTTPValidationError",
     "NotFound",
+    "ReorderRequest",
     "Unauthorized",
     "ValidationError",
 )
