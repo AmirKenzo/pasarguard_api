@@ -37,7 +37,7 @@ from ..models import (
     UserUsageStatsList,
 )
 
-ExpiredUsersTarget = Literal["expired", "limited"]
+ExpiredUsersTarget = Literal["expired", "limited", "on_hold", "disabled", "inactive"]
 
 
 class UserMixin:
@@ -175,9 +175,19 @@ class UserMixin:
         user_id: int | None = None,
         username: str | None = None,
         admin_id: int | None = None,
+        period: Period | None = "hour",
+        start: datetime | None = None,
+        end: datetime | None = None,
     ) -> UserSubscriptionUpdateChart:
         url = "/api/users/sub_update/chart"
-        params = {"user_id": user_id, "username": username, "admin_id": admin_id}
+        params = {
+            "user_id": user_id,
+            "username": username,
+            "admin_id": admin_id,
+            "period": period,
+            "start": start,
+            "end": end,
+        }
         headers = None
         response = await self._request("GET", url, token=token, params=params, headers=headers)
         return self._parse_response(response, UserSubscriptionUpdateChart)
@@ -286,6 +296,7 @@ class UserMixin:
         no_data_limit: bool | None = False,
         no_expire: bool | None = False,
         load_sub: bool | None = False,
+        no_group: bool | None = False,
     ) -> UsersResponse:
         url = "/api/users"
         params = {
@@ -312,6 +323,7 @@ class UserMixin:
             "no_data_limit": no_data_limit,
             "no_expire": no_expire,
             "load_sub": load_sub,
+            "no_group": no_group,
         }
         headers = None
         response = await self._request("GET", url, token=token, params=params, headers=headers)
@@ -399,6 +411,8 @@ class UserMixin:
         start: datetime | None = None,
         end: datetime | None = None,
         admin: list[str] | None = None,
+        core_id: int | None = None,
+        group_by_admin: bool | None = False,
     ) -> UserUsageStatsList:
         url = "/api/users/usage"
         params = {
@@ -408,6 +422,8 @@ class UserMixin:
             "start": start,
             "end": end,
             "admin": admin,
+            "core_id": core_id,
+            "group_by_admin": group_by_admin,
         }
         headers = None
         response = await self._request("GET", url, token=token, params=params, headers=headers)
@@ -444,6 +460,7 @@ class UserMixin:
         target: ExpiredUsersTarget | None = "expired",
         expired_after: datetime | None = None,
         expired_before: datetime | None = None,
+        dry_run: bool | None = False,
     ) -> list[str]:
         url = "/api/users/expired"
         params = {
@@ -451,6 +468,7 @@ class UserMixin:
             "target": target,
             "expired_after": expired_after,
             "expired_before": expired_before,
+            "dry_run": dry_run,
         }
         headers = None
         response = await self._request("GET", url, token=token, params=params, headers=headers)
@@ -463,6 +481,7 @@ class UserMixin:
         target: ExpiredUsersTarget | None = "expired",
         expired_after: datetime | None = None,
         expired_before: datetime | None = None,
+        dry_run: bool | None = False,
     ) -> RemoveUsersResponse:
         url = "/api/users/expired"
         params = {
@@ -470,6 +489,7 @@ class UserMixin:
             "target": target,
             "expired_after": expired_after,
             "expired_before": expired_before,
+            "dry_run": dry_run,
         }
         headers = None
         response = await self._request("DELETE", url, token=token, params=params, headers=headers)

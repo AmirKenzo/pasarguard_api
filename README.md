@@ -43,7 +43,24 @@ uv add pasarguard
 - Python `>=3.10,<3.15`
 - Windows, macOS, and Linux
 - `httpx>=0.28.1`
-- `pydantic>=2.4.1,<2.13`
+- `pydantic>=2.4.1,<2.14`
+
+### Panel version support
+
+Each SDK release is synced with one PasarGuard panel OpenAPI spec and fully supports that panel version. Newer panels usually keep working, but endpoints or fields added after that version are not covered. At runtime, `pasarguard.OPENAPI_VERSION` tells you which panel version the installed SDK targets.
+
+| SDK version | PasarGuard panel (OpenAPI) |
+|---|---|
+| `2.5.0` | `5.6.0` |
+| `2.4.0` | `5.2.1` |
+| `2.3.1` | `5.1.0` |
+| `2.3.0` | `5.0.3` |
+| `2.2.3 – 2.2.4` | `5.0.2` |
+| `2.2.1 – 2.2.2` | `5.0.1` |
+| `2.2.0` | `5.0.0` |
+| `2.1.1` | `5.0.0-rc.2` |
+| `2.0.1 – 2.1.0` | `4.0.2` |
+| `2.0.0` | `4.0.0-rc.1` |
 
 ## Quick Start
 

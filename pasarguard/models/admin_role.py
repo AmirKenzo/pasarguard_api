@@ -26,6 +26,7 @@ class AdminsPermissions(PasarguardModel):
     update: Optional[bool] = None
     delete: Optional[bool] = None
     reset_usage: Optional[bool] = None
+    passkeys: Optional[bool] = None
 
 
 class NodesPermissions(PasarguardModel):

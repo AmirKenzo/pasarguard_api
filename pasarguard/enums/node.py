@@ -25,6 +25,7 @@ class NodeStatus(StrEnum):
 class UsageTable(StrEnum):
     NODE_USER_USAGES = "node_user_usages"
     NODE_USAGES = "node_usages"
+    NODE_OUTBOUND_USAGES = "node_outbound_usages"
 
 
 class UserCountMetric(StrEnum):

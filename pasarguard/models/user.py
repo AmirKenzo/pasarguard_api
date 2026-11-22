@@ -176,6 +176,10 @@ class UserResponse(PasarguardModel):
     admin: Optional[AdminBase] = None
 
 
+class UserListItem(UserResponse):
+    hwid_count: Optional[int] = None
+
+
 class UserSimple(PasarguardModel):
     id: int = ...
     username: str = ...
@@ -227,7 +231,7 @@ class UserUsageStatsList(PasarguardModel):
 
 
 class UsersResponse(PasarguardModel):
-    users: List[UserResponse] = ...
+    users: List[UserListItem] = ...
     total: int = ...
 
 
@@ -256,6 +260,7 @@ __all__ = (
     "UserCountMetricStat",
     "UserCountMetricStatsList",
     "UserCreate",
+    "UserListItem",
     "UserModify",
     "UserNotificationEnable",
     "UserResponse",

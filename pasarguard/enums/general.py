@@ -50,4 +50,25 @@ class HWIDMode(StrEnum):
     OVERRIDE = "override"
 
 
-__all__ = ("ConfigFormat", "HWIDMode", "Language", "Period", "Platform", "RunMethod")
+class HeaderPlacement(StrEnum):
+    HEADER = "header"
+    BODY_START = "body_start"
+    BODY_END = "body_end"
+
+
+class OnHoldTimeoutAction(StrEnum):
+    ACTIVATE = "activate"
+    DISABLE = "disable"
+    DELETE = "delete"
+
+
+__all__ = (
+    "ConfigFormat",
+    "HWIDMode",
+    "HeaderPlacement",
+    "Language",
+    "OnHoldTimeoutAction",
+    "Period",
+    "Platform",
+    "RunMethod",
+)

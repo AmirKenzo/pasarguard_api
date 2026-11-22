@@ -49,8 +49,7 @@ class BaseHost(PasarguardModel):
     vless_route: Optional[str] = None
     priority: int = ...
     status: Optional[List[UserStatus]] = None
-    ech_config_list: Optional[str] = None
-    ech_query_strategy: Optional[ECHQueryStrategy] = None
+    ech: Optional[ECHSettings] = None
     pinned_peer_cert_sha256: Optional[str] = None
     verify_peer_cert_by_name: Optional[List[str]] = None
     wireguard_overrides: Optional[WireGuardHostOverrides] = None
@@ -92,13 +91,28 @@ class CreateHost(PasarguardModel):
     vless_route: Optional[str] = None
     priority: int = ...
     status: Optional[List[UserStatus]] = None
-    ech_config_list: Optional[str] = None
-    ech_query_strategy: Optional[ECHQueryStrategy] = None
+    ech: Optional[ECHSettings] = None
     pinned_peer_cert_sha256: Optional[str] = None
     verify_peer_cert_by_name: Optional[List[str]] = None
     wireguard_overrides: Optional[WireGuardHostOverrides] = None
     subscription_templates: Optional[SubscriptionTemplates] = None
     cipher_suites: Optional[str] = None
+
+
+class XrayECHSettings(PasarguardModel):
+    config_list: Optional[str] = None
+    query_strategy: Optional[ECHQueryStrategy] = None
+
+
+class ClientECHSettings(PasarguardModel):
+    config: Optional[str] = None
+    query_server_name: Optional[str] = None
+
+
+class ECHSettings(PasarguardModel):
+    xray: Optional[XrayECHSettings] = None
+    mihomo: Optional[ClientECHSettings] = None
+    sing_box: Optional[ClientECHSettings] = None
 
 
 class HostNotificationEnable(PasarguardModel):
@@ -132,11 +146,14 @@ __all__ = (
     "BaseHost",
     "BulkHostSelection",
     "BulkHostsActionResponse",
+    "ClientECHSettings",
     "CreateHost",
+    "ECHSettings",
     "HostBase",
     "HostNotificationEnable",
     "HostResponse",
     "HostsModel",
     "RemoveHostsResponse",
     "WireGuardHostOverrides",
+    "XrayECHSettings",
 )

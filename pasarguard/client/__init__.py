@@ -11,6 +11,7 @@ from .default import DefaultMixin
 from .groups import GroupsMixin
 from .host import HostMixin
 from .node import NodeMixin
+from .passkey import PasskeyMixin
 from .settings import SettingsMixin
 from .setup import SetupMixin
 from .subscription import SubscriptionMixin
@@ -36,6 +37,7 @@ class PasarguardAPI(
     GroupsMixin,
     SettingsMixin,
     SystemMixin,
+    PasskeyMixin,
     AdminMixin,
     DefaultMixin,
     BaseAPIClient,

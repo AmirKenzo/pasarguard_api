@@ -7,6 +7,8 @@ class InboundSummary(PasarguardModel):
     tag: str = ...
     protocol: str = ...
     network: Optional[str] = None
+    security: Optional[str] = None
+    fingerprint: Optional[str] = None
 
 
 class SystemStats(PasarguardModel):

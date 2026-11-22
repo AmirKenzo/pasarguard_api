@@ -4,6 +4,7 @@ from ._base import (
     XUDP,
     Field,
     List,
+    MtprotoLinkType,
     MultiplexProtocol,
     Optional,
     PasarguardModel,
@@ -63,6 +64,26 @@ class KCPSettings(PasarguardModel):
     write_buffer_size: Optional[int] = None
 
 
+class MasqueHostSettings(PasarguardModel):
+    remote_dns: Optional[List[str]] = None
+    xmux: Optional[XMuxSettingsOutput] = None
+
+
+class MasqueSettings(PasarguardModel):
+    password: Optional[str] = None
+
+
+class MtprotoHostSettings(PasarguardModel):
+    link_type: Optional[MtprotoLinkType] = MtprotoLinkType.AUTO
+
+
+class MtprotoSettings(PasarguardModel):
+    secret: Optional[str] = None
+    user_ad_tag: Optional[str] = ""
+    max_tcp_conns: Optional[int] = 0
+    max_unique_ips: Optional[int] = 0
+
+
 class MuxSettingsInput(PasarguardModel):
     sing_box: Optional[SingBoxMuxSettings] = None
     clash: Optional[ClashMuxSettings] = None
@@ -86,6 +107,8 @@ class ProxyTable(PasarguardModel):
     shadowsocks: Optional[ShadowsocksSettings] = None
     wireguard: Optional[WireGuardSettings] = None
     hysteria: Optional[HysteriaSettings] = None
+    masque: Optional[MasqueSettings] = None
+    mtproto: Optional[MtprotoSettings] = None
 
 
 class ShadowsocksSettings(PasarguardModel):
@@ -121,6 +144,9 @@ class TransportSettingsInput(PasarguardModel):
     kcp_settings: Optional[KCPSettings] = None
     tcp_settings: Optional[TcpSettings] = None
     websocket_settings: Optional[WebSocketSettings] = None
+    masque_settings: Optional[MasqueHostSettings] = None
+    mtproto_settings: Optional[MtprotoHostSettings] = None
+    xdrive_settings: Optional[XDriveHostSettings] = None
 
 
 class TransportSettingsOutput(PasarguardModel):
@@ -129,6 +155,9 @@ class TransportSettingsOutput(PasarguardModel):
     kcp_settings: Optional[KCPSettings] = None
     tcp_settings: Optional[TcpSettings] = None
     websocket_settings: Optional[WebSocketSettings] = None
+    masque_settings: Optional[MasqueHostSettings] = None
+    mtproto_settings: Optional[MtprotoHostSettings] = None
+    xdrive_settings: Optional[XDriveHostSettings] = None
 
 
 class TrojanSettings(PasarguardModel):
@@ -151,6 +180,10 @@ class WireGuardSettings(PasarguardModel):
     private_key: Optional[str] = None
     public_key: Optional[str] = None
     peer_ips: Optional[List[str]] = None
+
+
+class XDriveHostSettings(PasarguardModel):
+    xmux: Optional[XMuxSettingsOutput] = None
 
 
 class XHttpSettingsInput(PasarguardModel):
@@ -261,6 +294,10 @@ __all__ = (
     "GRPCSettings",
     "HysteriaSettings",
     "KCPSettings",
+    "MasqueHostSettings",
+    "MasqueSettings",
+    "MtprotoHostSettings",
+    "MtprotoSettings",
     "MuxSettingsInput",
     "MuxSettingsOutput",
     "NoiseSettings",
@@ -278,6 +315,7 @@ __all__ = (
     "VmessSettings",
     "WebSocketSettings",
     "WireGuardSettings",
+    "XDriveHostSettings",
     "XHttpSettingsInput",
     "XHttpSettingsOutput",
     "XMuxSettingsInput",
